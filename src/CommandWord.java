@@ -6,3 +6,7 @@
  * @version (version number or date here)
  */
 
+public enum CommandWord
+{
+    GO, QUIT, HELP, LOOK, INVENTORY
+}

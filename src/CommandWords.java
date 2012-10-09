@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -11,11 +14,6 @@
 
 public class CommandWords
 {
-
-    public enum CommandWord
-    {
-        GO, QUIT, HELP, LOOK, INVENTORY
-    }
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
         "go", "quit", "help", "look", "inventory"
@@ -28,6 +26,7 @@ public class CommandWords
      */
     public CommandWords()
     {
+    	commandMap = new HashMap<CommandWord, String>();
         commandMap.put(CommandWord.GO, "go");
         commandMap.put(CommandWord.QUIT, "quit");
         commandMap.put(CommandWord.HELP, "help");

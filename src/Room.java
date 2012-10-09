@@ -59,7 +59,7 @@ public class Room
      */
     public Item getItem(String itemToGet) {
         Item itemToReturn = items.get(itemToGet);
-        item = null;
+        //item = null;
         return itemToReturn;
     }
     
