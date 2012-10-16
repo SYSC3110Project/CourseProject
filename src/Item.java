@@ -1,6 +1,9 @@
 
+
 /**
- * Write a description of class Item here.
+ * Items to be picked up in the game
+ * Valid types are "weapon" "armor" or "health"
+ * "health" types should have negative values
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -8,29 +11,40 @@
 public class Item
 {
     // instance variables - replace the example below with your own
-    private String name;
-    private String description;
-    private int weight;
+    private int weight;	
+    private String name;	
+    private String desc;
+    private String type;
+    private int value;		//damage for weapons, healing power for health, defence for armor
 
     /**
      * Constructor for objects of class Item
      */
-    public Item(String name, String description, int weight)
+    public Item(String name, String desc, int weight, String type, int value)
     {
         this.name = name;
-        this.description = description;
+        this.desc = desc;
         this.weight = weight;
+        this.type = type;
+        this.value = value;
     }
 
-    public String getName() {
+    /**
+     *  
+     */
+    public int getWeight(){
+        return weight;
+    }
+    public String getName(){
         return name;
     }
-    
-    public String getDescription() {
-        return description;
+    public String getDesc(){
+        return desc;
     }
-    
-    public int getWeight() {
-        return weight;
+    public String getType(){
+    	return type;
+    }
+    public int getValue(){
+    	return value;
     }
 }

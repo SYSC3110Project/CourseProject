@@ -1,5 +1,14 @@
-import java.util.HashMap;
-import java.util.Map;
+
+/**
+ * This class is part of the "World of Zuul" application. 
+ * "World of Zuul" is a very simple, text based adventure game.  
+ * 
+ * This class holds an enumeration of all command words known to the game.
+ * It is used to recognise commands as they are typed in.
+ *
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2011.07.31
+ */
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -16,23 +25,15 @@ public class CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "go", "quit", "help", "look", "inventory"
+        "go", "quit", "help", "look", "take", "drop", "inv", "attack", "char"
     };
-    
-    private Map<CommandWord, String> commandMap;
 
     /**
-     * Constructor - initialise the command words.
+     * Constructor - initialize the command words.
      */
     public CommandWords()
     {
-    	commandMap = new HashMap<CommandWord, String>();
-        commandMap.put(CommandWord.GO, "go");
-        commandMap.put(CommandWord.QUIT, "quit");
-        commandMap.put(CommandWord.HELP, "help");
-        commandMap.put(CommandWord.LOOK, "look");
-        commandMap.put(CommandWord.INVENTORY, "inventory");
-        
+        // nothing to do at the moment...
     }
 
     /**
@@ -50,12 +51,11 @@ public class CommandWords
         return false;
     }
     
-    public static final String getValidCommands() {
-        StringBuffer buff = new StringBuffer("\t");
-        for(String command : validCommands) {
-            buff.append(command);
-            buff.append(" ");
+    public String getCommands(){
+        String com = "";
+        for (String co : validCommands){
+            com = com + co + " ";
         }
-        return buff.toString();
+        return com;
     }
 }
