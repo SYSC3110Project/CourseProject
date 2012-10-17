@@ -3,7 +3,7 @@
 /**
  * Items to be picked up in the game
  * Valid types are "weapon" "armor" or "health"
- * "health" types should have negative values
+ * "health" types should have positive value values
  * 
  * @author (your name) 
  * @version (a version number or a date)
