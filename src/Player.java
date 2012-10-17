@@ -132,10 +132,9 @@ public class Player
     				s = s + i.getName()+" was equiped";
     			}else if(i.getType().equals("health")){
     				s = s + i.getName() + " was used";
-    				hurt(i.getValue());
+    				s = s +"\n"+hurt(i.getValue());
     				inv.remove(i);
     				mass = mass - i.getWeight();
-    				s = s + "\n"+(i.getValue()*(-1))+" health recovered";
     			}
     			return s;
     		}
@@ -163,14 +162,34 @@ public class Player
      * (use negative value to heal)
      * @param value
      */
-    public void hurt (int value){
-    	health = health - value;
+    public String hurt (int value){
+    	String s;
+    	int damage = 0;
+    	if(value>=0){	//positive value, getting hurt
+    		if(armor!=null){
+    			damage = value - armor.getValue();
+    		}else{
+    			damage = value;
+    		}
+    		if(damage<=0){
+    			damage = 0;
+    			s = "nothing happend"; 
+    		}else{
+    			s = damage+" damage taken";
+    		}
+    	}else{							//negative value, healing
+    		damage = value;
+			s = (damage*(-1))+" health recovered";
+    	}
+    	health = health - damage;
     	if(health>healthMax){
     		health = healthMax;
     	}else if(health<=0){
     		health = 0;
     		//dead
+    		s = s + "\nYou have died";
     	}
+    	return s;
     }
     /**
      * do damage to target
@@ -187,6 +206,13 @@ public class Player
     		s = weapon.getValue() + " damage was done to " + target;
     	}
     	return s;
+    }
+    public boolean isDead(){
+    	if(health==0){
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     /**
      * Gets the characters current health and equipment
