@@ -13,18 +13,28 @@ import java.util.*;
 public class Creature {
 	protected Room currentRoom;
 	protected int maxHealth;
-	protected int wounds;				//how much damage the creature has taken
-	protected int attack;				//how much damage a creature does to other creatures
-	protected int defense;			//how much damage a creature ignores from other creatures attacks
+	protected int currentHealth;				//how much damage the creature has taken
+	protected int attack;						//how much damage a creature does to other creatures
+	protected int defense;						//how much damage a creature ignores from other creatures attacks
+	protected Item armor;
+	protected Item weapon;
 	protected List<Item> inventory;
 	
 	public Creature(Room room, int health, int attack, int defense){
 		currentRoom=room;
 		inventory=new ArrayList<Item>();
 		maxHealth=health;
-		wounds=0;
+		currentHealth=maxHealth;
 		this.attack=attack;
 		this.defense=defense;
+	}
+	
+	/**
+	 * Adds an item to the creatures inventory.
+	 * @param i
+	 */
+	public void addItem(Item i){
+		inventory.add(i);
 	}
 	
 	/**
@@ -37,14 +47,23 @@ public class Creature {
 	
 	/**
 	 * Attacks target creature. The power of the attack is equal to the attackers attack stat.
-	 * Bonus is extra damage from non stats, for example a players weapon or temporary buffs.
+	 * If the creature has a weapon than add weapons value to the attack.
 	 * Returns how much damage was done.
 	 * @param target
 	 * @return damage done
 	 */
 	
-	public int attack(Creature target,int bonus){
-		return target.hurt(attack+bonus);	
+	public int attack(Creature target){
+		if(weapon==null)
+		{
+			return target.hurt(attack);
+		}
+		else
+		{
+			return target.hurt(attack+weapon.getValue());	
+		}
+		
+		
 	}
 	
 	/**
@@ -57,32 +76,54 @@ public class Creature {
 	 */
 	
 	public int hurt(int power){
-		int damage=power-defense;
+		int damage;
+		if(armor==null)
+		{
+			damage=power-defense;
+		}
+		else
+		{
+			damage=power-defense-armor.getValue();
+		}
 		if(damage>0){
-			wounds+=damage;
+			currentHealth-=damage;
 		}
 		
-		if(wounds>maxHealth){
-			wounds=maxHealth;
+		if(currentHealth<0){
+			currentHealth=0;
 		}
 		return damage;
 	}
 	
 	/**
-	 * This creature is healed this amount. Wounds decrease by amount.
-	 * If healed more than current wounds, wounds is set to zero.
+	 * This creature is healed this amount. currentHealth increases by amount.
+	 * If healed to above maxHealth, currentHealth is set to maxHealth.
 	 * @param amount
 	 */
 	public void heal(int amount){
-		if(wounds<amount){
-			wounds=0;
-		}
-		else{
-			wounds-=amount;
+		currentHealth+=amount;
+		if(currentHealth>maxHealth){
+			currentHealth=maxHealth;
 		}
 	}
 	
 	public Room getCurrentRoom() {
 		return currentRoom;
+	}
+
+	public Item getArmor() {
+		return armor;
+	}
+
+	public void setArmor(Item armor) {
+		this.armor = armor;
+	}
+
+	public Item getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Item weapon) {
+		this.weapon = weapon;
 	}
 }

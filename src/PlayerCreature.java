@@ -13,8 +13,6 @@ public class PlayerCreature extends Creature {
 	public static final int DEFAULT_DEFENSE=0;
 	private int limit;
 	private int mass;
-	private Item armor;
-	private Item weapon;
 	
 	public PlayerCreature(Room room){
 		super(room,DEFAULT_HEALTH,DEFAULT_ATTACK,DEFAULT_DEFENSE);
@@ -164,7 +162,7 @@ public class PlayerCreature extends Creature {
     	if (weapon==null){
     		s = "You're unarmed";
     	}else{
-    		damageDealt=attack(target,weapon.getValue());
+    		damageDealt=attack(target);
     		s = damageDealt + " damage was done to " + target;
     	}
     	return s;
@@ -176,7 +174,7 @@ public class PlayerCreature extends Creature {
      * @return
      */
     public String character(){
-    	int health=maxHealth-wounds;
+    	int health=currentHealth;
     	String s = "Health "+health+"/"+maxHealth+"\nWeapon ";
     	if(weapon==null){
     		s = s + "none";
@@ -191,5 +189,4 @@ public class PlayerCreature extends Creature {
     	}
     	return s;
     }
-	
 }
