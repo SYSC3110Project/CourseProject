@@ -162,6 +162,7 @@ public class Player
      * (use negative value to heal)
      * @param value
      */
+    //Might change this
     public String hurt (int value){
     	String s;
     	int damage = 0;

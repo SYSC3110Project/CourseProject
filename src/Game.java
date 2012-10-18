@@ -64,7 +64,7 @@ public class Game
         pub.setItem("beer", "nice and cold", 4, "health", -2);
         pub.setItem("beer", "nice and cold", 4, "health", -2);
         theater.setItem("shield", "a stage prop", 7, "armor", 3);
-        lab.setItem("poison", "you're an idiot if you drink this", 4, "health", 17); //to test getting damaged
+        lab.setItem("poison", "you're an idiot if you drink this", 4, "health", 17); //to test taking damage
 
         mc = new Player(outside);
     }
