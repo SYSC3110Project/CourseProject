@@ -63,6 +63,8 @@ public class Game
         office.setItem("broom","sweap your foes away",12,"weapon",10);
         pub.setItem("beer", "nice and cold", 4, "health", -2);
         pub.setItem("beer", "nice and cold", 4, "health", -2);
+        theater.setItem("shield", "a stage prop", 7, "armor", 3);
+        lab.setItem("poison", "you're an idiot if you drink this", 4, "health", 17); //to test getting damaged
 
         mc = new Player(outside);
     }
@@ -81,6 +83,7 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            finished = mc.isDead();
         }
         gamePrint("Thank you for playing.  Good bye.");
     }
