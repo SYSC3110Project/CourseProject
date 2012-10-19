@@ -1,12 +1,9 @@
-
-
 /**
  * Items to be picked up in the game
  * Valid types are "weapon" "armor" or "health"
- * "health" types should have negative values
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Micheal 
+ * @version 18/10/12
  */
 public class Item
 {
