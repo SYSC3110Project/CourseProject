@@ -33,6 +33,29 @@ public class Room
         items = new ArrayList<Item>();
         monsters = new ArrayList<Monster>();
     }
+    
+    /**
+     * Copy Constructor for objects of class Room
+     * @param r
+     * @author Denis Dionne
+     */
+    public Room(Room r){
+    	description = r.description;
+    	exits = new HashMap<String, Room>();
+    	exits.putAll(r.exits);
+    	
+    	List<Item> itemList = new ArrayList<Item>();
+    	for(Item i: r.items){
+    		itemList.add(new Item(i));
+    	}
+    	items  = itemList;
+    	
+    	List<Monster> monsterList = new ArrayList<Monster>();
+    	for(Monster m: r.monsters){
+    		monsterList.add(new Monster(m));
+    	}
+    	monsters  = monsterList;
+    }
 
     /**
      * Define the exits of this room.  Every direction either leads
@@ -49,6 +72,10 @@ public class Room
 
     public Room getExits (String dir){
         return exits.get(dir);
+    }
+    
+    public Map<String,Room> getExitMap(){
+    	return exits;
     }
     
     public void setMonster(String name, int healthMax, int attack, int defence, int weapon, int armor, Item[] items){

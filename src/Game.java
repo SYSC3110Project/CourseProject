@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,12 +21,16 @@ public class Game
 {
     private Parser parser;
     private Player mc;		//player character
+    private Stack<Player> undoStack;
+    private Stack<Player> redoStack;
         
     /**
      * Create the game and initialize its internal map.
      */
     public Game() 
     {
+    	undoStack = new Stack<Player>();
+        redoStack = new Stack<Player>();
         createRooms();
         parser = new Parser();
     }
@@ -69,7 +75,9 @@ public class Game
         Item[] items = {new Item("candy","yay sugar",1,"health",6)};
         theater.setMonster("prof", 10, 1, 1, 4, 2, items);
 
+        
         mc = new Player(outside,20,1,1);
+        undoStack.add(new Player(mc));
     }
 
     /**
@@ -121,6 +129,20 @@ public class Game
         }
 
         String commandWord = command.getCommandWord();
+        
+        
+        //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
+        if(!(commandWord.equals("undo") || commandWord.equals("redo"))){
+        	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
+        		undoStack.add(new Player(mc));
+        		redoStack.clear();
+        	}
+        	else if(undoStack.peek().getRoom().getDescription() != (mc.getRoom().getDescription())){ //We already have the Checkpoint on the stack
+        		undoStack.add(new Player(mc));
+        	}
+        }
+        
+        
         if (commandWord.equals("help")) {
             printHelp();
         }
@@ -150,6 +172,10 @@ public class Game
         }else if (commandWord.equals("char")){
         	character(command);
             //attackable = true; //should it be?
+        }else if (commandWord.equals("undo")){
+        	undo();
+        }else if (commandWord.equals("redo")){
+        	redo();
         }
         if(attackable){
         	gamePrint(mc.getRoom().monsterAttack(mc));
@@ -189,6 +215,7 @@ public class Game
 
         String direction = command.getSecondWord();
         gamePrint(mc.setRoom(direction));
+        undoStack.add(new Player(mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
         
     }
     
@@ -291,6 +318,68 @@ public class Game
     	if(mess!=null&&!mess.equals("")){
     		System.out.printf(mess+"\n");
     	}
+    }
+    
+    
+    /**
+     * Undo command which brings the player to the beginning of the last room entered (will undo all the actions done in the room)
+     * If you happen to undo twice, without doing any actions in between, then you will undo to the start of the previous room (and so forth)
+     * @author Denis Dionne
+     */
+    private void undo(){
+		if(!(undoStack.isEmpty())){
+    		Player temp = undoStack.pop();
+    		UpdateRoomReferences(temp);
+    		redoStack.add(mc);
+    		mc = temp;
+    		gamePrint(mc.getRoom().getLoc());
+    	}
+		else{
+			System.out.println("nothing to undo");
+		}
+    }
+    
+    
+    /**
+     * Redo command which essentially undoes the undo command
+     * @author Denis Dionne
+     */
+    private void redo(){
+    	if(!(redoStack.isEmpty())){
+    		Player temp = redoStack.pop();
+    		UpdateRoomReferences(temp);
+    		undoStack.add(mc);
+    		mc = temp;
+    		gamePrint(mc.getRoom().getLoc());
+    	}
+    	else{
+    		System.out.println("nothing to redo");
+    	}
+    }
+    
+    
+    /**
+     * Helper method for the undo() and redo() commands
+     * Updates the references between rooms
+     * @param temp
+     * @author Denis Dionne
+     */
+    private void UpdateRoomReferences(Player temp){
+    	for(String s: temp.getRoom().getExitMap().keySet()){
+			Room adjacent = temp.getRoom().getExitMap().get(s);
+			if( s == "west"){
+				adjacent.getExitMap().put("east", temp.getRoom());
+			}
+			else if(s == "east"){
+				adjacent.getExitMap().put("west", temp.getRoom());
+			}
+			else if(s == "north"){
+				adjacent.getExitMap().put("south", temp.getRoom());
+			}
+			else{
+				adjacent.getExitMap().put("north", temp.getRoom());
+			}
+		}
     }
 }
 

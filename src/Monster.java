@@ -1,5 +1,7 @@
+import java.util.*;
+
 /** 
- * @author Andrew and Micheal 
+ * @author Andrew and Micheal
  * @version 18/10/12
  */
 public class Monster extends Creature{
@@ -9,6 +11,24 @@ public class Monster extends Creature{
         this.weapon = new Item("blank","blank",0,"weapon",weapon);
         this.armor = new Item("blank","blank",0,"armor",armor);
 	}
+	
+	/**
+	 * Copy Constructor for objects of class Monster
+	 * @param m
+	 * @author Denis Dionne
+	 */
+	public Monster(Monster m){
+		super(m.name, m.healthMax, m.attack, m.defence);
+		weapon = new Item(m.weapon);
+		armor = new Item(m.armor);
+		health = m.health;
+    	List<Item> itemList = new ArrayList<Item>();
+    	for(Item i: m.inv){
+    		itemList.add(new Item(i));
+    	}
+    	inv  = itemList;
+	}
+	
 	public String attack(Player p){
 		return super.attack(p);
 	}

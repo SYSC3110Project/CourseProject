@@ -25,6 +25,23 @@ public class Item
         this.type = type;
         this.value = value;
     }
+    
+    
+    /**
+     * Copy Constructor for objects of class Item
+     * (used for the undo/redo commands)
+     * @author Denis Dionne
+     * @param i
+     */
+    public Item(Item i){
+    	
+    	name = i.name;
+    	desc = i.desc;
+    	weight = i.weight;
+    	type = i.type;
+    	value = i.value;
+    	
+    }
 
     /**
      *  

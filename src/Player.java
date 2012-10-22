@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * The player character
  * The plan is to refactor 'player' into an 'alive' abstract class and have 'player' and 'monster' extend it
@@ -17,6 +19,32 @@ public class Player extends Creature{
         currRoom = room;
         mass = 0;		//current weight
         limit = 20;		//max weight
+    }
+    
+    
+    /**
+     * Copy Constructor for objects of class Player
+     * @author Denis Dionne
+     * @param p
+     */
+    public Player(Player p){
+    	super("player", p.healthMax, p.attack, p.defence);
+    	currRoom = new Room(p.currRoom);
+    	limit = p.limit;
+    	mass = p.mass;
+    	health = p.health;
+    	if(p.armor != null){
+    		armor = new Item(p.armor);
+    	}
+    	if(p.weapon != null){
+    		weapon = new Item(p.weapon);
+    	}
+    	
+    	List<Item> itemList = new ArrayList<Item>();
+    	for(Item i: p.inv){
+    		itemList.add(new Item(i));
+    	}
+    	inv  = itemList;
     }
     /**
      * moves the player to a new room
