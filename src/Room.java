@@ -10,14 +10,15 @@ import java.util.*;
  * east, south, west.  For each direction, the room stores a reference
  * to the neighboring room, or null if there is no exit in that direction.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author  Micheal
+ * @version 18/10/12
  */
 public class Room 
 {
     private String description;
     private Map<String,Room> exits;
     private List<Item> items;
+    private List<Monster> monsters;
 
     /**
      * Create a room described "description". Initially, it has
@@ -30,6 +31,7 @@ public class Room
         this.description = description;
         exits = new HashMap<String,Room>();
         items = new ArrayList<Item>();
+        monsters = new ArrayList<Monster>();
     }
 
     /**
@@ -47,6 +49,46 @@ public class Room
 
     public Room getExits (String dir){
         return exits.get(dir);
+    }
+    
+    public void setMonster(String name, int healthMax, int attack, int defence, int weapon, int armor, Item[] items){
+    	Monster m = new Monster(name, healthMax, attack, defence, weapon, armor);
+    	for(Item i : items){
+    		m.addItem(i);
+    	}
+    	monsters.add(m);
+    }
+    public Monster getMonster(String name){
+    	for (Monster m : monsters){
+    		if(m.getName().equals(name)){
+    			return m;
+    		}
+    	}
+    	return null;
+    }
+    
+    public String monsterAttack(Player p){
+    	String s = "";
+    	for (Monster m : monsters){
+    		if(!m.isDead()){
+    			if(s.equals("")){
+    				s = m.getName()+" attacks, " + m.attack(p);
+    			}else{
+    				s = s + "\n"+m.getName()+" attacks, " + m.attack(p);
+    			}
+    		}
+    	}
+    	return s;
+    }
+    
+    /**
+     * revives all monsters upon player leaving a room
+     * @return
+     */
+    public void revMonster(){
+    	for (Monster m : monsters){
+    		m.rev();
+    	}
     }
     
     public String getLoc(){

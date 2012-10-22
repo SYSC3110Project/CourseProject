@@ -11,8 +11,8 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author  Micheal
+ * @version 18/10/12
  */
 
 public class Game 
@@ -61,12 +61,15 @@ public class Game
         // initialize items in rooms
         office.setItem("stapler","fear it",3,"weapon",4);
         office.setItem("broom","sweap your foes away",12,"weapon",10);
-        pub.setItem("beer", "nice and cold", 4, "health", -2);
-        pub.setItem("beer", "nice and cold", 4, "health", -2);
-        theater.setItem("shield", "a stage prop", 7, "armor", 3);
-        lab.setItem("poison", "you're an idiot if you drink this", 4, "health", 17); //to test getting damaged
+        pub.setItem("beer", "nice and cold", 4, "health", 2);
+        pub.setItem("beer", "nice and cold", 4, "health", 2);
+        theater.setItem("textbook", "its really thick", 5, "armor", 3);
+        
+        //initialize creatures
+        Item[] items = {new Item("candy","yay sugar",1,"health",6)};
+        theater.setMonster("prof", 10, 1, 1, 4, 2, items);
 
-        mc = new Player(outside);
+        mc = new Player(outside,20,1,1);
     }
 
     /**
@@ -83,7 +86,9 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
-            finished = mc.isDead();
+            if(mc.isDead()){
+            	break;
+            }
         }
         gamePrint("Thank you for playing.  Good bye.");
     }
@@ -109,7 +114,7 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
+        boolean attackable = false;	//prevents player from being attacked right when entering room/using help
         if(command.isUnknown()) {
             gamePrint("I don't know what you mean...");
             return false;
@@ -127,18 +132,27 @@ public class Game
         }
         else if (commandWord.equals("look")) {
             lookAround(command);
+            attackable = true;
         }
         else if (commandWord.equals("take")) {
             take(command);
+            attackable = true;
         }
         else if (commandWord.equals("drop")) {
             drop(command);
+            attackable = true;
         }else if (commandWord.equals("inv")){
         	inv(command);
+            attackable = true;
         }else if (commandWord.equals("attack")){
         	attack(command);
+            attackable = true;
         }else if (commandWord.equals("char")){
         	character(command);
+            //attackable = true; //should it be?
+        }
+        if(attackable){
+        	gamePrint(mc.getRoom().monsterAttack(mc));
         }
 
         return wantToQuit;
@@ -274,7 +288,9 @@ public class Game
      * @param mess
      */
     private void gamePrint(String mess){
-        System.out.printf(mess+"\n");
+    	if(mess!=null&&!mess.equals("")){
+    		System.out.printf(mess+"\n");
+    	}
     }
 }
 
