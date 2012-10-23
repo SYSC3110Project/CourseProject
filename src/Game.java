@@ -197,7 +197,7 @@ public class Game
         gamePrint("around at the university.");
         gamePrint("");
         gamePrint("Your command words are:");
-        gamePrint(" " + parser.getCommands());
+        gamePrint(" " + Parser.getPossibleCommands());
         
     }
 

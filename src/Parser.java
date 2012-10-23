@@ -63,7 +63,7 @@ public class Parser
         }
     }
     
-    public String getCommands(){
-        return commands.getCommands();
+    public static String getPossibleCommands(){
+        return CommandWords.getPossibleCommands();
     }
 }

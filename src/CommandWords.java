@@ -41,21 +41,24 @@ public class CommandWords
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
-    public boolean isCommand(String aString)
+    public boolean isCommand(String commandToCheck)
     {
         for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
+            if(validCommands[i].equals(commandToCheck))
                 return true;
         }
         // if we get here, the string was not found in the commands
         return false;
     }
     
-    public String getCommands(){
-        String com = "";
-        for (String co : validCommands){
-            com = com + co + " ";
+    public static String getPossibleCommands(){
+        StringBuffer com = new StringBuffer();
+        for (int i=0;i<validCommands.length;i++){
+            com.append(validCommands[i]);
+            if(i!=validCommands.length-1) {
+            	com.append(", ");
+            }
         }
-        return com;
+        return com.toString();
     }
 }

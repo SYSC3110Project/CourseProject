@@ -7,7 +7,7 @@ import java.util.*;
  * @author Andrew and Micheal 
  * @version 18/10/12
  */
-public class Player extends Creature{
+public class Player extends Creature {
     private int limit;
     private Room currRoom;
     private int mass;
