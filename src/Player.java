@@ -4,7 +4,9 @@ import java.util.*;
  * The player character
  * The plan is to refactor 'player' into an 'alive' abstract class and have 'player' and 'monster' extend it
  * 
- * @author Andrew and Micheal 
+ * @author Micheal 
+ * @author Matthew Smith
+ * @author Denis Dionne
  * @version 18/10/12
  */
 public class Player extends Creature {
@@ -24,7 +26,6 @@ public class Player extends Creature {
     
     /**
      * Copy Constructor for objects of class Player
-     * @author Denis Dionne
      * @param p
      */
     public Player(Player p){
@@ -49,10 +50,10 @@ public class Player extends Creature {
     /**
      * moves the player to a new room
      * @param direction
-     * @return
+     * @return string description of what happened
      */
     public String setRoom(String direction){
-        Room nextRoom = currRoom.getExits(direction);
+        Room nextRoom = currRoom.getExit(direction);
         if (nextRoom == null) {
             return "There is no door!";
         }
@@ -72,8 +73,7 @@ public class Player extends Creature {
     /**
      * Gets details about the current room
      * (exits and items)
-     * @param name
-     * @return
+     * @return String description of what is around the player
      */
     public String look(){
         return currRoom.getItemNames();

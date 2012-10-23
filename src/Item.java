@@ -3,6 +3,7 @@
  * Valid types are "weapon" "armor" or "health"
  * 
  * @author Micheal 
+ * @author Denis Dionne
  * @version 18/10/12
  */
 public class Item
@@ -30,7 +31,6 @@ public class Item
     /**
      * Copy Constructor for objects of class Item
      * (used for the undo/redo commands)
-     * @author Denis Dionne
      * @param i
      */
     public Item(Item i){

@@ -30,8 +30,8 @@ public abstract class Creature {
     }
     /**
      * do damage to target
-     * @param target
-     * @return
+     * @param c
+     * @return a string description of the attack
      */
     protected String attack (Creature c){
     	String s;
@@ -71,7 +71,7 @@ public abstract class Creature {
     /**
      * heals the creature
      * @param value
-     * @return
+     * @return a string description of the heal
      */
     public String heal(int value){
     	String s;
@@ -84,7 +84,7 @@ public abstract class Creature {
     }
     /**
      * Check if creature is dead
-     * @return
+     * @return true if the creature is dead
      */
     public boolean isDead(){
     	if(health==0){
@@ -93,6 +93,11 @@ public abstract class Creature {
     		return false;
     	}
     }
+    
+    /**
+     * gets the name of the creature
+     * @return the name of the creature
+     */
     public String getName(){
     	return name;
     }

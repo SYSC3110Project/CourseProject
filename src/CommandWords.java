@@ -51,6 +51,10 @@ public class CommandWords
         return false;
     }
     
+    /**
+     * static method returns all the possible valid commands.
+     * @return a string containing each of the possible commands
+     */
     public static String getPossibleCommands(){
         StringBuffer com = new StringBuffer();
         for (int i=0;i<validCommands.length;i++){

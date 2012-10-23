@@ -13,7 +13,10 @@ import java.util.Stack;
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Micheal
+ * @author  Micheal Hamon
+ * @author Denis Dionne
+ * @author Matthew Smith
+ * @author Andrew Venus
  * @version 18/10/12
  */
 
@@ -55,14 +58,14 @@ public class Game
         office = new Room("in the computing admin office");
         
         // initialize room exits
-        outside.setExit("east",theater);
-        outside.setExit("south",lab);
-        outside.setExit("west",pub);
-        theater.setExit("west",outside);
-        pub.setExit("east",outside);
-        lab.setExit("north",outside);
-        lab.setExit("east",office);
-        office.setExit("west",lab);
+        outside.addExit("east",theater);
+        outside.addExit("south",lab);
+        outside.addExit("west",pub);
+        theater.addExit("west",outside);
+        pub.addExit("east",outside);
+        lab.addExit("north",outside);
+        lab.addExit("east",office);
+        office.addExit("west",lab);
         
         // initialize items in rooms
         office.setItem("stapler","fear it",3,"weapon",4);
@@ -73,7 +76,7 @@ public class Game
         
         //initialize creatures
         Item[] items = {new Item("candy","yay sugar",1,"health",6)};
-        theater.setMonster("prof", 10, 1, 1, 4, 2, items);
+        theater.addMonster("prof", 10, 1, 1, 4, 2, items);
 
         
         mc = new Player(outside,20,1,1);
@@ -324,7 +327,6 @@ public class Game
     /**
      * Undo command which brings the player to the beginning of the last room entered (will undo all the actions done in the room)
      * If you happen to undo twice, without doing any actions in between, then you will undo to the start of the previous room (and so forth)
-     * @author Denis Dionne
      */
     private void undo(){
 		if(!(undoStack.isEmpty())){
@@ -342,7 +344,6 @@ public class Game
     
     /**
      * Redo command which essentially undoes the undo command
-     * @author Denis Dionne
      */
     private void redo(){
     	if(!(redoStack.isEmpty())){
@@ -362,7 +363,6 @@ public class Game
      * Helper method for the undo() and redo() commands
      * Updates the references between rooms
      * @param temp
-     * @author Denis Dionne
      */
     private void UpdateRoomReferences(Player temp){
     	for(String s: temp.getRoom().getExitMap().keySet()){

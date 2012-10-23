@@ -63,6 +63,10 @@ public class Parser
         }
     }
     
+    /**
+     * static method returns all the possible commands the parser can handle.
+     * @return a string containing each of the possible commands
+     */
     public static String getPossibleCommands(){
         return CommandWords.getPossibleCommands();
     }

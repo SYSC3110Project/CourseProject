@@ -10,7 +10,9 @@ import java.util.*;
  * east, south, west.  For each direction, the room stores a reference
  * to the neighboring room, or null if there is no exit in that direction.
  * 
- * @author  Micheal
+ * @author Micheal Hamon
+ * @author Matthew Smith
+ * @author Denis Dionne
  * @version 18/10/12
  */
 public class Room 
@@ -36,8 +38,7 @@ public class Room
     
     /**
      * Copy Constructor for objects of class Room
-     * @param r
-     * @author Denis Dionne
+     * @param r the room to copy from
      */
     public Room(Room r){
     	description = r.description;
@@ -58,33 +59,55 @@ public class Room
     }
 
     /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
+     * Adds an exit to this room in the passed direction.
+     * @param dir The direction of the exit.
+     * @param exit The room the exit connects to.
      */
-    public void setExit(String dir, Room exit) 
+    public void addExit(String dir, Room exit) 
     {
         exits.put(dir,exit);
     }
 
-    public Room getExits (String dir){
+    /**
+     * Gets the exit accociated with the passed direction
+     * @param dir the direction of the exit to get
+     * @return the connecting room in the passed direction
+     */
+    public Room getExit (String dir){
         return exits.get(dir);
     }
     
+    /**
+     * returns a Map of each of the exits in a map with their direction as the key
+     * @return the Map of the exits from the room.
+     */
     public Map<String,Room> getExitMap(){
     	return exits;
     }
     
-    public void setMonster(String name, int healthMax, int attack, int defence, int weapon, int armor, Item[] items){
+    /**
+     * add a monster to the room with the passed parameters
+     * @param name the name of the monster
+     * @param healthMax the max health of the monster
+     * @param attack the attack stat of the monster
+     * @param defence the defence stat of the monster
+     * @param weapon the weapon stat of the monster
+     * @param armor the armor stat of the monster
+     * @param items the items which the monster is holding
+     */
+    public void addMonster(String name, int healthMax, int attack, int defence, int weapon, int armor, Item[] items){
     	Monster m = new Monster(name, healthMax, attack, defence, weapon, armor);
     	for(Item i : items){
     		m.addItem(i);
     	}
     	monsters.add(m);
     }
+    
+    /**
+     * returns the Monster with the passed name
+     * @param name the name of the Monster
+     * @return the monster with the passed name
+     */
     public Monster getMonster(String name){
     	for (Monster m : monsters){
     		if(m.getName().equals(name)){
@@ -94,23 +117,26 @@ public class Room
     	return null;
     }
     
+    /**
+     * iterates through each monster and performs their attack on the player.
+     * @param p the player which the monsters are attacking
+     * @return a string description of the battle
+     */
     public String monsterAttack(Player p){
-    	String s = "";
+    	StringBuffer s = new StringBuffer();
     	for (Monster m : monsters){
-    		if(!m.isDead()){
-    			if(s.equals("")){
-    				s = m.getName()+" attacks, " + m.attack(p);
-    			}else{
-    				s = s + "\n"+m.getName()+" attacks, " + m.attack(p);
-    			}
+    		if(!m.isDead()){ // if the monster is dead, it doesn't attack
+				s.append(m.getName());
+				s.append(" attacks, ");
+				s.append(m.attack(p));
+				s.append("\n");
     		}
     	}
-    	return s;
+    	return s.toString();
     }
     
     /**
      * revives all monsters upon player leaving a room
-     * @return
      */
     public void revMonster(){
     	for (Monster m : monsters){
@@ -118,50 +144,68 @@ public class Room
     	}
     }
     
+    /**
+     * returns the possible exits from this location
+     * @return a String description of the exits from this location
+     */
     public String getLoc(){
-        String dec = "";
-        dec = dec + "You are " + this.description + "\n";
-        dec = dec + "Exits: ";
-        for (String dir : exits.keySet()){
-            dec = dec + dir + " ";
+        StringBuffer dec = new StringBuffer();
+        dec.append("You are ");
+        dec.append(this.description);
+        dec.append("\nExits: ");
+        
+        Iterator<String> dir = exits.keySet().iterator(); 
+        while(dir.hasNext()){
+        	dec.append(dir.next());
+            if(dir.hasNext()) {
+            	dec.append(", ");
+            }
         }
-        return dec;
+        
+        return dec.toString();
     }
     
     /**
+     * returns the description of the room.
      * @return The description of the room.
      */
     public String getDescription()
     {
         return description;
     }
+    
     /**
      * creates an item in the room
      * for start up
-     * @param name
-     * @param desc
-     * @param weight
-     * @param type
-     * @param value
+     * @param name the name of the item
+     * @param desc a description of the item
+     * @param weight the weight of the item
+     * @param type the type of item
+     * @param value the value modifier for the item
      */
     public void setItem(String name, String desc, int weight, String type, int value){
         items.add(new Item(name,desc,weight,type,value));
     }
+    
     /**
-     * list of all items in the room
-     * @return
+     * returns string naming all of the items in the room
+     * @return the name of each item in the room
      */
     public String getItemNames(){
-        String names = "";
-        for (Item i : items){
-            names = names + i.getName() + " ";
+    	StringBuffer buff = new StringBuffer();
+        for (int i=0;i<items.size();i++){
+            buff.append(items.get(i));
+            if(i!=items.size()-1) {
+            	buff.append(", ");
+            }
         }
-        return names;
+        return buff.toString();
     }
+    
     /**
-     * full details for an item in the room
-     * @param name
-     * @return
+     * returns the full details for an item in the room
+     * @param name name of the item to check
+     * @return a full description of the item
      */
     public String getItemFull(String name){
         for (Item i : items){
@@ -171,10 +215,11 @@ public class Room
         }
         return "";
     }
+    
     /**
-     * weight of an item in the room
-     * @param name
-     * @return
+     * check weight of an item in the room
+     * @param name name of item to check
+     * @return the weight of the item
      */
     public int getItemWeight(String name){
         for (Item i : items){
@@ -184,10 +229,11 @@ public class Room
         }
         return 0;
     }
+    
     /**
-     * takes item
-     * @param name
-     * @return
+     * takes the item specified, this will remove the item from the room
+     * @param name the name of the item to pick up
+     * @return the item to pick up
      */
     public Item pickup(String name){
         for (Item i : items){
@@ -198,9 +244,10 @@ public class Room
         }
         return null;
     }
+    
     /**
-     * drops item
-     * @param i
+     * drops the passed item in the room
+     * @param i the item to drop
      */
     public void drop(Item i){
         items.add(i);

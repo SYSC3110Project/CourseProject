@@ -1,7 +1,9 @@
 import java.util.*;
 
 /** 
- * @author Andrew and Micheal
+ * @author Micheal Hamon
+ * @author Andrew Venus
+ * @author Denis Dionne
  * @version 18/10/12
  */
 public class Monster extends Creature{
@@ -15,7 +17,6 @@ public class Monster extends Creature{
 	/**
 	 * Copy Constructor for objects of class Monster
 	 * @param m
-	 * @author Denis Dionne
 	 */
 	public Monster(Monster m){
 		super(m.name, m.healthMax, m.attack, m.defence);
