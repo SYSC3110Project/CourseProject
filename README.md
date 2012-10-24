@@ -1,5 +1,8 @@
 CourseProject
 =============
+
+github: https://github.com/SYSC3110Project/CourseProject
+
 Work Seperation:
 
 Since we have already done some work on the world of zuul in tutorials, we decided to use micheal's code as a starting point, which already had a lot of the code.
