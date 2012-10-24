@@ -1,0 +1,32 @@
+Author:Andrew Venus
+
+The World of Zuul is a texted based adventure game. The game will describe what is happening by writing text written to the console. You can then play the game by typing what your character should do. The valid commands that can be typed in World of Zull are  "go", "quit", "help", "look", "take", "drop", "inv", "attack", "char", "undo" and "redo". Each command is explained below.
+
+
+When "go" is typed followed by a direction the player will go to the connected room in that direction. 
+
+When "quit" is typed the game ends.
+
+When "help" is typed a list of valid commands is listed.
+
+When "look" is typed a description of the current room is given.
+
+When "take" is typed followed by an item name the payer tries to add the item to his inventory. If the item is to heavy you need to drop something else first.
+
+When "drop" is typed followed by an item name you drop that item from your inventory into the current room.
+
+When "inv" is typed followed by an item name you use that item in your inventory. If the item is a weapon or armor than it is equipped. If it is a health item it is used to restore some health.
+
+When "attack" is typed followed by a monster name you attack the monster with your equipped weapon. You can't attack if you have no weapon equipped.
+
+When "char" is typed the game displays you current character status including you current health and your equipped weapon and armor.
+
+When "undo" is typed then the game reverts to the how it was before the current room. This reverts your health, inventory equipped weapon and armor and the location of all items and monsters.
+
+When "redo" is typed the game undoes the last undo command. The game will revert to how it was before you undid.
+
+
+In the world of Zull you are exploring a University. You start out in a room with more rooms attached. In each room you can look around, pick up items in that room, drop items you're carrying, fight monsters, use items in your inventory and go to a connecting room. Your character has an inventory, an equipped weapon slot, an equipped armor slot, a maximum health, a carrying capacity and a base attack and defence stat. Your inventory and equipment slots are initially empty, but as you come to new rooms you can find items to add to you inventory. Use the take command to pick up new items. Each item has a name, a description, a weight and a value. For weapons value is how much damage it deals in combat. For armor value is how much damage it prevents. For health items value is how much it heals you. An items weight is how much it counts against you carry capacity. Once you reach your carrying capacity you cannot pick up more items without first dropping others.
+
+
+Whenever enter a room with a monster in it the monster will start fighting you. The monster will attack you every time you do something other check your character status. You can attack the monster back by typing the attack command. You can only attack a monster if you have a weapon equipped. Attacking a monster will deal damage to it based off the power of your equipped weapon and your base attack stat. Both monsters and players can also have equip armor and/or base defence stats. These reduce how much damage they take from attacks. When you or a monster takes damage its current health lowers by that amount. When a monster reaches zero health it is defeated and doesn't attack the player any more. When your health reaches zero the game is over. Note that if you leave a room with a monster and then latter return the monster will respawn at full health, even if you killed it, so be careful before leaving rooms that had monsters.
