@@ -1,4 +1,4 @@
-import java.util.*;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -15,6 +15,15 @@ import java.util.*;
  * @author Denis Dionne
  * @version 18/10/12
  */
+
+package courseProject;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+
 public class Room 
 {
     private String description;

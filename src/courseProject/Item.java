@@ -6,6 +6,9 @@
  * @author Denis Dionne
  * @version 18/10/12
  */
+
+package courseProject;
+
 public class Item
 {
     // instance variables - replace the example below with your own
