@@ -13,15 +13,15 @@
  *
  * If the command had only one word, then the second word is <null>.
  * 
- * @author  Michael KÃ¶lling and David J. Barnes
+ * @author  Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
 
 package courseProject;
-
+ 
 public class Command
 {
-    private String commandWord;
+    private CommandWord command;
     private String secondWord;
 
     /**
@@ -31,22 +31,30 @@ public class Command
      *                  was not recognised.
      * @param secondWord The second word of the command.
      */
-    public Command(String firstWord, String secondWord)
+    public Command(CommandWord firstWord, String secondWord)
     {
-        commandWord = firstWord;
+        command = firstWord;
         this.secondWord = secondWord;
     }
 
     /**
-     * Return the command word (the first word) of this command. If the
+     * Return the command string (the first word) of this command. If the
      * command was not understood, the result is null.
      * @return The command word.
      */
     public String getCommandWord()
     {
-        return commandWord;
+        return command.toString();
     }
 
+    /**
+     * Return the CommandWord (the first word) which this Command Represents
+     * @return The first command
+     */
+    public CommandWord getCommand() {
+    	return command;
+    }
+    
     /**
      * @return The second word of this command. Returns null if there was no
      * second word.
@@ -61,7 +69,7 @@ public class Command
      */
     public boolean isUnknown()
     {
-        return (commandWord == null);
+        return (command == null);
     }
 
     /**

@@ -192,7 +192,7 @@ public class Room
      * @param type the type of item
      * @param value the value modifier for the item
      */
-    public void setItem(String name, String desc, int weight, String type, int value){
+    public void setItem(String name, String desc, int weight, ItemType type, int value){
         items.add(new Item(name,desc,weight,type,value));
     }
     

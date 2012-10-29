@@ -69,14 +69,14 @@ public class Game
         office.addExit("west",lab);
         
         // initialize items in rooms
-        office.setItem("stapler","fear it",3,"weapon",4);
-        office.setItem("broom","sweap your foes away",12,"weapon",10);
-        pub.setItem("beer", "nice and cold", 4, "health", 2);
-        pub.setItem("beer", "nice and cold", 4, "health", 2);
-        theater.setItem("textbook", "its really thick", 5, "armor", 3);
+        office.setItem("stapler","fear it",3,ItemType.weapon,4);
+        office.setItem("broom","sweap your foes away",12,ItemType.weapon,10);
+        pub.setItem("beer", "nice and cold", 4, ItemType.health, 2);
+        pub.setItem("beer", "nice and cold", 4, ItemType.health, 2);
+        theater.setItem("textbook", "its really thick", 5, ItemType.armor, 3);
         
         //initialize creatures
-        Item[] items = {new Item("candy","yay sugar",1,"health",6)};
+        Item[] items = {new Item("candy","yay sugar",1,ItemType.health,6)};
         theater.addMonster("prof", 10, 1, 1, 4, 2, items);
 
         

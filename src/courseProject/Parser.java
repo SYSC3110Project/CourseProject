@@ -1,3 +1,7 @@
+package courseProject;
+
+import java.util.Scanner;
+
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -11,32 +15,24 @@
  * the known commands, and if the input is not one of the known commands, it
  * returns a command object that is marked as an unknown command.
  * 
- * @author  Michael KÃ¶lling and David J. Barnes
+ * @author  Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
-
-package courseProject;
-import java.util.Scanner;
-
 public class Parser 
 {
-    private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser() 
-    {
-        commands = new CommandWords();
+    public Parser() {
         reader = new Scanner(System.in);
     }
 
     /**
      * @return The next command from the user.
      */
-    public Command getCommand() 
-    {
+    public Command getCommand() {
         String inputLine;   // will hold the full input line
         String word1 = null;
         String word2 = null;
@@ -57,12 +53,8 @@ public class Parser
         tokenizer.close();
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) {
-            return new Command(word1, word2);
-        }
-        else {
-            return new Command(null, word2); 
-        }
+        
+        return new Command(CommandWord.getCommandFromString(word1), word2);
     }
     
     /**
@@ -70,6 +62,6 @@ public class Parser
      * @return a string containing each of the possible commands
      */
     public static String getPossibleCommands(){
-        return CommandWords.getPossibleCommands();
+        return CommandWord.getPossibleCommands();
     }
 }

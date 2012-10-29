@@ -13,8 +13,8 @@ public class Monster extends Creature{
 
 	public Monster(String name, int healthMax, int attack, int defence, int weapon, int armor) {
 		super(name, healthMax, attack, defence);
-        this.weapon = new Item("blank","blank",0,"weapon",weapon);
-        this.armor = new Item("blank","blank",0,"armor",armor);
+        this.weapon = new Item("blank","blank",0,ItemType.weapon,weapon);
+        this.armor = new Item("blank","blank",0,ItemType.armor,armor);
 	}
 	
 	/**
