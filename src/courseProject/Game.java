@@ -110,11 +110,9 @@ public class Game
      */
     private void printWelcome()
     {
-        gamePrint("");
-        gamePrint("Welcome to the World of Nameless!");
+        gamePrint("\nWelcome to the World of Nameless!");
         gamePrint("World of Nameless is a new adventure game with no plot yet.");
-        gamePrint("Type 'help' if you need help.");
-        gamePrint("");
+        gamePrint("Type 'help' if you need help.\n");
         gamePrint(mc.getLoc());
     }
 
@@ -132,11 +130,11 @@ public class Game
             return false;
         }
 
-        String commandWord = command.getCommandWord();
+        CommandWord commandWord = command.getCommandWord();
         
         
         //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
-        if(!(commandWord.equals("undo") || commandWord.equals("redo"))){
+        if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo))){
         	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
         		undoStack.add(new Player(mc));
         		redoStack.clear();
@@ -147,38 +145,38 @@ public class Game
         }
         
         
-        if (commandWord.equals("help")) {
+        if (commandWord.equals(CommandWord.help)) {
             printHelp();
         }
-        else if (commandWord.equals("go")) {
+        else if (commandWord.equals(CommandWord.go)) {
             goRoom(command);
         }
-        else if (commandWord.equals("quit")) {
+        else if (commandWord.equals(CommandWord.quit)) {
             wantToQuit = quit(command);
         }
-        else if (commandWord.equals("look")) {
+        else if (commandWord.equals(CommandWord.look)) {
             lookAround(command);
             attackable = true;
         }
-        else if (commandWord.equals("take")) {
+        else if (commandWord.equals(CommandWord.take)) {
             take(command);
             attackable = true;
         }
-        else if (commandWord.equals("drop")) {
+        else if (commandWord.equals(CommandWord.drop)) {
             drop(command);
             attackable = true;
-        }else if (commandWord.equals("inv")){
-        	inv(command);
+        }else if (commandWord.equals(CommandWord.inventory)){
+        	inventory(command);
             attackable = true;
-        }else if (commandWord.equals("attack")){
+        }else if (commandWord.equals(CommandWord.attack)){
         	attack(command);
             attackable = true;
-        }else if (commandWord.equals("char")){
+        }else if (commandWord.equals(CommandWord.character)){
         	character(command);
             //attackable = true; //should it be?
-        }else if (commandWord.equals("undo")){
+        }else if (commandWord.equals(CommandWord.undo)){
         	undo();
-        }else if (commandWord.equals("redo")){
+        }else if (commandWord.equals(CommandWord.redo)){
         	redo();
         }
         if(attackable){
@@ -284,7 +282,7 @@ public class Game
      * Checks inventory (no second word) or uses an item in inventory
      * @param command
      */
-    private void inv(Command command){
+    private void inventory(Command command){
     	if(!command.hasSecondWord()){
             gamePrint(mc.showInv());
         }else{
@@ -316,7 +314,7 @@ public class Game
     /**
      * Used to print text
      * (so its easy to change where we print later)
-     * @param mess
+     * @param mess the message to print
      */
     private void gamePrint(String mess){
     	if(mess!=null&&!mess.equals("")){

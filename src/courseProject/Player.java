@@ -5,7 +5,7 @@
  * @author Micheal Hamon
  * @author Matthew Smith
  * @author Denis Dionne
- * @version 18/10/12
+ * @version 29/10/12
  */
 
 package courseProject;
@@ -26,7 +26,6 @@ public class Player extends Creature {
         mass = 0;		//current weight
         limit = 20;		//max weight
     }
-    
     
     /**
      * Copy Constructor for objects of class Player
@@ -171,21 +170,21 @@ public class Player extends Creature {
     	for(Item i : inv){
     		if(i.getName().equals(name)){
     			String s = "";
-    			if (i.getType().equals("weapon")){
+    			if (i.getType().equals(ItemType.weapon)){
     				if(weapon!=null){
     					inv.add(weapon);
     				}
     				weapon = i;
     				inv.remove(i);
     				s = s + i.getName()+" was equiped";
-    			}else if(i.getType().equals("armor")){
+    			}else if(i.getType().equals(ItemType.armor)){
     				if(armor!=null){
     					inv.add(armor);
     				}
     				armor = i;
     				inv.remove(i);
     				s = s + i.getName()+" was equiped";
-    			}else if(i.getType().equals("health")){
+    			}else if(i.getType().equals(ItemType.health)){
     				s = s + i.getName() + " was used";
     				s = s +"\n"+heal(i.getValue());
     				inv.remove(i);
@@ -204,18 +203,23 @@ public class Player extends Creature {
      * @return
      */
     public String character(){
-    	String s = "Health "+health+"/"+healthMax+", Weapon ";
+    	StringBuffer buff = new StringBuffer();
+    	buff.append("Health: ");
+    	buff.append(health);
+    	buff.append("/");
+    	buff.append(healthMax);
+    	buff.append("\nWeapon: ");
     	if(weapon==null){
-    		s = s + "none";
+    		buff.append("none");
     	}else{
-    		s = s + weapon.getName();
+    		buff.append(weapon.getName());
     	}
-    	s = s +", Armor ";
+    	buff.append("\nArmor: ");
     	if(armor==null){
-    		s = s + "none";
+    		buff.append("none");
     	}else{
-    		s = s + armor.getName();
+    		buff.append(armor.getName());
     	}
-    	return s;
+    	return buff.toString();
     }
 }

@@ -96,6 +96,6 @@ public class Item
     
     @Override
     public int hashCode() {
-    	return 0; //TODO do a properhashcode
+    	return 0; //TODO do a proper hashcode
     }
 }

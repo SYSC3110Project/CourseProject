@@ -13,8 +13,9 @@
  *
  * If the command had only one word, then the second word is <null>.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author Michael Hamon
+ * @author Matthew Smith
+ * @version 29/10/2012
  */
 
 package courseProject;
@@ -36,22 +37,12 @@ public class Command
         command = firstWord;
         this.secondWord = secondWord;
     }
-
-    /**
-     * Return the command string (the first word) of this command. If the
-     * command was not understood, the result is null.
-     * @return The command word.
-     */
-    public String getCommandWord()
-    {
-        return command.toString();
-    }
-
+    
     /**
      * Return the CommandWord (the first word) which this Command Represents
      * @return The first command
      */
-    public CommandWord getCommand() {
+    public CommandWord getCommandWord() {
     	return command;
     }
     
