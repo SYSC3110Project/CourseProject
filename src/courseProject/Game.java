@@ -76,10 +76,11 @@ public class Game
         theater.setItem("textbook", "its really thick", 5, ItemType.armor, 3);
         
         //initialize creatures
-        Item[] items = {new Item("candy","yay sugar",1,ItemType.health,6)};
-        theater.addMonster("prof", 10, 1, 1, 4, 2, items);
+        Monster m = new Monster("prof", 10, 1, 1, 4, 2);
+    	m.addItem(new Item("candy","yay sugar",1,ItemType.health,6));
+        theater.addMonster(m);
 
-        
+        //initialize player
         mc = new Player(outside,20,1,1);
         undoStack.add(new Player(mc));
     }
@@ -156,24 +157,18 @@ public class Game
         }
         else if (commandWord.equals(CommandWord.look)) {
             lookAround(command);
-            attackable = true;
         }
         else if (commandWord.equals(CommandWord.take)) {
-            take(command);
-            attackable = true;
+        	attackable = take(command);
         }
         else if (commandWord.equals(CommandWord.drop)) {
-            drop(command);
-            attackable = true;
+            attackable = drop(command);
         }else if (commandWord.equals(CommandWord.inventory)){
         	inventory(command);
-            attackable = true;
         }else if (commandWord.equals(CommandWord.attack)){
-        	attack(command);
-            attackable = true;
+        	attackable = attack(command);
         }else if (commandWord.equals(CommandWord.character)){
         	character(command);
-            //attackable = true; //should it be?
         }else if (commandWord.equals(CommandWord.undo)){
         	undo();
         }else if (commandWord.equals(CommandWord.redo)){
@@ -246,10 +241,6 @@ public class Game
     private void lookAround(Command command){
         if(!command.hasSecondWord()) {
             gamePrint(mc.getLoc());
-            String names = mc.look();
-            if(!names.equals("")){
-                gamePrint("Items: "+names);
-            }
         }else{
             //look at certain item
             String name = command.getSecondWord();
@@ -260,22 +251,34 @@ public class Game
      * Pick up an item in the room
      * @param command
      */
-    private void take(Command command){
+    private boolean take(Command command){
         if(!command.hasSecondWord()){
             gamePrint("Take what?");
+            return false;
         }else{
-            gamePrint(mc.pickup(command.getSecondWord()));
+        	String takStr = mc.pickup(command.getSecondWord());
+            gamePrint(takStr);
+            if(takStr.equals("Item does not exist")){
+            	return false;
+            }
+            return true;
         }
     }
     /**
      * Drop an item from inventory into the room
      * @param command
      */
-    private void drop(Command command){
+    private boolean drop(Command command){
         if(!command.hasSecondWord()){
             gamePrint("Drop what?");
+            return false;
         }else{
-            gamePrint(mc.drop(command.getSecondWord()));
+        	String drpStr = mc.drop(command.getSecondWord());
+            gamePrint(drpStr);
+            if(drpStr.equals("You don't have that")){
+            	return false;
+            }
+            return true;
         }
     }
     /**
@@ -293,11 +296,17 @@ public class Game
      * Attack an enemy
      * @param command
      */
-    private void attack(Command command){
+    private boolean attack(Command command){
     	if(!command.hasSecondWord()){
     		gamePrint("Attack what?");
+    		return false;
     	}else{
-    		gamePrint(mc.attack(command.getSecondWord()));
+    		String atkStr = mc.attack(command.getSecondWord());
+    		gamePrint(atkStr);
+    		if(atkStr.equals("There is no such creature here")){
+    			return false;
+    		}
+    		return true;
     	}
     }
     /**
@@ -308,6 +317,7 @@ public class Game
     	if(!command.hasSecondWord()){
     		gamePrint(mc.character());
     	}else{
+    		gamePrint("What are you even trying to do?");
     		//what should this do?
     	}
     }

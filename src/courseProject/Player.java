@@ -29,7 +29,7 @@ public class Player extends Creature {
     
     /**
      * Copy Constructor for objects of class Player
-     * @param p
+     * @param the player
      */
     public Player(Player p){
     	super("player", p.healthMax, p.attack, p.defence);
@@ -69,9 +69,19 @@ public class Player extends Creature {
     public Room getRoom(){
         return currRoom;
     }
-    
+    /**
+     * 
+     * @return room description, item and monster names
+     */
     public String getLoc(){
-        return currRoom.getLoc();
+        StringBuffer loc = new StringBuffer();
+        String look = look();
+        loc.append(currRoom.getLoc());
+        if(!look.equals("")){
+        	loc.append("\n");
+            loc.append(look);
+        }
+        return loc.toString();
     }
     /**
      * Gets details about the current room
@@ -79,12 +89,26 @@ public class Player extends Creature {
      * @return String description of what is around the player
      */
     public String look(){
-        return currRoom.getItemNames();
+    	StringBuffer names = new StringBuffer();
+    	String items = currRoom.getItemNames();
+    	String monsters = currRoom.getMonsterNames();
+    	if(!items.equals("")){
+    		names.append("Items: ");
+    		names.append(items);
+    	}
+    	if(!monsters.equals("")){
+    		if(!(names.length()==0)){
+    			names.append("\n");
+    		}
+    		names.append("Monsters: ");
+    		names.append(monsters);
+    	}
+        return names.toString();
     }
     /**
      * Gets details on item
-     * @param name
-     * @return
+     * @param name of the item to look at
+     * @return string to print
      */
     public String lookat(String name){
         String desc = currRoom.getItemFull(name);
@@ -96,8 +120,8 @@ public class Player extends Creature {
     }
     /**
      * drops an item into the current room
-     * @param name
-     * @return
+     * @param name to drop from inventory
+     * @return string to print
      */
     public String drop(String name){
     	for(Item i : inv){
@@ -112,8 +136,8 @@ public class Player extends Creature {
     }
     /**
      * picks up item from current room
-     * @param name
-     * @return
+     * @param name of item to pick up
+     * @return string to print
      */
     public String pickup(String name){
         int diff = (mass+currRoom.getItemWeight(name))-limit;
@@ -130,8 +154,8 @@ public class Player extends Creature {
     }
     /**
      * do damage to target
-     * @param target
-     * @return
+     * @param target to attack
+     * @return string to print
      */
     public String attack (String target){
     	Monster m = currRoom.getMonster(target);
@@ -146,7 +170,7 @@ public class Player extends Creature {
     }
     /**
      * displays character's inventory and carry weight
-     * @return
+     * @return string of the contents of your inventory
      */
     public String showInv(){
     	String s = "";
@@ -164,7 +188,7 @@ public class Player extends Creature {
      * weapons and armor get equipped
      * health items get used up
      * @param name
-     * @return
+     * @return string to print
      */
     public String use(String name){
     	for(Item i : inv){
@@ -200,7 +224,7 @@ public class Player extends Creature {
     
     /**
      * Gets the characters current health and equipment
-     * @return
+     * @return string with the stats of the player
      */
     public String character(){
     	StringBuffer buff = new StringBuffer();

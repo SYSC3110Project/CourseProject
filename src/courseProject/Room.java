@@ -96,19 +96,9 @@ public class Room
     
     /**
      * add a monster to the room with the passed parameters
-     * @param name the name of the monster
-     * @param healthMax the max health of the monster
-     * @param attack the attack stat of the monster
-     * @param defence the defence stat of the monster
-     * @param weapon the weapon stat of the monster
-     * @param armor the armor stat of the monster
-     * @param items the items which the monster is holding
+     * @param m the monster to add
      */
-    public void addMonster(String name, int healthMax, int attack, int defence, int weapon, int armor, Item[] items){
-    	Monster m = new Monster(name, healthMax, attack, defence, weapon, armor);
-    	for(Item i : items){
-    		m.addItem(i);
-    	}
+    public void addMonster(Monster m){
     	monsters.add(m);
     }
     
@@ -124,6 +114,20 @@ public class Room
     		}
     	}
     	return null;
+    }
+    
+    /**
+     * 
+     * @return a string of all monster's names
+     */
+    public String getMonsterNames(){
+    	StringBuffer monNames = new StringBuffer();
+    	for(Monster m : monsters){
+    		if(!m.isDead()){
+    			monNames.append(m.getName());
+    		}
+    	}
+    	return monNames.toString();
     }
     
     /**

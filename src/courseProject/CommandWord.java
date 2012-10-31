@@ -41,8 +41,15 @@ public enum CommandWord
         }
         return buff.toString();
     }
-    
+    /**
+     * Changes the string into a CommandWord
+     * @param command
+     * @return CommandWord to use
+     */
     public static CommandWord getCommandFromString(String command) { 
+    	if(command==null){
+    		return null;
+    	}
     	command.toLowerCase();
     	for(CommandWord word : CommandWord.values()) {
     		if(command.equals(word.name())) {
