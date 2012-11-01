@@ -18,25 +18,33 @@
  * @version 18/10/12
  */
 
-package courseProject;
+package courseProject.model;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
+
+import courseProject.controller.Command;
+import courseProject.controller.CommandInterpreter;
+import courseProject.controller.CommandWord;
 
 public class Game 
 {
-    private Parser parser;
+    private CommandInterpreter parser;
     private Player mc;		//player character
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
+    private List<ModelListener> listeners;
         
     /**
      * Create the game and initialize its internal map.
      */
     public Game() 
     {
+    	listeners = new ArrayList<ModelListener>();
     	undoStack = new Stack<Player>();
         redoStack = new Stack<Player>();
         createRooms();
-        parser = new Parser();
+        parser = new CommandInterpreter();
     }
     
     public static void main(String[] args){
@@ -194,7 +202,7 @@ public class Game
         gamePrint("around at the university.");
         gamePrint("");
         gamePrint("Your command words are:");
-        gamePrint(" " + Parser.getPossibleCommands());
+        gamePrint(" " + CommandInterpreter.getPossibleCommands());
         
     }
 

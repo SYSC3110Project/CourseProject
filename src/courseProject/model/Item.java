@@ -1,4 +1,4 @@
-package courseProject;
+package courseProject.model;
 
 /**
  * Items to be picked up in the game

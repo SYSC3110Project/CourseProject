@@ -1,4 +1,4 @@
-package courseProject;
+package courseProject.controller;
 
 import java.util.Scanner;
 
@@ -19,14 +19,14 @@ import java.util.Scanner;
  * @author Matthew Smith
  * @version 29/10/2012
  */
-public class Parser 
+public class CommandInterpreter implements InputListener
 {
     private Scanner reader;         // source of command input
 
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser() {
+    public CommandInterpreter() {
         reader = new Scanner(System.in);
     }
 

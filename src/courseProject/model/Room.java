@@ -16,7 +16,7 @@
  * @version 18/10/12
  */
 
-package courseProject;
+package courseProject.model;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.List;

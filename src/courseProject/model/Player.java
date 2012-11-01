@@ -8,7 +8,7 @@
  * @version 29/10/12
  */
 
-package courseProject;
+package courseProject.model;
 import java.util.List;
 import java.util.ArrayList;
 
