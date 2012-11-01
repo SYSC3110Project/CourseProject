@@ -3,7 +3,7 @@
  * @version 24/10/12
  */
 
-package testCase;
+package courseProject.testCase;
 
 import static org.junit.Assert.*;
 

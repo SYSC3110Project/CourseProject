@@ -258,7 +258,7 @@ public class Game
         }else{
         	String takStr = mc.pickup(command.getSecondWord());
             gamePrint(takStr);
-            if(takStr.equals("Item does not exist")){
+            if(takStr.equals("Item does not exist")){ //this is UGLY change when we add viewer
             	return false;
             }
             return true;
@@ -275,7 +275,7 @@ public class Game
         }else{
         	String drpStr = mc.drop(command.getSecondWord());
             gamePrint(drpStr);
-            if(drpStr.equals("You don't have that")){
+            if(drpStr.equals("You don't have that")){ //this is UGLY change when we add viewer
             	return false;
             }
             return true;
@@ -303,7 +303,7 @@ public class Game
     	}else{
     		String atkStr = mc.attack(command.getSecondWord());
     		gamePrint(atkStr);
-    		if(atkStr.equals("There is no such creature here")){
+    		if(atkStr.equals("There is no such creature here")){ //this is UGLY change when we add viewer
     			return false;
     		}
     		return true;
