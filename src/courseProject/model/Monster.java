@@ -1,14 +1,16 @@
+/**
+ * 
+ */
+package courseProject.model;
+import java.util.ArrayList;
+import java.util.List;
+
 /** 
  * @author Micheal Hamon
  * @author Andrew Venus
  * @author Denis Dionne
  * @version 18/10/12
  */
-
-package courseProject.model;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Monster extends Creature{
 
 	public Monster(String name, int healthMax, int attack, int defence, int weapon, int armor) {

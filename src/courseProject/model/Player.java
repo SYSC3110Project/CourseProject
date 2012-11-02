@@ -2,17 +2,18 @@
  * The player character
  * The plan is to refactor 'player' into an 'alive' abstract class and have 'player' and 'monster' extend it
  * 
- * @author Micheal Hamon
- * @author Matthew Smith
- * @author Denis Dionne
- * @version 29/10/12
  */
 
 package courseProject.model;
 import java.util.List;
 import java.util.ArrayList;
 
-
+/** 
+ * @author Micheal Hamon
+ * @author Andrew Venus
+ * @author Denis Dionne
+ * @version 01/11/2012
+ */
 public class Player extends Creature {
     private int limit;
     private Room currRoom;
@@ -66,11 +67,15 @@ public class Player extends Creature {
             return getLoc();
         }
     }
+    /**
+     * returns the current room the player is in.
+     * @return the current room the player is in
+     */
     public Room getRoom(){
         return currRoom;
     }
     /**
-     * 
+     * returns a description of the room and everything that is in the room which the player is in
      * @return room description, item and monster names
      */
     public String getLoc(){

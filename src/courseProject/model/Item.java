@@ -87,7 +87,6 @@ public class Item
     						(this.type.equals(toCompare.type)) &&
     						(this.value == toCompare.value) &&
     						(this.weight == toCompare.value));
-    		
     		return equal;    		
     	}
     	

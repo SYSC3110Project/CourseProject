@@ -11,11 +11,6 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Micheal Hamon
- * @author Denis Dionne
- * @author Matthew Smith
- * @author Andrew Venus
- * @version 18/10/12
  */
 
 package courseProject.model;
@@ -27,6 +22,14 @@ import courseProject.controller.Command;
 import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 
+/**
+ * 
+ * @author Matthew Smith
+ * @author Andrew Venus
+ * @author Mike Hamon
+ * @author Denis Dionne
+ * @version	01/11/2012
+ */
 public class Game 
 {
     private CommandInterpreter parser;

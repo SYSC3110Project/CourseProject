@@ -117,7 +117,7 @@ public class Room
     }
     
     /**
-     * 
+     * returns a string with each of the names of the monsters in the room.
      * @return a string of all monster's names
      */
     public String getMonsterNames(){
