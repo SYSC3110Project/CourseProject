@@ -123,16 +123,16 @@ public class Player extends Creature {
      * @param name to drop from inventory
      * @return string to print
      */
-    public String drop(String name){
+    public boolean drop(String name){
     	for(Item i : inv){
     		if(i.getName().equals(name)){
     			currRoom.drop(i);
     			inv.remove(i);
     			mass = mass - i.getWeight();
-    			return i.getName()+ " was dropped";
+    			return true;
     		}
     	}
-        return "You don't have that";
+        return false;
     }
     /**
      * picks up item from current room

@@ -15,7 +15,7 @@
  * @author Denis Dionne
  * @author Matthew Smith
  * @author Andrew Venus
- * @version 18/10/12
+ * @version 11/2/12
  */
 
 package courseProject.model;
@@ -23,11 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+
 import courseProject.controller.Command;
 import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
+import courseProject.view.textD.*;
 
-public class Game 
+public class Game
 {
     private CommandInterpreter parser;
     private Player mc;		//player character
@@ -49,9 +51,21 @@ public class Game
     
     public static void main(String[] args){
     	Game g = new Game();
+    	ViewText textView= new ViewText();
+    	g.listeners.add(textView);
     	g.play();
+    	
     }
-
+    
+    //notifies all ModelListeners when a change happens
+    public void notifyListeners(ModelChangeEvent event)
+    {
+    	for(ModelListener listener:listeners)
+    	{
+    		listener.update(event);
+    	}
+    }
+    
     /**
      * Create all the rooms and link their exits together.
      */
@@ -277,18 +291,28 @@ public class Game
      * @param command
      */
     private boolean drop(Command command){
-        if(!command.hasSecondWord()){
+        boolean sucess;
+    	if(!command.hasSecondWord()){
             gamePrint("Drop what?");
             return false;
         }else{
-        	String drpStr = mc.drop(command.getSecondWord());
-            gamePrint(drpStr);
-            if(drpStr.equals("You don't have that")){ //this is UGLY change when we add viewer
-            	return false;
+        	sucess=mc.drop(command.getSecondWord());
+        	if(sucess)
+        	{
+        		gamePrint(command.getSecondWord()+ " was dropped");
+        		return true;
+        	}
+        	else
+        	{
+        		gamePrint("You don't have that");
+        		return false;
+        	}
+        	
+            	
             }
-            return true;
+           
         }
-    }
+   
     /**
      * Checks inventory (no second word) or uses an item in inventory
      * @param command
@@ -336,7 +360,7 @@ public class Game
      */
     private void gamePrint(String mess){
     	if(mess!=null&&!mess.equals("")){
-    		System.out.printf(mess+"\n");
+    		this.notifyListeners(new ModelChangeEvent(mess));
     	}
     }
     
@@ -354,7 +378,7 @@ public class Game
     		gamePrint(mc.getRoom().getLoc());
     	}
 		else{
-			System.out.println("nothing to undo");
+			gamePrint("nothing to undo");
 		}
     }
     
@@ -371,7 +395,7 @@ public class Game
     		gamePrint(mc.getRoom().getLoc());
     	}
     	else{
-    		System.out.println("nothing to redo");
+    		gamePrint("nothing to redo");
     	}
     }
     
