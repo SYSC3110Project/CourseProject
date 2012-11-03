@@ -1,4 +1,4 @@
-package courseProject;
+package courseProject.model;
 
 import java.util.Scanner;
 

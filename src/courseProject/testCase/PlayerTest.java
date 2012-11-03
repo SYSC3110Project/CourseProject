@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import courseProject.ItemType;
-import courseProject.Monster;
-import courseProject.Player;
-import courseProject.Room;
+import courseProject.model.ItemType;
+import courseProject.model.Monster;
+import courseProject.model.Player;
+import courseProject.model.Room;
 
 public class PlayerTest {
 	private Room northRoom;

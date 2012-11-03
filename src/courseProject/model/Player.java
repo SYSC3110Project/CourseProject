@@ -8,7 +8,7 @@
  * @version 29/10/12
  */
 
-package courseProject;
+package courseProject.model;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -245,5 +245,15 @@ public class Player extends Creature {
     		buff.append(armor.getName());
     	}
     	return buff.toString();
+    }
+    public boolean equals (Object o){
+    	if(!(o instanceof Player)){
+    		return false;
+    	}
+    	Player p2 = (Player)o;
+    	if(this.character().equals(p2.character())&&this.showInv().equals(p2.showInv())){//&&this.getRoom().equals(p2.getRoom())
+    		return true;
+    	}
+    	return false;
     }
 }

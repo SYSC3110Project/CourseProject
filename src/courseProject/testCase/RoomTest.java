@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import courseProject.Room;
+import courseProject.model.Room;
 
 public class RoomTest {
 	

@@ -18,7 +18,7 @@
  * @version 18/10/12
  */
 
-package courseProject;
+package courseProject.model;
 import java.util.Stack;
 
 public class Game 

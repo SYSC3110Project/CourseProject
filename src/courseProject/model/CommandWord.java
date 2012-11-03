@@ -1,4 +1,4 @@
-package courseProject;
+package courseProject.model;
 
 /**
  * This class is part of the "World of Zuul" application. 

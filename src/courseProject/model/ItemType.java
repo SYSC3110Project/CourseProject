@@ -1,4 +1,4 @@
-package courseProject;
+package courseProject.model;
 
 public enum ItemType {
 	weapon, armor, health;

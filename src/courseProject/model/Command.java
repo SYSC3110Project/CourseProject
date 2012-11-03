@@ -18,7 +18,7 @@
  * @version 29/10/2012
  */
 
-package courseProject;
+package courseProject.model;
  
 public class Command
 {
