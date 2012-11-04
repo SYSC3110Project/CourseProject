@@ -9,21 +9,18 @@
  */
 
 package courseProject.model;
-import java.util.List;
-import java.util.ArrayList;
+
 
 
 public class Player extends Creature {
     private int limit;
     private Room currRoom;
-    private int mass;
     /**
      * Constructor for objects of class Player
      */
     public Player(Room room, int healthMax, int attack, int defence){
     	super("player",healthMax,attack,defence);
         currRoom = room;
-        mass = 0;		//current weight
         limit = 20;		//max weight
     }
     
@@ -35,7 +32,6 @@ public class Player extends Creature {
     	super("player", p.healthMax, p.attack, p.defence);
     	currRoom = new Room(p.currRoom);
     	limit = p.limit;
-    	mass = p.mass;
     	health = p.health;
     	if(p.armor != null){
     		armor = new Item(p.armor);
@@ -43,12 +39,7 @@ public class Player extends Creature {
     	if(p.weapon != null){
     		weapon = new Item(p.weapon);
     	}
-    	
-    	List<Item> itemList = new ArrayList<Item>();
-    	for(Item i: p.inv){
-    		itemList.add(new Item(i));
-    	}
-    	inv  = itemList;
+    	inv=new Inventory(p.inv);
     }
     /**
      * moves the player to a new room
@@ -121,18 +112,20 @@ public class Player extends Creature {
     /**
      * drops an item into the current room
      * @param name to drop from inventory
-     * @return string to print
+     * @return whether the item was dropped
      */
     public boolean drop(String name){
-    	for(Item i : inv){
-    		if(i.getName().equals(name)){
-    			currRoom.drop(i);
-    			inv.remove(i);
-    			mass = mass - i.getWeight();
-    			return true;
-    		}
+    	Item i=inv.getItem(name);
+    	if (i==null)
+    	{
+    		return false;
     	}
-        return false;
+    	else
+    	{
+    		currRoom.drop(i);
+    		inv.remove(i);
+    		return true;
+    	}
     }
     /**
      * picks up item from current room
@@ -140,17 +133,23 @@ public class Player extends Creature {
      * @return string to print
      */
     public String pickup(String name){
-        int diff = (mass+currRoom.getItemWeight(name))-limit;
+    	int diff = (inv.getMass()+currRoom.getItemWeight(name))-limit;
         if(diff>0){
             return "Item is to heavy to pick up by "+diff+" lbs";
         }
-        Item i = currRoom.pickup(name);
-        if(i==null){
-            return "Item does not exist";
+    	
+    	
+    	Item item=currRoom.pickup(name);
+        
+        if(item!=null)
+        {
+        	inv.add(item);
+            return "You have picked up "+name;
         }
-        mass = mass + i.getWeight();
-        inv.add(i);
-        return "You have picked up "+name;
+        else
+        {
+        	return "Item does not exist";
+        }
     }
     /**
      * do damage to target
@@ -175,12 +174,12 @@ public class Player extends Creature {
     public String showInv(){
     	String s = "";
     	if(inv.isEmpty()){
-    		return "weight: " + mass +"/"+limit+ " lbs";
+    		return "weight: " + inv.getMass() +"/"+limit+ " lbs";
     	}
-    	for(Item i : inv){
-    		s = s + i.getName() + " ";
-    	}
-    	s = s+ "\nweight: " + mass +"/"+limit+ " lbs";
+    	
+    	s = inv.getItemNames();
+
+    	s = s+ "\nweight: " + inv.getMass() +"/"+limit+ " lbs";
     	return s;
     }
     /**
@@ -191,9 +190,11 @@ public class Player extends Creature {
      * @return string to print
      */
     public String use(String name){
-    	for(Item i : inv){
-    		if(i.getName().equals(name)){
-    			String s = "";
+    	Item i=inv.getItem(name);
+    	if(i!=null)
+    	{
+    	
+    		String s = "";
     			if (i.getType().equals(ItemType.weapon)){
     				if(weapon!=null){
     					inv.add(weapon);
@@ -212,12 +213,15 @@ public class Player extends Creature {
     				s = s + i.getName() + " was used";
     				s = s +"\n"+heal(i.getValue());
     				inv.remove(i);
-    				mass = mass - i.getWeight();
+    				
     			}
     			return s;
-    		}
     	}
-    	return "You don't have that";
+    	else
+    	{
+    		return "You don't have that";
+    	}
+    	
     }
     
     

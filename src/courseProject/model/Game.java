@@ -54,10 +54,12 @@ public class Game
     	ViewText textView= new ViewText();
     	g.listeners.add(textView);
     	g.play();
-    	
     }
     
-    //notifies all ModelListeners when a change happens
+    /**
+     * notifies all ModelListeners when a change happens
+     * @param event
+     */
     public void notifyListeners(ModelChangeEvent event)
     {
     	for(ModelListener listener:listeners)

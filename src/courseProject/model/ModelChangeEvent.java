@@ -4,6 +4,7 @@
 package courseProject.model;
 
 /**
+ * Capture information about a change to the model including a text message for the player.
  * @author Matthew Smith
  * @author Andrew Venus
  * @version 02/11/2012
@@ -11,27 +12,22 @@ package courseProject.model;
 public class ModelChangeEvent {
 	
 	private String message;
-	private boolean sucess;
+	
+	/**
+	 * constructor for ModelChangeEvent
+	 * @param message
+	 */
 	
 	public ModelChangeEvent(String message)
 	{
 		this.message=message;
-		sucess=true;
 	}
-	
-	public ModelChangeEvent(String message,boolean sucess)
-	{
-		this.message=message;
-		this.sucess=sucess;
-	}
-	
+	/**
+	 * returns the message meant for the player
+	 * @return String
+	 */
 	public String getMessage()
 	{
 		return message;
-	}
-	
-	public boolean getSucess()
-	{
-		return sucess;
 	}
 }
