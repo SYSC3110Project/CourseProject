@@ -396,6 +396,7 @@ public class Game
     	}
     	else{
     		gamePrint("nothing to redo");
+    		
     	}
     }
     
@@ -423,4 +424,3 @@ public class Game
 		}
     }
 }
-
