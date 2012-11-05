@@ -44,7 +44,7 @@ public class Player extends Creature {
     	if(p.weapon != null){
     		weapon = new Item(p.weapon);
     	}
-    	inv=new Inventory(p.inv);
+    	inv = new Inventory(p.inv);
     }
     /**
      * moves the player to a new room
