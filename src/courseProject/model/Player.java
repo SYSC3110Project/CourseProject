@@ -264,7 +264,7 @@ public class Player extends Creature {
     		return false;
     	}
     	Player p2 = (Player)o;
-    	if(this.character().equals(p2.character())&&this.showInv().equals(p2.showInv())){//&&this.getRoom().equals(p2.getRoom())
+    	if(this.character().equals(p2.character())&&this.showInv().equals(p2.showInv())&&this.getRoom().equals(p2.getRoom())){
     		return true;
     	}
     	return false;

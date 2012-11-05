@@ -267,4 +267,20 @@ public class Room
     public String getItemNames(){
     	return items.getItemNames();
     }
+    
+    /**
+     * @return 
+     * 
+     */
+    @Override
+    public boolean equals(Object o){
+    	if(!(o instanceof Room)){
+    		return false;
+    	}
+    	Room r = (Room)o;
+    	if(getDescription().equals(r.getDescription())&&getExitMap().equals(r.getExitMap())&&getMonsters().equals(r.getMonsters())&&getItems().equals(r.getItems())){
+    		return true;
+    	}
+    	return false;
+    }
 }
