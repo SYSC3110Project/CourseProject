@@ -1,5 +1,6 @@
 package courseProject.model;
 
+import courseProject.controller.*;
 import java.util.Scanner;
 
 /**
