@@ -13,7 +13,7 @@ import java.util.List;
 import courseProject.controller.InputEvent2D;
 import courseProject.model.ModelChangeEvent;
 import courseProject.view.twoD.drawable.Drawable2D;
-import courseProject.view.twoD.drawable.Player2D;
+import courseProject.view.twoD.drawable.Drawable2DArea;
 import courseProject.view.textD.ViewText;
 
 
@@ -26,7 +26,8 @@ import courseProject.view.textD.ViewText;
 public class View2D extends ViewText implements MouseListener{
 
 	private JFrame mainWindow;
-	private JPanel gamePanel;
+	//private JPanel gamePanel;
+	private Drawable2DArea drawArea;
 	private List<Drawable2D> drawList;
 	
 	
@@ -39,11 +40,14 @@ public class View2D extends ViewText implements MouseListener{
 		mainWindow = new JFrame("World of the Nameless");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setSize(400, 400);
-		gamePanel = new JPanel();
-		mainWindow.add(gamePanel);
+		//gamePanel = new JPanel();
+		//mainWindow.add(gamePanel);
+		drawArea = new Drawable2DArea();
+		mainWindow.add(drawArea);
 		drawList = new ArrayList<Drawable2D>();
 		mainWindow.setVisible(true);
-		gamePanel.addMouseListener(this);
+		//gamePanel.addMouseListener(this);
+		drawArea.addMouseListener(this);
 		
 	}
 	
@@ -72,7 +76,7 @@ public class View2D extends ViewText implements MouseListener{
 				System.out.println("bla");
 			}
 		}
-		paint(gamePanel.getGraphics());
+		//paint(gamePanel.getGraphics());
 	}
 	
 	
@@ -83,7 +87,8 @@ public class View2D extends ViewText implements MouseListener{
 	public void update(ModelChangeEvent e){
 		System.out.println(e.getMessage());
 		drawList = e.getDrawable();
-		paint(gamePanel.getGraphics());
+		drawArea.updateDrawable(drawList);
+		//paint(gamePanel.getGraphics());
 		
 	}
 	/**
@@ -93,6 +98,7 @@ public class View2D extends ViewText implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent mouse) {
 		notifyInputListeners(new InputEvent2D(new Point(mouse.getX(),mouse.getY())));
+		
 		
 		
 	}
