@@ -47,6 +47,7 @@ public class Player2D extends Player implements Drawable2D {
 	 */
 	public Player2D(Player2D toCopy) {
 		super(toCopy);
+		this.currRoom = new Room2D((Room2D)toCopy.currRoom);
 		this.sprite = toCopy.sprite;
 		this.bounds = toCopy.bounds;
 		this.interpolating = toCopy.interpolating;
@@ -99,6 +100,7 @@ public class Player2D extends Player implements Drawable2D {
 			timeSinceLastInterpolationUpdate+=delta; //time since the last interpolation update
 			updateInterpolation();
 		}
+		
 	}
 
 	@Override

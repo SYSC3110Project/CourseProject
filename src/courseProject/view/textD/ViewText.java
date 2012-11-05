@@ -5,12 +5,9 @@ package courseProject.view.textD;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import courseProject.controller.Command;
-import courseProject.controller.CommandWord;
 import courseProject.controller.InputEvent;
 import courseProject.controller.InputListener;
+import courseProject.controller.TextController;
 import courseProject.model.ModelChangeEvent;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
@@ -25,49 +22,44 @@ import courseProject.view.View;
  * @version 02/11/2012
  */
 public class ViewText implements ModelListener, View {
-	
+	private TextController texCom;
 	private List<InputListener> inputListeners;
-	private Scanner reader;
-		
+	
+	
 	/**
 	 * constructor of the TextView
 	 * Initializes the list of inputListeners and initializes the reader
 	 */
 	public ViewText(){
-		reader = new Scanner(System.in);
 		inputListeners = new ArrayList<InputListener>();
+		texCom = new TextController();
 	}
-	
+	/**
+	 * The text view displays by printing a string to the console
+	 * @param message
+	 */
+	public void display(String message)
+	{
+		System.out.println(message);
+		
+	}
+	/**
+	 * updates the view based on the changes to the model
+	 */
+	public void update(ModelChangeEvent event)
+	{
+		display(event.getMessage());
+	}
 	/**
 	 * Gets the command from the user
 	 * @return the next command input by the user
 	 */
     public void getCommand() {
-        String inputLine;   // will hold the full input line
-        String word1 = null;
-        String word2 = null;
-
-        System.out.print("> ");     // print prompt
-
-        inputLine = reader.nextLine();
-
-        // Find up to two words on the line.
-        Scanner tokenizer = new Scanner(inputLine);
-        if(tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
-            if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-                // note: we just ignore the rest of the input line.
-            }
-        }
-        tokenizer.close();
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
         
-        InputEvent evt = new InputEvent(new Command(CommandWord.getCommandFromString(word1), word2));
-        notifyInputListeners(evt);
         
-        //return ;
+        notifyInputListeners(texCom.getText());
+        
+        //return new Command(CommandWord.getCommandFromString(word1), word2);
     }
     
     /**
@@ -100,6 +92,9 @@ public class ViewText implements ModelListener, View {
     		listener.input(event);
     	}
 	}
+    public void end(){
+    	
+    }
 	
 	@Override
 	public void dispose() {

@@ -7,11 +7,11 @@ import courseProject.controller.Command;
 
 /**
  * @author Matthew Smith
+ * @author Mike Hamon
  * @author Denis Dionne
  * @version 02/11/2012
  */
 public class InputEvent {
-
 	
 	protected Command command;
 	

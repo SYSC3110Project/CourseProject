@@ -59,7 +59,62 @@ public class Game
 		createRooms();
 	}
 
+    /**
+     * Create all the rooms and link their exits together.
+     */
+    private void createRooms()
+    {
+        Room2D outside, theater, pub, lab, office;
+      
+        // create the rooms
+       // BufferedImage orb = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB); 
+        BufferedImage orb = null;
+        try {
+            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
+        } catch (IOException e) {
+        }
+        outside = new Room2D("outside the main entrance of the university", orb);
+        theater = new Room2D("in a lecture theater", orb);
+        pub = new Room2D("in the campus pub", orb);
+        lab = new Room2D("in a computing lab", orb);
+        office = new Room2D("in the computing admin office", orb);
+        
+        // initialize room exits
+        outside.addExit("east",theater);
+        outside.addExit("south",lab);
+        outside.addExit("west",pub);
+        theater.addExit("west",outside);
+        pub.addExit("east",outside);
+        lab.addExit("north",outside);
+        lab.addExit("east",office);
+        office.addExit("west",lab);
+        
+        // initialize items in rooms
+        Item stapler = new Item2D("stapler","fear it",3,ItemType.weapon,4, orb);
+        Item broom = new Item2D("broom","sweap your foes away",12,ItemType.weapon,10, orb);
+        Item beer1 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
+        Item beer2 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
+        Item textBook = new Item2D("textbook", "its really thick", 5, ItemType.armor, 3, orb);
+        
+        //
+        office.drop(stapler);
+        office.drop(broom);
+        pub.drop(beer1);
+        pub.drop(beer2);
+        theater.drop(textBook);
+        
+        //initialize creatures
+        Monster m = new Monster2D("prof", 10, 1, 1, 4, 2, orb);
+    	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6, orb));
+        theater.addMonster(m);
 
+        //initialize player
+        mc = new Player2D(outside,20,1,1, orb);
+    }
+    
+    
+    /**
+     * gets the player
 	/**
 	 * Adds a listener to the game model
 	 * @param listener
@@ -67,7 +122,20 @@ public class Game
 	public void addModelListeners(ModelListener listener){
 		listeners.add(listener);
 	}
-
+     * @return Player
+     */
+    public Player getPlayer(){
+    	return mc;
+    }
+    
+    public boolean turn(Command com){
+    	boolean finished = processCommand(com);
+    	if (mc.isDead()){
+    		finished = true;
+    	}
+    	return finished;
+    }
+    
 
 
 	/**
@@ -392,17 +460,13 @@ public class Game
 	 */
 	public void undo(){
 		if(!(undoStack.isEmpty())){
-			Player temp = undoStack.pop();
-			UpdateRoomReferences(temp);
-			redoStack.add(mc);
-			mc = temp;
-			Room2D temp2 = (Room2D) mc.getRoom();
-			if(temp2.getClass().equals(Room2D.class)){
-				System.out.println("bla");
-			}
-
-			notifyListeners(mc.getRoom().getLoc());
-		}
+    		Player temp = undoStack.pop();
+    		UpdateRoomReferences(temp);
+    		redoStack.add(mc);
+    		mc = temp;
+    		
+    		notifyListeners(mc.getRoom().getLoc());
+    	}
 		else{
 			notifyListeners("nothing to undo");
 		}

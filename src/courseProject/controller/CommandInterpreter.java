@@ -1,10 +1,7 @@
 package courseProject.controller;
 
-
-
 import courseProject.model.Game;
 import courseProject.view.View;
-import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
 
 /**
@@ -27,8 +24,6 @@ import courseProject.view.twoD.View2D;
  */
 public class CommandInterpreter implements InputListener
 {
-	
-
     private Game game;
     private View view;
     private boolean finished;
@@ -80,6 +75,7 @@ public class CommandInterpreter implements InputListener
 
     	game.addModelListeners(view);
     	c.play();
+    	view.dispose();
     }
 
     

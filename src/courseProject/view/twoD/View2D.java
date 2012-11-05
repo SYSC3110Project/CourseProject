@@ -69,6 +69,7 @@ public class View2D extends ViewText implements MouseListener{
 		for(Drawable2D drawable : drawList){
 			if(drawable.getClass().equals(Player2D.class)){
 				drawable.moveTo(e.getCoordinates());
+				System.out.println("bla");
 			}
 		}
 		paint(gamePanel.getGraphics());
@@ -122,6 +123,10 @@ public class View2D extends ViewText implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void end(){
+		mainWindow.dispose();
 	}
 
 	
