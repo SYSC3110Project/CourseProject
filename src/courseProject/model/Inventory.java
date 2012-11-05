@@ -16,6 +16,9 @@ public class Inventory {
 	private List<Item> items;
 	private int mass;
 	
+	/**
+	 * Constructor for an empty Inventory
+	 */
 	public Inventory()
 	{
 		items=new ArrayList<Item>();
@@ -46,27 +49,40 @@ public class Inventory {
 		mass+=item.getWeight();
 	}
 	
+	/**
+	 * removes item form the inventory.
+	 * @param item
+	 */
 	public void remove(Item item)
 	{
 		items.remove(item);
 		mass-=item.getWeight();
 	}
-	
+	/**
+	 * returns the total weight of the inventory
+	 * @return mass
+	 */
 	public int getMass()
 	{
 		return mass;
 	}
 	
+	/**
+	 * returns how many items are in the inventory
+	 * @return size
+	 */
 	public int getSize()
 	{
 		return items.size();
 	}
 	
-	public Item getItem(int i)
-	{
-		return items.get(i);
-	}
 	
+	
+	/**
+	 * returns the first item with the given name
+	 * @param name
+	 * @return
+	 */
 	public Item getItem(String name)
 	{
 		for (Item i : items){
@@ -77,6 +93,22 @@ public class Inventory {
 		return null;
 	}
 	
+	
+	/**
+	 * returns the ith item in the inventory
+	 * @param i
+	 * @return item
+	 */
+	public Item getItem(int i)
+	{
+		return items.get(i);
+	}
+	
+	/**
+	 * returns the item taht is the given item
+	 * @param i
+	 * @return item
+	 */
 	public Item getItem(Item i)
 	{
 		return items.get(items.indexOf(i));
@@ -97,8 +129,16 @@ public class Inventory {
         return buff.toString();
     }
     
+    /**
+     * returns whether the inventory is empty
+     * @return empty
+     */
     public boolean isEmpty()
     {
     	return items.isEmpty();
+    }
+    
+    public List<Item> getAllItems(){
+    	return new ArrayList<Item>(items);
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
 import courseProject.model.Player;
@@ -21,7 +22,7 @@ public class PlayerTest {
 		southRoom = new Room("South Room");
 		northRoom.addExit("south", southRoom);
 		southRoom.addExit("north",northRoom);
-		northRoom.setItem("WEAPON", "DESC", 1, ItemType.weapon, 1);
+		northRoom.setItem(new Item("WEAPON", "DESC", 1, ItemType.weapon, 1));
 
 		p1 = new Player(northRoom,20,10,5);
 	}
@@ -69,8 +70,8 @@ public class PlayerTest {
 	}
 	@Test
 	public void testUse(){
-		northRoom.setItem("ARMOR", "DESC", 1, ItemType.armor, 1);
-		northRoom.setItem("HEALTH", "DESC", 1, ItemType.health, 1);
+		northRoom.setItem(new Item("ARMOR", "DESC", 1, ItemType.armor, 1));
+		northRoom.setItem(new Item("HEALTH", "DESC", 1, ItemType.health, 1));
 		p1.hurt(5);//to test healing item
 		p1.pickup("ARMOR");
 		p1.pickup("WEAPON");
