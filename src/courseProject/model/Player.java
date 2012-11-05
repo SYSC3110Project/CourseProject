@@ -20,6 +20,10 @@ public class Player extends Creature {
     private int mass;
     /**
      * Constructor for objects of class Player
+     * @param room The room the player starts in
+     * @param healthMax the maximum health of the creature
+     * @param attack the attack stat of the creature
+     * @param defence the defence stat of the creature
      */
     public Player(Room room, int healthMax, int attack, int defence){
     	super("player",healthMax,attack,defence);
@@ -30,7 +34,7 @@ public class Player extends Creature {
     
     /**
      * Copy Constructor for objects of class Player
-     * @param the player
+     * @param the player to copy
      */
     public Player(Player p){
     	super("player", p.healthMax, p.attack, p.defence);

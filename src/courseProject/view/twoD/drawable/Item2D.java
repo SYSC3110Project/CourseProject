@@ -1,96 +1,129 @@
 /**
- * 
+ * The Item2D.java file contains the class which will represent items in the game that will be drawn in 2D.
  */
 package courseProject.view.twoD.drawable;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-import java.awt.geom.Rectangle2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 
 /**
+ * Item2D is an extension of the item class that implements the drawable interface.
  * @author Matthew Smith
  * @version 01/11/2012
  */
 public class Item2D extends Item implements Drawable2D {
+	
+	private BufferedImage sprite;
+	private Rectangle bounds;
+	private boolean interpolating;
+	private Point interpolatingTo;
+	private double timeSinceLastInterpolationUpdate;
 
 	/**
-	 * @param name
-	 * @param description
-	 * @param weight
-	 * @param type
-	 * @param value
+	 * @param name The name of the item
+     * @param desc A description of the item
+     * @param weight The item's weight
+     * @param type The type of Item
+     * @param value The value for the associated item; damage for weapons, healing power for health, defence for armor
+	 * @param sprite The image for to represent the item
 	 */
-	public Item2D(String name, String description, int weight, ItemType type,
-			int value) {
+	public Item2D(String name, String description, int weight, ItemType type, int value, BufferedImage sprite) {
 		super(name, description, weight, type, value);
-		// TODO Auto-generated constructor stub
+		this.sprite = sprite;// use 0,0 as origin
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
+		this.interpolating = false;
+		this.timeSinceLastInterpolationUpdate = 0;
 	}
 
 	/**
-	 * @param toCopy
+	 * Copy constructor copies all values from the passed Item2D to this new Item2D.
+	 * @param toCopy The Item2D to copy.
 	 */
-	public Item2D(Item toCopy) {
+	public Item2D(Item2D toCopy) {
 		super(toCopy);
-		// TODO Auto-generated constructor stub
+		this.sprite = toCopy.sprite;
+		this.bounds = toCopy.bounds;
+		this.interpolating = toCopy.interpolating;
+		this.interpolatingTo = toCopy.interpolatingTo;
+		this.timeSinceLastInterpolationUpdate = toCopy.timeSinceLastInterpolationUpdate;
 	}
 
 	@Override
-	public Point2D.Double getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	public Point getLocation() {
+		return bounds.getLocation();
 	}
 
 	@Override
-	public void setLocation(Point2D.Double point) {
-		// TODO Auto-generated method stub
+	public void setLocation(Point point) {
+		this.bounds.setLocation(point);
 		
 	}
 
 	@Override
-	public Rectangle2D.Double getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
 	@Override
-	public void setBounds(Rectangle2D.Double bounds) {
-		// TODO Auto-generated method stub
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
 		
 	}
 
 	@Override
 	public BufferedImage getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return sprite;
 	}
 
 	@Override
 	public void setSprite(BufferedImage image) {
-		// TODO Auto-generated method stub
-		
+		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
-		// TODO Auto-generated method stub
 		
+		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+	}
+	
+	@Override
+	public void update(double delta) {
+		if(interpolating) {
+			timeSinceLastInterpolationUpdate+=delta; //time since the last interpolation update
+			updateInterpolation();
+		}
 	}
 
 	@Override
 	public boolean collidesWith(Drawable2D other) {
-		// TODO Auto-generated method stub
+		bounds.intersects(other.getBounds());
 		return false;
 	}
 
 	@Override
-	public void moveTo(Double point) {
-		// TODO Auto-generated method stub
-		
+	public void moveTo(Point point) {
+		interpolating = true; //start interpolating
+		interpolatingTo = point;
+	}
+	
+	/**
+	 * Helper method updates the location of the sprite moving it towards the point passed in moveTo()
+	 */
+	private void updateInterpolation() {
+		if(timeSinceLastInterpolationUpdate>=INTERPOLATION_STEPS) { //only update every 0.25 seconds
+			timeSinceLastInterpolationUpdate = 0; //reset the time so we update another 0.25 seconds from now
+			
+			//TODO interpolation step
+			
+			if(bounds.getLocation().equals(interpolatingTo)) { //if we have reached the point, stop moving
+				interpolating = false;
+			}
+		}
 	}
 
 }

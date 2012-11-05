@@ -22,6 +22,13 @@ public abstract class Creature {
     protected int defence;
     protected String name;
     
+    /**
+     * Constructor for Creature Objects
+     * @param name the name of the creature
+     * @param healthMax the maximum health of the creature
+     * @param attack the attack stat of the creature
+     * @param defence the defence stat of the creature
+     */
     public Creature(String name, int healthMax, int attack, int defence){
     	this.attack = attack;
     	this.defence = defence;
