@@ -24,6 +24,7 @@ public class Monster2D extends Monster implements Drawable2D {
 	private double timeSinceLastInterpolationUpdate;
 
 	/**
+	 * Constructor for the monster class will initialise all parameters of the monster.
 	 * @param name the name of the monster
      * @param healthMax the maximum health of the monster
      * @param attack the attack stat of the monster

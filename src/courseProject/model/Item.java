@@ -1,16 +1,18 @@
+/**
+ * Item.java contains the class which represents an item object in the game.
+ */
 package courseProject.model;
 
 /**
- * Items to be picked up in the game
- * Valid types are "weapon" "armor" or "health"
- * 
+ * Items to be picked up in the game.
+ * Valid types are specified in the ItemType
  * @author Micheal Hamon
  * @author Denis Dionne
- * @version 18/10/12
+ * @author Matthew Smith
+ * @version 04/11/2012
  */
 public class Item
 {
-    // instance variables - replace the example below with your own
     private int weight;	
     private String name;	
     private String desc;
@@ -34,11 +36,10 @@ public class Item
         this.value = value;
     }
     
-    
     /**
      * Copy Constructor for objects of class Item
      * (used for the undo/redo commands)
-     * @param i
+     * @param toCopy the item for which to create a copy of.
      */
     public Item(Item toCopy){
     	
@@ -47,31 +48,61 @@ public class Item
     	weight = toCopy.weight;
     	type = toCopy.type;
     	value = toCopy.value;
-    	
     }
 
     /**
-     *  
+     * Gets the weight of the item.
+     * @return the weight of the item.
      */
     public int getWeight(){
         return weight;
     }
+    
+    /**
+     * Gets the name of the item.
+     * @return the name of the item.
+     */
     public String getName(){
         return name;
     }
+    
+    /**
+     * Gets the description of the item.
+     * @return the description of the item.
+     */
     public String getDesc(){
         return desc;
     }
+    
+    /**
+     * Gets what type of item this is.
+     * @return the <code>ItemType</code> of this item.
+     */
     public ItemType getType(){
     	return type;
     }
+    
+    /**
+     * Gets the value for the item; damage for weapons, healing power for health, defence for armor.
+     * @return the value of the item; damage for weapons, healing power for health, defence for armor.
+     */
     public int getValue(){
     	return value;
     }
     
     @Override
     public String toString() {
-    	return name;
+    	StringBuffer buff = new StringBuffer();
+    	buff.append(name);
+    	buff.append(": ");
+    	buff.append(desc);
+    	buff.append(",\nType: ");
+    	buff.append(type.name());
+    	buff.append(",\n");
+    	buff.append(type.getValueDescription());
+    	buff.append(": ");
+    	buff.append(value);
+    	return buff.toString();
     }
     
     @Override
@@ -91,10 +122,5 @@ public class Item
     	}
     	
     	return false;
-    }
-    
-    @Override
-    public int hashCode() {
-    	return 0; //TODO do a proper hashcode
     }
 }
