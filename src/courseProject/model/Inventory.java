@@ -137,4 +137,8 @@ public class Inventory {
     {
     	return items.isEmpty();
     }
+    
+    public List<Item> getAllItems(){
+    	return new ArrayList<Item>(items);
+    }
 }
