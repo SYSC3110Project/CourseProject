@@ -79,6 +79,7 @@ public class CommandInterpreter implements InputListener
 
     	game.addModelListeners(view);
     	c.play();
+    	view.end();
     }
 
     

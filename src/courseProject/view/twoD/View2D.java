@@ -122,6 +122,10 @@ public class View2D extends ViewText implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void end(){
+		mainWindow.dispose();
+	}
 
 	
 	

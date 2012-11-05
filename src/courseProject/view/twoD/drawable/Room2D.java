@@ -30,7 +30,7 @@ public class Room2D extends Room implements Drawable2D {
 	public Room2D(String description, BufferedImage sprite) {
 		super(description);
 		this.sprite = sprite;// use 0,0 as origin
-		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getWidth(), this.sprite.getHeight());
 	}
 
 	/**
