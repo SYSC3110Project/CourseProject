@@ -66,6 +66,14 @@ public class Room
     	}
     	monsters  = monsterList;
     }
+    
+    public List<Monster> getMonsters(){
+    	return monsters;
+    }
+    
+    public List<Item> getItems(){
+    	return items;
+    }
 
     /**
      * Adds an exit to this room in the passed direction.
@@ -186,20 +194,7 @@ public class Room
     {
         return description;
     }
-    
-    /**
-     * creates an item in the room
-     * for start up
-     * @param name the name of the item
-     * @param desc a description of the item
-     * @param weight the weight of the item
-     * @param type the type of item
-     * @param value the value modifier for the item
-     */
-    public void setItem(String name, String desc, int weight, ItemType type, int value){
-        items.add(new Item(name,desc,weight,type,value));
-    }
-    
+  
     /**
      * returns string naming all of the items in the room
      * @return the name of each item in the room
