@@ -132,7 +132,15 @@ public class Game
         }
         gamePrint("Thank you for playing.  Good bye.");
     }
-
+    
+    public boolean turn(Command com){
+    	boolean finished = processCommand(com);
+    	if (mc.isDead()){
+    		finished = true;
+    	}
+    	return finished;
+    }
+    
     /**
      * Print out the opening message for the player.
      */

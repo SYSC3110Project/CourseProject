@@ -2,6 +2,8 @@ package courseProject.controller;
 
 import java.util.Scanner;
 
+import courseProject.model.Game;
+
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -21,26 +23,20 @@ import java.util.Scanner;
  */
 public class CommandInterpreter implements InputListener
 {
-    private Scanner reader;         // source of command input
-
+	private Game game;
     /**
      * Create a parser to read from the terminal window.
      */
     public CommandInterpreter() {
-        reader = new Scanner(System.in);
+
     }
 
     /**
      * @return The next command from the user.
      */
-    public Command getCommand() {
-        String inputLine;   // will hold the full input line
+    public Command getCommand(String inputLine) {
         String word1 = null;
         String word2 = null;
-
-        System.out.print("> ");     // print prompt
-
-        inputLine = reader.nextLine();
 
         // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
@@ -56,6 +52,10 @@ public class CommandInterpreter implements InputListener
         // with it. If not, create a "null" command (for unknown command).
         
         return new Command(CommandWord.getCommandFromString(word1), word2);
+    }
+    public void update(InputEvent IE){
+    	Command com = getCommand(IE.getCommand());
+    	game.turn(com);
     }
     
     /**
