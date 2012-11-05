@@ -81,7 +81,7 @@ public class Game
        // BufferedImage orb = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB); 
         BufferedImage orb = null;
         try {
-            orb = ImageIO.read(new File("C:\\eclipse\\workspace\\CourseProject\\res\\Orb of Blood.png"));
+            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
         } catch (IOException e) {
         }
         outside = new Room2D("outside the main entrance of the university", orb);
@@ -131,7 +131,15 @@ public class Game
     public Player getPlayer(){
     	return mc;
     }
-
+    
+    public boolean turn(Command com){
+    	boolean finished = processCommand(com);
+    	if (mc.isDead()){
+    		finished = true;
+    	}
+    	return finished;
+    }
+    
     /**
      * Print out the opening message for the player.
      */
