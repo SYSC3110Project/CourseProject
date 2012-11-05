@@ -27,7 +27,8 @@ public class CommandInterpreter implements InputListener
     private Game game;
     private View view;
     private boolean finished;
-
+    private double previousTime;
+    
     /**
      * Create a parser to read from the terminal window.
      */
@@ -35,8 +36,8 @@ public class CommandInterpreter implements InputListener
         this.view = view;
         this.game = game;
         view.addInputListener(this);
+        previousTime = System.nanoTime();
     }
-
     
     /**
      * receives an input from the view and acts accordingly
@@ -44,7 +45,7 @@ public class CommandInterpreter implements InputListener
      */
     public void input(InputEvent e){
     	//need to implement this
-    	if(e.getClass().getName() == "courseProject.controller.InputEvent2D"){
+    	if(e.getClass().equals(InputEvent2D.class)){
     		if(e.getCommand() == null){
     			((View2D) view).moveCharacter((InputEvent2D)e);
     		}
@@ -86,7 +87,9 @@ public class CommandInterpreter implements InputListener
     	game.printWelcome();
     	finished = false;
         while (! finished) {
-        	//view.getCommand();
+        	double delta = System.nanoTime()-previousTime;
+        	view.update(delta);
+        	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
             	break;
             }

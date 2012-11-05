@@ -100,13 +100,11 @@ public class Player2D extends Player implements Drawable2D {
 			timeSinceLastInterpolationUpdate+=delta; //time since the last interpolation update
 			updateInterpolation();
 		}
-		
 	}
 
 	@Override
 	public boolean collidesWith(Drawable2D other) {
-		bounds.intersects(other.getBounds());
-		return false;
+		return bounds.intersects(other.getBounds());
 	}
 
 	@Override

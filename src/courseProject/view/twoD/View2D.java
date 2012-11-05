@@ -2,8 +2,6 @@ package courseProject.view.twoD;
 
 import javax.swing.*;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +12,7 @@ import courseProject.controller.InputEvent2D;
 import courseProject.model.ModelChangeEvent;
 import courseProject.view.twoD.drawable.Drawable2D;
 import courseProject.view.twoD.drawable.Drawable2DArea;
+import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.textD.ViewText;
 
 
@@ -48,20 +47,24 @@ public class View2D extends ViewText implements MouseListener{
 		mainWindow.setVisible(true);
 		//gamePanel.addMouseListener(this);
 		drawArea.addMouseListener(this);
-		
 	}
 	
-	
-	/**
-	 * paints all the drawable components to the gamePanel
-	 * @param g
-	 */
-	public void paint(Graphics g) {
-		Graphics2D graphics2D = (Graphics2D)g;
+	@Override
+	public void update(double delta) {
+		
 		for(Drawable2D drawable : drawList){
-			drawable.update(0);
-			drawable.draw(graphics2D);
+			drawable.update(delta);
+			if(drawable.getClass().equals(Player2D.class)) {
+				
+				for(Drawable2D other : drawList){
+					if(other!=drawable && drawable.collidesWith(other)) {
+						//notifyInputListeners(new InputEvent2D());
+					}
+				}
+			}
 		}
+		
+		drawArea.repaint();
 	}
 	
 	/**
@@ -69,27 +72,18 @@ public class View2D extends ViewText implements MouseListener{
 	 * @param e
 	 */
 	public void moveCharacter(InputEvent2D e){
-		//
 		for(Drawable2D drawable : drawList){
 			if(drawable.getClass().equals(Player2D.class)){
 				drawable.moveTo(e.getCoordinates());
-				System.out.println("bla");
 			}
 		}
-		//paint(gamePanel.getGraphics());
 	}
 	
-	
-	/**
-	 * updates the elements needed to be drawn (if player changes room, the room, its items and the monsters need to be changed)
-	 * @param e is the event that contains all the information about the change in game
-	 */
-	public void update(ModelChangeEvent e){
+	@Override
+	public void handleModelChangeEvent(ModelChangeEvent e){
 		System.out.println(e.getMessage());
 		drawList = e.getDrawable();
 		drawArea.updateDrawable(drawList);
-		//paint(gamePanel.getGraphics());
-		
 	}
 	/**
 	 * When you press the mouse, it generates an event that gets sent to all inputListeners, notifying them of the coordinates
@@ -98,36 +92,27 @@ public class View2D extends ViewText implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent mouse) {
 		notifyInputListeners(new InputEvent2D(new Point(mouse.getX(),mouse.getY())));
-		
-		
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent mouse) {
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent mouse) {
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent mouse) {
 		
 	}
 
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mouseReleased(MouseEvent mouse) {
 		
 	}
 	@Override
