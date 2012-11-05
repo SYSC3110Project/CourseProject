@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import courseProject.Util;
 import courseProject.model.Player;
 import courseProject.model.Room;
 
@@ -116,10 +117,10 @@ public class Player2D extends Player implements Drawable2D {
 	 * Helper method updates the location of the sprite moving it towards the point passed in moveTo()
 	 */
 	private void updateInterpolation() {
-		if(timeSinceLastInterpolationUpdate>=INTERPOLATION_STEPS) { //only update every 0.25 seconds
+		if(timeSinceLastInterpolationUpdate>= INTERPOLATION_STEPS) { //only update every 0.25 seconds
 			timeSinceLastInterpolationUpdate = 0; //reset the time so we update another 0.25 seconds from now
 			
-			//TODO interpolation step
+			bounds.setLocation(Util.interpolateHelper(bounds.getLocation(), interpolatingTo, Util.DEFAULT_STEP));
 			
 			if(bounds.getLocation().equals(interpolatingTo)) { //if we have reached the point, stop moving
 				interpolating = false;
