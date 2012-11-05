@@ -7,13 +7,12 @@
 
 package courseProject.model;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public abstract class Creature {
 
-    protected List<Item> inv;
+    protected Inventory inv;
     protected int health;
     protected int healthMax;
     protected Item armor;
@@ -32,7 +31,7 @@ public abstract class Creature {
     public Creature(String name, int healthMax, int attack, int defence){
     	this.attack = attack;
     	this.defence = defence;
-        inv = new ArrayList<Item>();
+        inv = new Inventory();
         this.healthMax = healthMax;	//max health
         health = this.healthMax;	//current health
         this.name = name;
