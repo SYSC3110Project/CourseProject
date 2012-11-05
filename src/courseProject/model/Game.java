@@ -51,7 +51,10 @@ public class Game
         createRooms();
         parser = new CommandInterpreter();
     }
-    
+    /**
+     * starting point of the game
+     * @param args
+     */
     public static void main(String[] args){
     	Game g = new Game();
     	ViewText textView= new ViewText();
