@@ -84,7 +84,7 @@ public class Game
        // BufferedImage orb = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB); 
         BufferedImage orb = null;
         try {
-            orb = ImageIO.read(new File("C:\\eclipse\\workspace\\CourseProject\\res\\Orb of Blood.png"));
+            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
         } catch (IOException e) {
         }
         outside = new Room2D("outside the main entrance of the university", orb);
@@ -124,7 +124,6 @@ public class Game
 
         //initialize player
         mc = new Player2D(outside,20,1,1, orb);
-        undoStack.add(new Player2D((Player2D)mc));
     }
     
     
@@ -135,7 +134,15 @@ public class Game
     public Player getPlayer(){
     	return mc;
     }
-
+    
+    public boolean turn(Command com){
+    	boolean finished = processCommand(com);
+    	if (mc.isDead()){
+    		finished = true;
+    	}
+    	return finished;
+    }
+    
     /**
      * Print out the opening message for the player.
      */
@@ -403,10 +410,6 @@ public class Game
     		UpdateRoomReferences(temp);
     		redoStack.add(mc);
     		mc = temp;
-    		Room2D temp2 = (Room2D) mc.getRoom();
-    		if(temp2.getClass().equals(Room2D.class)){
-    			System.out.println("bla");
-    		}
     		
     		notifyListeners(mc.getRoom().getLoc());
     	}

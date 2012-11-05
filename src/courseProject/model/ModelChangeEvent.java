@@ -17,7 +17,7 @@ import courseProject.view.twoD.drawable.Drawable2D;
  */
 public class ModelChangeEvent {
 	
-	List<Drawable2D> drawable;
+	private List<Drawable2D> drawable;
 	private String message;
 	
 	/**
