@@ -121,7 +121,6 @@ public class Game
 
         //initialize player
         mc = new Player2D(outside,20,1,1, orb);
-        undoStack.add(new Player2D((Player2D)mc));
     }
     
     
@@ -410,10 +409,6 @@ public class Game
     		UpdateRoomReferences(temp);
     		redoStack.add(mc);
     		mc = temp;
-    		Room2D temp2 = (Room2D) mc.getRoom();
-    		if(temp2.getClass().equals(Room2D.class)){
-    			System.out.println("bla");
-    		}
     		
     		notifyListeners(mc.getRoom().getLoc());
     	}
