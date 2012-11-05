@@ -3,6 +3,7 @@ package courseProject.controller;
 
 
 import courseProject.model.Game;
+import courseProject.view.View;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
 
@@ -29,16 +30,16 @@ public class CommandInterpreter implements InputListener
 	
 
     private Game game;
-    private ViewText view;
+    private View view;
     private boolean finished;
 
     /**
      * Create a parser to read from the terminal window.
      */
-    public CommandInterpreter(ViewText view, Game game) {
+    public CommandInterpreter(View view, Game game) {
         this.view = view;
         this.game = game;
-        view.addInputListeners(this);
+        view.addInputListener(this);
     }
 
     
@@ -89,7 +90,7 @@ public class CommandInterpreter implements InputListener
     	game.printWelcome();
     	finished = false;
         while (! finished) {
-        	view.getCommand();
+        	//view.getCommand();
             if(game.getPlayer().isDead()){
             	break;
             }

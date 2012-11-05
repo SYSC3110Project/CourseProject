@@ -13,6 +13,7 @@ import java.util.List;
 import courseProject.controller.InputEvent2D;
 import courseProject.model.ModelChangeEvent;
 import courseProject.view.twoD.drawable.Drawable2D;
+import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.textD.ViewText;
 
 
@@ -66,7 +67,7 @@ public class View2D extends ViewText implements MouseListener{
 	public void moveCharacter(InputEvent2D e){
 		//
 		for(Drawable2D drawable : drawList){
-			if(drawable.getClass().getName() == "courseProject.view.twoD.drawable.Player2D"){
+			if(drawable.getClass().equals(Player2D.class)){
 				drawable.moveTo(e.getCoordinates());
 			}
 		}
