@@ -54,6 +54,7 @@ public class View2D extends ViewText implements MouseListener{
 	public void paint(Graphics g) {
 		Graphics2D graphics2D = (Graphics2D)g;
 		for(Drawable2D drawable : drawList){
+			drawable.update(0);
 			drawable.draw(graphics2D);
 		}
 	}
