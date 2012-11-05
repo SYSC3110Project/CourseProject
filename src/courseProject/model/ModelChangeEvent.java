@@ -9,14 +9,16 @@ import courseProject.view.twoD.drawable.Drawable2D;
 
 
 /**
+ * Capture information about a change to the model including a text message for the player.
  * @author Matthew Smith
  * @author Denis Dionne
+ * @author Andrew Venus
  * @version 05/11/2012
  */
 public class ModelChangeEvent {
-	String msg;
-	List<Drawable2D> drawable;
 	
+	List<Drawable2D> drawable;
+	private String message;
 	
 	/**
 	 * Event that describes the change in the game

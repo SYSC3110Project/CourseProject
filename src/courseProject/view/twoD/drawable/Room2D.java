@@ -1,89 +1,100 @@
 /**
- * 
+ * The Room2D.java file contains the class which will represent rooms in the game that will be drawn in 2D.
  */
 package courseProject.view.twoD.drawable;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-import java.awt.geom.Rectangle2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import courseProject.model.Room;
 
 /**
+ * Room2D is an extension of the room class that implements the drawable interface.
  * @author Matthew Smith
  * @version 01/11/2012
  */
 public class Room2D extends Room implements Drawable2D {
+	
+	private BufferedImage sprite;
+	private Rectangle bounds;
 
 	/**
-	 * @param description
+	 * Create a room described "description". Initially, it has
+     * no exits. "description" is something like "a kitchen" or
+     * "an open court yard".
+     * @param description The room's description.
+	 * @param sprite The image for to represent the room
 	 */
-	public Room2D(String description) {
+	public Room2D(String description, BufferedImage sprite) {
 		super(description);
-		// TODO Auto-generated constructor stub
+		this.sprite = sprite;// use 0,0 as origin
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
 	}
 
 	/**
-	 * @param r
+	 * Copy constructor copies all values from the passed Room2D to this new Room2D.
+	 * @param toCopy The Room2D to copy.
 	 */
-	public Room2D(Room r) {
-		super(r);
-		// TODO Auto-generated constructor stub
+	public Room2D(Room2D toCopy) {
+		super(toCopy);
+		this.sprite = toCopy.sprite;
+		this.bounds = toCopy.bounds;
 	}
 
 	@Override
-	public Point2D.Double getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	public Point getLocation() {
+		return bounds.getLocation();
 	}
 
 	@Override
-	public void setLocation(Point2D.Double point) {
-		// TODO Auto-generated method stub
-
+	public void setLocation(Point point) {
+		this.bounds.setLocation(point);
+		
 	}
 
 	@Override
-	public Rectangle2D.Double getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
 	@Override
-	public void setBounds(Rectangle2D.Double bounds) {
-		// TODO Auto-generated method stub
-
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
+		
 	}
 
 	@Override
 	public BufferedImage getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return sprite;
 	}
 
 	@Override
 	public void setSprite(BufferedImage image) {
-		// TODO Auto-generated method stub
-
+		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
-		// TODO Auto-generated method stub
-
+		
+		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+	}
+	
+	@Override
+	public void update(double delta) {
+		//Nothing to do right now
+		//could update 
 	}
 
 	@Override
 	public boolean collidesWith(Drawable2D other) {
-		// TODO Auto-generated method stub
+		bounds.intersects(other.getBounds());
 		return false;
 	}
 
 	@Override
-	public void moveTo(Double point) {
-		// TODO Auto-generated method stub
-
+	public void moveTo(Point point) {
+		//The room shouldn't really have this as an option.
 	}
 }

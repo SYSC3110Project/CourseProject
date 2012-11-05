@@ -1,14 +1,14 @@
+/**
+ * 
+ */
+package courseProject.model;
+
 /** 
  * @author Micheal Hamon
  * @author Andrew Venus
  * @author Denis Dionne
  * @version 18/10/12
  */
-
-package courseProject.model;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Monster extends Creature{
 
 	public Monster(String name, int healthMax, int attack, int defence, int weapon, int armor) {
@@ -26,11 +26,7 @@ public class Monster extends Creature{
 		weapon = new Item(m.weapon);
 		armor = new Item(m.armor);
 		health = m.health;
-    	List<Item> itemList = new ArrayList<Item>();
-    	for(Item i: m.inv){
-    		itemList.add(new Item(i));
-    	}
-    	inv  = itemList;
+    	inv=new Inventory(m.inv);
 	}
 	
 	public String attack(Player p){
@@ -40,9 +36,10 @@ public class Monster extends Creature{
 		inv.add(i);
 	}
 	public void drop(Room currRoom){
-		for(Item i : inv){
-			currRoom.drop(i);
-		}
+		for(int i=0;i<inv.getSize();i++)
+    	{
+			currRoom.drop(inv.getItem(i));
+    	}
 	}
 	
 	public void rev(){

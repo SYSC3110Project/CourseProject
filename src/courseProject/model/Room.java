@@ -28,7 +28,7 @@ public class Room
 {
     private String description;
     private Map<String,Room> exits;
-    private List<Item> items;
+    private Inventory items;
     private List<Monster> monsters;
 
     /**
@@ -41,7 +41,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<String,Room>();
-        items = new ArrayList<Item>();
+        items = new Inventory();
         monsters = new ArrayList<Monster>();
     }
     
@@ -54,11 +54,7 @@ public class Room
     	exits = new HashMap<String, Room>();
     	exits.putAll(r.exits);
     	
-    	List<Item> itemList = new ArrayList<Item>();
-    	for(Item i: r.items){
-    		itemList.add(new Item(i));
-    	}
-    	items  = itemList;
+    	items=new Inventory(r.items);
     	
     	List<Monster> monsterList = new ArrayList<Monster>();
     	for(Monster m: r.monsters){
@@ -125,7 +121,7 @@ public class Room
     }
     
     /**
-     * 
+     * returns a string with each of the names of the monsters in the room.
      * @return a string of all monster's names
      */
     public String getMonsterNames(){
@@ -209,6 +205,19 @@ public class Room
         }
         return buff.toString();
     }
+     * creates an item in the room
+     * for start up
+     * @param name the name of the item
+     * @param desc a description of the item
+     * @param weight the weight of the item
+     * @param type the type of item
+     * @param value the value modifier for the item
+     */
+    public void setItem(String name, String desc, int weight, ItemType type, int value){
+        items.add(new Item(name,desc,weight,type,value));
+    }
+    
+   
     
     /**
      * returns the full details for an item in the room
@@ -216,12 +225,8 @@ public class Room
      * @return a full description of the item
      */
     public String getItemFull(String name){
-        for (Item i : items){
-            if(i.getName().equals(name)){
-                return ""+i.getName()+": "+i.getDesc()+" ("+i.getWeight()+" lbs)";
-            }
-        }
-        return "";
+       Item item=items.getItem(name);
+       return ""+item.getName()+": "+item.getDesc()+" ("+item.getWeight()+" lbs)";
     }
     
     /**
@@ -230,12 +235,15 @@ public class Room
      * @return the weight of the item
      */
     public int getItemWeight(String name){
-        for (Item i : items){
-            if(i.getName().equals(name)){
-                return i.getWeight();
-            }
-        }
-        return 0;
+    	Item item=items.getItem(name);
+    	if(item!=null)
+    	{
+    		return item.getWeight();
+    	}
+    	else
+    	{
+    		return 0;
+    	} 
     }
     
     /**
@@ -244,13 +252,16 @@ public class Room
      * @return the item to pick up
      */
     public Item pickup(String name){
-        for (Item i : items){
-            if(i.getName().equals(name)){
-                items.remove(i);
-                return i;
-            }
-        }
-        return null;
+    	Item item=items.getItem(name);
+    	if(item!=null)
+    	{
+    			items.remove(item);
+    			return item;
+    	}
+    	else
+    	{
+    		return null;
+    	}
     }
     
     /**
@@ -259,5 +270,14 @@ public class Room
      */
     public void drop(Item i){
         items.add(i);
+    }
+    
+    
+    /**
+     * returns string naming all of the items in the room
+     * @return the name of each item in the room
+     */
+    public String getItemNames(){
+    	return items.getItemNames();
     }
 }

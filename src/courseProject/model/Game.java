@@ -11,11 +11,6 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Micheal Hamon
- * @author Denis Dionne
- * @author Matthew Smith
- * @author Andrew Venus
- * @version 18/10/12
  */
 
 package courseProject.model;
@@ -23,15 +18,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+
 import courseProject.controller.Command;
 import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 import courseProject.view.twoD.drawable.Drawable2D;
+import courseProject.view.textD.*;
 import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.twoD.drawable.Room2D;
 
+/**
+ * 
+ * @author Matthew Smith
+ * @author Andrew Venus
+ * @author Mike Hamon
+ * @author Denis Dionne
+ * @version	01/11/2012
+ */
 public class Game 
 {
     private Player mc;		//player character
@@ -60,6 +65,18 @@ public class Game
     }
     
 
+    /**
+     * notifies all ModelListeners when a change happens
+     * @param event
+     */
+    public void notifyListeners(ModelChangeEvent event)
+    {
+    	for(ModelListener listener:listeners)
+    	{
+    		listener.update(event);
+    	}
+    }
+    
     /**
      * Create all the rooms and link their exits together.
      */
@@ -311,18 +328,28 @@ public class Game
      * @param command
      */
     public boolean drop(Command command){
-        if(!command.hasSecondWord()){
+        boolean sucess;
+    	if(!command.hasSecondWord()){
             notifyListeners("Drop what?");
             return false;
         }else{
-        	String drpStr = mc.drop(command.getSecondWord());
-            notifyListeners(drpStr);
-            if(drpStr.equals("You don't have that")){ //this is UGLY change when we add viewer
-            	return false;
+        	sucess=mc.drop(command.getSecondWord());
+        	if(sucess)
+        	{
+        		gamePrint(command.getSecondWord()+ " was dropped");
+        		return true;
+        	}
+        	else
+        	{
+        		gamePrint("You don't have that");
+        		return false;
+        	}
+        	
+            	
             }
-            return true;
+           
         }
-    }
+   
     /**
      * Checks inventory (no second word) or uses an item in inventory
      * @param command
@@ -363,7 +390,16 @@ public class Game
     		//what should this do?
     	}
     }
-
+    /**
+     * Used to print text
+     * (so its easy to change where we print later)
+     * @param mess the message to print
+     */
+    private void gamePrint(String mess){
+    	if(mess!=null&&!mess.equals("")){
+    		this.notifyListeners(new ModelChangeEvent(mess));
+    	}
+    }
     
     
     /**
@@ -379,7 +415,7 @@ public class Game
     		notifyListeners(mc.getRoom().getLoc());
     	}
 		else{
-			System.out.println("nothing to undo");
+			gamePrint("nothing to undo");
 		}
     }
     
@@ -396,7 +432,8 @@ public class Game
     		notifyListeners(mc.getRoom().getLoc());
     	}
     	else{
-    		System.out.println("nothing to redo");
+    		gamePrint("nothing to redo");
+    		
     	}
     }
     
@@ -441,4 +478,3 @@ public class Game
     	return redoStack;
     }
 }
-
