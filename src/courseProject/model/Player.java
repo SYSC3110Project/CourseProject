@@ -15,7 +15,7 @@ package courseProject.model;
  */
 public class Player extends Creature {
     private int limit;
-    private Room currRoom;
+    protected Room currRoom;
     /**
      * Constructor for objects of class Player
      * @param room The room the player starts in

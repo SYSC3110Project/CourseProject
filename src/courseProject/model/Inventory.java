@@ -121,10 +121,11 @@ public class Inventory {
     public String getItemNames(){
     	StringBuffer buff = new StringBuffer();
         for (int i=0;i<items.size();i++){
-            buff.append(items.get(i));
+            buff.append(items.get(i).getName());
             if(i!=items.size()-1) {
             	buff.append(", ");
             }
+            System.out.println(buff);
         }
         return buff.toString();
     }

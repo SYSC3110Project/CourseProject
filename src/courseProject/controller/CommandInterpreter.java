@@ -88,7 +88,7 @@ public class CommandInterpreter implements InputListener
     private void play(){
     	game.printWelcome();
     	finished = false;
-        while (! finished) {
+        while (! finished) {        	
         	view.getCommand();
             if(game.getPlayer().isDead()){
             	break;

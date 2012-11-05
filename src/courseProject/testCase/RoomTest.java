@@ -14,7 +14,6 @@ import org.junit.Test;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
-import courseProject.model.Player;
 import courseProject.model.Room;
 
 public class RoomTest {
