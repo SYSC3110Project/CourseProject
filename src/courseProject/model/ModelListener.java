@@ -14,10 +14,8 @@ public interface ModelListener {
 	
 	/**
 	 * Updates the information about the game
-	 * @param e is the event that contains the information about the change in the game
+	 * @param event is the event that contains the information about the change in the game
 	 */
-	public void update(ModelChangeEvent e);
-
 	public void update(ModelChangeEvent event);
 	
 	

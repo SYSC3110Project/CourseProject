@@ -4,9 +4,9 @@ import javax.swing.*;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +66,6 @@ public class View2D extends ViewText implements MouseListener{
 		//
 		for(Drawable2D drawable : drawList){
 			if(drawable.getClass().getName() == "courseProject.view.twoD.drawable.Player2D"){
-				//redrawPlayer(InputEvent2D.getPoint());
-				System.out.println("character moving to: " + e.getCoordinates().getX() + "," + e.getCoordinates().getY());
 				drawable.moveTo(e.getCoordinates());
 			}
 		}
@@ -85,13 +83,24 @@ public class View2D extends ViewText implements MouseListener{
 		paint(gamePanel.getGraphics());
 		
 	}
-
+	/**
+	 * When you press the mouse, it generates an event that gets sent to all inputListeners, notifying them of the coordinates
+	 * of the mouse at the time it was released
+	 */
 	@Override
-	public void mouseClicked(MouseEvent mouse) {
-		// TODO Auto-generated method stub
+	public void mousePressed(MouseEvent mouse) {
+		notifyInputListeners(new InputEvent2D(new Point(mouse.getX(),mouse.getY())));
 		
 		
 	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -99,27 +108,20 @@ public class View2D extends ViewText implements MouseListener{
 		
 	}
 
+
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+
 	@Override
-	public void mousePressed(MouseEvent mouse) {
-		notifyInputListeners(new InputEvent2D(new Point2D.Double((double)mouse.getX(), (double)mouse.getY())));
-		
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
-	/**
-	 * When you release the mouse, it generates an event that gets sent to all inputListeners, notifying them of the coordinates
-	 * of the mouse at the time it was released
-	 */
-	@Override
-	public void mouseReleased(MouseEvent mouse) {
-		
-	}
 	
 	
 	

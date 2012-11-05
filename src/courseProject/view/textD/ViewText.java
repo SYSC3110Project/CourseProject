@@ -64,13 +64,6 @@ public class ViewText implements ModelListener {
 	
 	
 	/**
-	 * Displays the message to the user
-	 */
-	public void update(ModelChangeEvent e){
-		System.out.println(e.getMessage());
-	}
-	
-	/**
 	 * Gets the command from the user
 	 * @return the next command input by the user
 	 */

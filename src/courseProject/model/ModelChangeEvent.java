@@ -22,11 +22,11 @@ public class ModelChangeEvent {
 	
 	/**
 	 * Event that describes the change in the game
-	 * @param msg is the String that will be displayed to the user
+	 * @param message is the String that will be displayed to the user
 	 * @param drawable is the List of all the objects that we wish to draw to the screen
 	 */
-	public ModelChangeEvent(String msg, List<Drawable2D> drawable) {
-		this.msg = msg;
+	public ModelChangeEvent(String message, List<Drawable2D> drawable) {
+		this.message = message;
 		this.drawable = drawable;
 	}
 	
@@ -36,7 +36,7 @@ public class ModelChangeEvent {
 	 * @return the message that is contained within the event
 	 */
 	public String getMessage(){
-		return msg;
+		return message;
 	}
 	
 	/**

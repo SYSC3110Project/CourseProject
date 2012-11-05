@@ -22,7 +22,6 @@ public class InputEvent2D extends InputEvent {
 	public InputEvent2D(Command command) {
 		super(command);
 		
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -30,7 +29,6 @@ public class InputEvent2D extends InputEvent {
 	 * @param point
 	 */
 	public InputEvent2D(Point point) {
-		// TODO Auto-generated constructor stub
 		super(null);
 		this.coordinates = point;
 	}

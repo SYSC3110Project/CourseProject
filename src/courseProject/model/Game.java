@@ -14,16 +14,20 @@
  */
 
 package courseProject.model;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import javax.imageio.ImageIO;
 
 
 import courseProject.controller.Command;
 import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 import courseProject.view.twoD.drawable.Drawable2D;
-import courseProject.view.textD.*;
 import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
@@ -65,31 +69,26 @@ public class Game
     }
     
 
-    /**
-     * notifies all ModelListeners when a change happens
-     * @param event
-     */
-    public void notifyListeners(ModelChangeEvent event)
-    {
-    	for(ModelListener listener:listeners)
-    	{
-    		listener.update(event);
-    	}
-    }
-    
+
     /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room2D outside, theater, pub, lab, office;
       
         // create the rooms
-        outside = new Room2D("outside the main entrance of the university");
-        theater = new Room2D("in a lecture theater");
-        pub = new Room2D("in the campus pub");
-        lab = new Room2D("in a computing lab");
-        office = new Room2D("in the computing admin office");
+       // BufferedImage orb = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB); 
+        BufferedImage orb = null;
+        try {
+            orb = ImageIO.read(new File("C:\\eclipse\\workspace\\CourseProject\\res\\Orb of Blood.png"));
+        } catch (IOException e) {
+        }
+        outside = new Room2D("outside the main entrance of the university", orb);
+        theater = new Room2D("in a lecture theater", orb);
+        pub = new Room2D("in the campus pub", orb);
+        lab = new Room2D("in a computing lab", orb);
+        office = new Room2D("in the computing admin office", orb);
         
         // initialize room exits
         outside.addExit("east",theater);
@@ -102,11 +101,11 @@ public class Game
         office.addExit("west",lab);
         
         // initialize items in rooms
-        Item stapler = new Item2D("stapler","fear it",3,ItemType.weapon,4);
-        Item broom = new Item2D("broom","sweap your foes away",12,ItemType.weapon,10);
-        Item beer1 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2);
-        Item beer2 = new Item2D(beer1);
-        Item textBook = new Item2D("textbook", "its really thick", 5, ItemType.armor, 3);
+        Item stapler = new Item2D("stapler","fear it",3,ItemType.weapon,4, orb);
+        Item broom = new Item2D("broom","sweap your foes away",12,ItemType.weapon,10, orb);
+        Item beer1 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
+        Item beer2 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
+        Item textBook = new Item2D("textbook", "its really thick", 5, ItemType.armor, 3, orb);
         
         //
         office.drop(stapler);
@@ -116,13 +115,13 @@ public class Game
         theater.drop(textBook);
         
         //initialize creatures
-        Monster m = new Monster2D("prof", 10, 1, 1, 4, 2);
-    	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6));
+        Monster m = new Monster2D("prof", 10, 1, 1, 4, 2, orb);
+    	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6, orb));
         theater.addMonster(m);
 
         //initialize player
-        mc = new Player2D(outside,20,1,1);
-        undoStack.add(new Player(mc));
+        mc = new Player2D(outside,20,1,1, orb);
+        undoStack.add(new Player2D((Player2D)mc));
     }
     
     
@@ -170,11 +169,11 @@ public class Game
         //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
         if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo))){
         	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
-        		undoStack.add(new Player(mc));
+        		undoStack.add(new Player2D((Player2D)mc));
         		redoStack.clear();
         	}
         	else if(undoStack.peek().getRoom().getDescription() != (mc.getRoom().getDescription())){ //We already have the Checkpoint on the stack
-        		undoStack.add(new Player(mc));
+        		undoStack.add(new Player((Player2D)mc));
         	}
         }
         
@@ -271,7 +270,7 @@ public class Game
 
         String direction = command.getSecondWord();
         notifyListeners(mc.setRoom(direction));
-        undoStack.add(new Player(mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
+        undoStack.add(new Player2D((Player2D)mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
         
     }
     
@@ -336,12 +335,12 @@ public class Game
         	sucess=mc.drop(command.getSecondWord());
         	if(sucess)
         	{
-        		gamePrint(command.getSecondWord()+ " was dropped");
+        		notifyListeners(command.getSecondWord()+ " was dropped");
         		return true;
         	}
         	else
         	{
-        		gamePrint("You don't have that");
+        		notifyListeners("You don't have that");
         		return false;
         	}
         	
@@ -390,16 +389,7 @@ public class Game
     		//what should this do?
     	}
     }
-    /**
-     * Used to print text
-     * (so its easy to change where we print later)
-     * @param mess the message to print
-     */
-    private void gamePrint(String mess){
-    	if(mess!=null&&!mess.equals("")){
-    		this.notifyListeners(new ModelChangeEvent(mess));
-    	}
-    }
+
     
     
     /**
@@ -412,10 +402,15 @@ public class Game
     		UpdateRoomReferences(temp);
     		redoStack.add(mc);
     		mc = temp;
+    		Room2D temp2 = (Room2D) mc.getRoom();
+    		if(temp2.getClass().equals(Room2D.class)){
+    			System.out.println("bla");
+    		}
+    		
     		notifyListeners(mc.getRoom().getLoc());
     	}
 		else{
-			gamePrint("nothing to undo");
+			notifyListeners("nothing to undo");
 		}
     }
     
@@ -432,7 +427,7 @@ public class Game
     		notifyListeners(mc.getRoom().getLoc());
     	}
     	else{
-    		gamePrint("nothing to redo");
+    		notifyListeners("nothing to redo");
     		
     	}
     }
@@ -445,7 +440,7 @@ public class Game
      */
     public void UpdateRoomReferences(Player temp){
     	for(String s: temp.getRoom().getExitMap().keySet()){
-			Room adjacent = temp.getRoom().getExitMap().get(s);
+			Room2D adjacent = (Room2D)temp.getRoom().getExitMap().get(s);
 			if( s == "west"){
 				adjacent.getExitMap().put("east", temp.getRoom());
 			}

@@ -51,6 +51,7 @@ public class Player2D extends Player implements Drawable2D {
 		this.interpolating = toCopy.interpolating;
 		this.interpolatingTo = toCopy.interpolatingTo;
 		this.timeSinceLastInterpolationUpdate = toCopy.timeSinceLastInterpolationUpdate;
+
 	}
 
 	@Override
