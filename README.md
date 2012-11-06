@@ -29,8 +29,12 @@ Work Seperation:
 	
 Known Issues:
 
-	From time to time, the game doesn't start, this is rare. To bypass this, the game can
+	-From time to time, the game doesn't start, this is rare. To bypass this, the game can
 	be restarted. 
+	
+	-The undo does not currently work very well with the mouse. 
+	
+	-The undo doesn't work properly in some cases
 
 Design Decisions:
 	
