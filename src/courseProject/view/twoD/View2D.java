@@ -111,12 +111,20 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		mainWindow.setBounds(rect);
 	}
 	
+	/**
+	 * Prints messages to text area
+	 * @param message the text to be printed
+	 */
 	@Override
 	public void displayMessage(String message) {
 		textArea.append(message);
 		textArea.append("\n");
 	}
 	
+	/**
+	 * updates all the drawn objects
+	 * @param delta time since the last update
+	 */
 	@Override
 	public void update(double delta) {
 		
@@ -166,7 +174,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	
 	/**
 	 * Moves the character to the coordinates specified by the mouse event
-	 * @param e
+	 * @param e the event which contains the coordinates to move to
 	 */
 	public void moveCharacter(InputEvent2D e){
 		for(Drawable2D drawable : drawList){
@@ -176,6 +184,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		}
 	}
 	
+	/**
+	 * handles all events
+	 * @param e the event to handle
+	 */
 	@Override
 	public void handleModelChangeEvent(ModelChangeEvent e){
 		displayMessage(e.getMessage());
@@ -196,32 +208,48 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		notifyInputListeners(new InputEvent2D(new Point(mouse.getX(),mouse.getY())));
 	}
 
-
+	/**
+	 * doesn't do anything, needed to implement mouseListener
+	 */
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
 	}
 
-
+	/**
+	 * doesn't do anything, needed to implement mouseListener
+	 */
 	@Override
 	public void mouseEntered(MouseEvent mouse) {
 	}
 
-
+	/**
+	 * doesn't do anything, needed to implement mouseListener
+	 */
 	@Override
 	public void mouseExited(MouseEvent mouse) {
 		
 	}
 
-
+	/**
+	 * doesn't do anything, needed to implement mouseListener
+	 */
 	@Override
 	public void mouseReleased(MouseEvent mouse) {
 		
 	}
+	/**
+	 * closes the window on game end
+	 */
 	@Override
-	public void end(){
+	public void dispose(){
+		//put some kind of 'you have died' popup here
 		mainWindow.dispose();
 	}
 
+	/**
+	 * converts from actionEvent (from inventory button) to InputEvent2D and notifies
+	 * @param arg0 the ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().getClass().equals(JButton.class)) {

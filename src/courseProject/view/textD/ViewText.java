@@ -17,7 +17,7 @@ import courseProject.view.View;
  * The text based view of the game.
  * @author Matthew Smith
  * @author Denis Dionne
- * @version 02/11/2012
+ * @author Mike Hamon
  * @author Andrew Venus
  * @version 02/11/2012
  */
@@ -35,54 +35,63 @@ public class ViewText implements ModelListener, View {
 		texCom = new TextController();
 	}
 	/**
-	 * Gets the command from the user
-	 * @return the next command input by the user
+	 * Gets the command from the user and notifies listener
 	 */
     public void getCommand() {
-        
-        
         notifyInputListeners(texCom.getText());
-        
-        //return new Command(CommandWord.getCommandFromString(word1), word2);
     }
     
     /**
 	 * updates the view based on the changes to the model
+	 * @param event Event object encapsulating the changes
 	 */
 	public void handleModelChangeEvent(ModelChangeEvent event)
 	{
 		displayMessage(event.getMessage());
 	}
-
+	
+	/**
+	 * Prints a message to the console
+	 * @param message the message to be printed
+	 */
 	@Override
 	public void displayMessage(String message) {
 		System.out.println(message);
 	}
-	
+	/**
+	 * Updates the game world
+	 * Text based game is not real time and therefore does not use delta
+	 * @param delta the change in time since the last update
+	 */
 	@Override
 	public void update(double delta) {
-		//Nothing to do for text-based game
-		
+		getCommand();
 	}
-	
+	/**
+	 * adds listener to list of listeners
+	 * @param listener the InputListener to be added to the list
+	 */
 	@Override
 	public void addInputListener(InputListener listener) {
 		inputListeners.add(listener);
 	}
-	
+	/**
+	 * notifies all listeners of an event
+	 * @param event the event to notifiy the listeners about
+	 */
 	@Override
 	public void notifyInputListeners(InputEvent event) {
 		for(InputListener listener : inputListeners){
     		listener.input(event);
     	}
 	}
-    public void end(){
-    	
-    }
-	
+	/**
+	 * tells the player thanks
+	 * (is used more for 2D)
+	 */
 	@Override
 	public void dispose() {
-		//Nothing to do for text-based game
+		displayMessage("Thank you for playing\n");
 	}
 	
 }
