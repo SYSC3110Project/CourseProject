@@ -5,19 +5,36 @@ github: https://github.com/SYSC3110Project/CourseProject
 
 Work Seperation:
 
-Since we have already done some work on the world of zuul in tutorials, we decided to use micheal's code as a starting point, which already had a lot of the code.
+For Milestone 2 we completely remodeled out design to use the MVC design pattern, this way we can run our game in any of the available views (currently
+there is the text view and the 2Dview.
 
+Work Seperation:
 
-Micheal worked primarily on the Room, Player, Item and Game classes, also collaborated with Andrew to make the Player inherit from creature.
+	Micheal worked on making the parser a part of the text view which notifies the controller (CommandInterpreter) of the input events. 
+		-Added test cases for the player and monster classes in the model.
+		
+	Andrew added the inventory class to represent the list of items used by the room, the player and the monsters. He also modified the game class to
+		no longer be the one to output game messages, making the text view handle the output.
+		-Added test cases for the game class in the model.
+		
+	Denis worked primarily on the 2D view, making the controller update the view and the model appropriately, also added the ability to control 
+		the player with the mouse. Also helped out a little with modifying the parser to work with the text view.
+		-Added test cases for the room and inventory classes in the model.
+	
+	Matthew worked on the making the 2D view able to draw all the 2D actors (player2D, room2D, item2D, monster2D), have hit collisions with each other, 
+		and appropriately call the correct game commands based on mouse input.
+		-Added test cases for the Item class in the model. 
+		
+	Everyone contributed to identifying and fixing bugs
+	
+Known Issues:
 
-Andrew worked primarily on the Monster and Creature classes
-
-Denis Worked on adding the ability to undo and redo things that happen within the game
-
-Matthew worked on making the UML diagrams, Sequence Diagrams, documentation and some refactoring
-
+	From time to time, the game doesn't start, this is rare. To bypass this, the game can
+	be restarted. 
 
 Design Decisions:
+	
+	Milestone1:
 	
 	-Every time you enter a room, it creates a checkpoint and when you undo, it brings you (the player), to
 	that checkpoint.
@@ -38,30 +55,63 @@ Design Decisions:
 	
 	-The player may equip items he picks up (if the item is a weapon or armor)
 
+	
+	Milestone2:
+	
+	-We decided to modify the structure of our code to accommodate the MVC design pattern
+	
+		2D view decision:
+		
+		-we decided that the current room and everything in it is to be drawn to the screen for the user to see.
+		
+		-we decided that the player will be able to walk around each room using mouse inputs (you click somewhere in the room and the player moves there)
+		
+		-we decided that the player picks up an item he walks over
+		
+		-we decided that the player attack the monster if he goes in range (then the monster attacks back)
+		
 
 .Java Files Used:
 
-Command.java - Class that holds the information about the command. This class is unchanged from the world of Zuul.
+	Util.java
 
-CommandWords.java - Class that holds the list of commands, we added commands (take, drop, inv, attack, char, undo,
-		redo, so that They could be used in the game.
-
-Parser.java - The parser reads the input from the user and interprets it as a command, if it cannot do this, 
-		the command is invalid.
-
-Creature.java - This class is abstract, it is used as a base model for the player and monster classes.
-
-Player.java - Class that contains all the information about the player (items, health, stamina, attack, defense, etc)
-
-Monster.java - Class that contains all the information about the monster (rooms may have monsters).
-
-Room.java - Contains all the information about a current room, which items are in the room, which monsters are
-		in the room (if there are any), what the exits are, etc.
-
-Item.java - Contains all the information about the items.
-
-Game.java - Main class which is used to play the game.
-
-
-
-
+	Controller:
+	
+		Command.java
+		CommandInterpreter.java
+		CommandWord.java
+		InputEvent.java
+		InputEvent2D.java
+		InputListener.java
+		TextController.java
+	
+	Model:
+		
+		Creature.java
+		Game.java
+		Inventory.java
+		Item.java
+		ItemType.java
+		ModelChangeEvent.java
+		ModelListener.java
+		Monster.java
+		Player.java
+		Room.java
+		
+	View:
+		
+		View.java
+	
+		TextView:
+			
+			ViewText.java
+			
+		2D:
+			
+			Drawable2D.java
+			Drawable2DArea.java
+			Item2D.java
+			Monster2D.java
+			Player2D.java
+			Room2D.java
+			
