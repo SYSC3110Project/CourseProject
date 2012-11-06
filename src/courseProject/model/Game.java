@@ -275,7 +275,7 @@ public class Game
     {
     	StringBuffer help = new StringBuffer();
     	help.append("\nYour are lost. You are alone. You wander\n");
-    	help.append("around at the university.\n");
+    	help.append("around the giant's house.\n");
     	help.append("Your command words are:\n --> ");
     	help.append(CommandInterpreter.getPossibleCommands());
     	help.append("\n");
