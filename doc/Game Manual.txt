@@ -1,32 +1,59 @@
-Author:Andrew Venus
+Selecting a Game Mode:
+The world of zull is an action packed adventure featuring two distinct game modes, text based and 2D modes. The game mode you want to play is selectable on launch. Simply choose which game mode you want to play from the drop down menu and click select.
 
-The World of Zuul is a texted based adventure game. The game will describe what is happening by writing text written to the console. You can then play the game by typing what your character should do. The valid commands that can be typed in World of Zull are  "go", "quit", "help", "look", "take", "drop", "inv", "attack", "char", "undo" and "redo". Each command is explained below.
 
 
-When "go" is typed followed by a direction the player will go to the connected room in that direction. 
 
+
+Text Based Game Mode:
+If you choose the text based game mode, The World of Zull is a texted based adventure game. The game will describe what is happening by writing text writen to the consule. You can then play the game by typing what your character should do. The valid commands that can be typed in World of Zull are  "go", "quit", "help", "look", "take", "drop", "inv", "attack", "char", "undo" and "redo". 
+
+Commands:
+When "go" is typed followed by a direction the player will go to the conected room in that direction. 
 When "quit" is typed the game ends.
-
 When "help" is typed a list of valid commands is listed.
-
 When "look" is typed a description of the current room is given.
-
 When "take" is typed followed by an item name the payer tries to add the item to his inventory. If the item is to heavy you need to drop something else first.
-
-When "drop" is typed followed by an item name you drop that item from your inventory into the current room.
-
-When "inv" is typed followed by an item name you use that item in your inventory. If the item is a weapon or armor than it is equipped. If it is a health item it is used to restore some health.
-
-When "attack" is typed followed by a monster name you attack the monster with your equipped weapon. You can't attack if you have no weapon equipped.
-
-When "char" is typed the game displays you current character status including you current health and your equipped weapon and armor.
-
-When "undo" is typed then the game reverts to the how it was before the current room. This reverts your health, inventory equipped weapon and armor and the location of all items and monsters.
-
+When "drop" is typed followed by and item name you drop that item from your inventory into the current room.
+When "inventory" is typed folloed by an item name you use that item in your inventory. If the item is a weapon or armor than it is eqiuped. If it is a health item it is used to restore some health.
+When "attack" is typed followed by a monster name you attack the monster with your equiped weapon. You can't attack if you have no weapon equiped.
+When "character" is typed the game displays you current character status including you current health and your equped weapon and armor.
+When "undo" is typed then the game reverts to the how it was before the current room. This reverts you health, inventory equiped weapon and armor and the location of all items and monsters.
 When "redo" is typed the game undoes the last undo command. The game will revert to how it was before you undid.
 
+Exploration:
+In the world of Zull you are exploring a Gaint's house. You start out in a room with more rooms attached. In each room you can look around, pick up items in that room, drop items you're carrying, fight monsters, use items in your inventory and go to a conecting room. Your character has an inventory, an equiped weapon slot, an equiped armor slot, a maximium health, a carrying capacity and a base attack and defence stat. Your inventory and equipment slots are initialy empty, but as you come to new rooms you can find items to add to you inventory. Use the take command to pick up new items. Each item has a name, a description, a weight and a value. For weapons value is how much damage it deals in combat. For armor value is how much damage it prevents. For health items value is how much it heals you. An items weight is how much it counts against you carry capacity. Once you reach your carrying capacity you can not pick up more items with out first droping others.
 
-In the world of Zull you are exploring a University. You start out in a room with more rooms attached. In each room you can look around, pick up items in that room, drop items you're carrying, fight monsters, use items in your inventory and go to a connecting room. Your character has an inventory, an equipped weapon slot, an equipped armor slot, a maximum health, a carrying capacity and a base attack and defence stat. Your inventory and equipment slots are initially empty, but as you come to new rooms you can find items to add to you inventory. Use the take command to pick up new items. Each item has a name, a description, a weight and a value. For weapons value is how much damage it deals in combat. For armor value is how much damage it prevents. For health items value is how much it heals you. An items weight is how much it counts against you carry capacity. Once you reach your carrying capacity you cannot pick up more items without first dropping others.
+Monsters:
+When ever enter a room with a monster in it the monster will start fighting you. The monster will attack you everytime you do something other check your character status. You can attack the monster back by typing the attack command. You can only attack a monster if you have a weapon equiped. Attacking a monster will deal damage to it based off the power of your equiped weapon and your base attack stat. Both monsters and players can also have equip armor and/or base defence stats. Thesse reduce how much damage they take from attacks. When you or a monster takes damage its current health lowers by that amount. When a monster reaches zero health it is defeated and doesn't attack the player any more. When you health reaches zero the game is over.Note that if you leave a room with a monster and then latter return the monster will respawn at full health, even if you killed it, so be careful before leaving rooms that had monsters.
 
 
-Whenever enter a room with a monster in it the monster will start fighting you. The monster will attack you every time you do something other check your character status. You can attack the monster back by typing the attack command. You can only attack a monster if you have a weapon equipped. Attacking a monster will deal damage to it based off the power of your equipped weapon and your base attack stat. Both monsters and players can also have equip armor and/or base defence stats. These reduce how much damage they take from attacks. When you or a monster takes damage its current health lowers by that amount. When a monster reaches zero health it is defeated and doesn't attack the player any more. When your health reaches zero the game is over. Note that if you leave a room with a monster and then latter return the monster will respawn at full health, even if you killed it, so be careful before leaving rooms that had monsters.
+
+
+
+
+
+2D Game Mode:
+If you choose the 2D game mode, The World of Zull is a 2D top down view. Your display should show a large room with a small human in the middle of it as well as some text off to the side and a text field in the bottom corner. The room should also have several exits and maybee an item on the floor.That small human is your character. The text off to the side is where status updates are displayed and the text field in the bottom corner is where commands can be entered and is called the command line.
+
+Moving:
+To move your character simply click somewhere in the room and he will walk there. If you walk over top of an item, your character will try to pick it up. If you walk to an exit you will go into an adjacent room. If you move into a monster you attack it. Notice that walking over items or exits also causes text to be writen to the side. This text gives you addtional information about what is happening in the game shuch as what room you entered or what item you picked up.
+
+Items:
+When your character walks over an item your character will try to pick it up. If you are allready carrying your maximium wieght capacity, you will not pick up the item and a message telling you that will be displayed to the side. If you latter drop an item then you can come back to pick the item up.
+
+Monsters:
+Some rooms also have monsters in them. To fight a monster simply walk into it. Both you and the monster will attack each other once. If you want to attack it agian, back up and walk into it agian. The result of each attack is displayed to the side, including how much damge you dealt and how much damage you recieved. If you health reaches zero you die and the game ends. Some monsters have tresure in it's room that they're gaurding. If you try to pickup the treasure before the monster is defeated, the monster will attack you. You can stop fighting the monster and leave the room any time you want, but be careful becuase monsters heal every time you leave it's room.
+
+Text Commands:
+In the bottom corner you can enter commands into the text field.This is called the command line. All commands that are described in the text view work if entered here.
+
+Inventory:
+To check your inventory enter "inventory" into the command line. To use an item you've picked up enter "inventory ItemName" into the command line where "ItemName" is the item you wish to use. Using a weapon or armor equips it, while a health item consumes it. To drop an item enter drop ItemName" into the command line where "ItemName" is the item you wish to drop. The item should apear at your feet.
+
+Character:
+Your character has current and maximium health, a carry capacity, an equiped weapon and armor. Typing character into the command line displays this information.
+
+
+
+

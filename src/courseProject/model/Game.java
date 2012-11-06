@@ -59,10 +59,6 @@ public class Game
         redoStack = new Stack<Player>();
         createRooms();
     }
-    /**
-     * starting point of the game
-     * @param args
-     */
     
     /**
      * Adds a listener to the game model
@@ -71,8 +67,6 @@ public class Game
     public void addModelListeners(ModelListener listener){
     	listeners.add(listener);
     }
-    
-
 
     /**
      * Create all the rooms and link their exits together.
@@ -109,7 +103,7 @@ public class Game
             orb = ImageIO.read(new File("res\\Orb of Blood.png"));
         } catch (IOException e) {
         }
-        Item magicOrb = new Item2D("magic orb","orb those enemies",12,ItemType.weapon,10, orb);
+        Item magicOrb = new Item2D("magicOrb","orb those enemies",12,ItemType.weapon,10, orb);
         ((Item2D)magicOrb).setLocation(new Point(225,275));
         
         

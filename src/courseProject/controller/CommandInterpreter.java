@@ -35,6 +35,8 @@ public class CommandInterpreter implements InputListener
     
     /**
      * Create a parser to read from the terminal window.
+     * @param view what version of the view using
+     * @param game the game you are playing
      */
     public CommandInterpreter(View view, Game game) {
         this.view = view;
@@ -70,7 +72,8 @@ public class CommandInterpreter implements InputListener
     
     
     /**
-     * 
+     * The start of the program
+     * has user select the type of view (text/2d/3d)
      * @param args
      */
     public static void main(String[] args){
@@ -97,6 +100,7 @@ public class CommandInterpreter implements InputListener
     	}
     	else {
     		view = new ViewText();
+    		view.displayMessage("No such view exists yet, switching to text view");
     	}
     	
     	Game game = new Game();
@@ -119,8 +123,14 @@ public class CommandInterpreter implements InputListener
         	view.update(delta);
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
+            	JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);
+            	view.dispose();
             	break;
             }
+            try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+			}
         }
     }
 }
