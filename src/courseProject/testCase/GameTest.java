@@ -58,32 +58,22 @@ public class GameTest {
 	@Test
 	public void testTake()
 	{
-		game.goRoom(new Command(CommandWord.go,"south"));
-		game.goRoom(new Command(CommandWord.go,"east"));
-		assertTrue(game.take(new Command(CommandWord.take,"broom")));
+		assertTrue(game.take(new Command(CommandWord.take,"magicOrb")));
 	}
 	
 	@Test
 	public void testDrop()
 	{
-		game.goRoom(new Command(CommandWord.go,"south"));
-		game.goRoom(new Command(CommandWord.go,"east"));
-		game.take(new Command(CommandWord.take,"broom"));
-		assertTrue(game.drop(new Command(CommandWord.drop,"broom")));
+		game.take(new Command(CommandWord.take,"magicOrb"));
+		assertTrue(game.drop(new Command(CommandWord.drop,"magicOrb")));
 	}
 	
 	@Test
 	public void testAttack()
 	{
-		//go get a weapon
-		game.goRoom(new Command(CommandWord.go,"south"));
+		game.take(new Command(CommandWord.take,"magicOrb"));
+		game.inventory(new Command(CommandWord.inventory,"magicOrb"));
 		game.goRoom(new Command(CommandWord.go,"east"));
-		game.take(new Command(CommandWord.take,"broom"));
-		game.inventory(new Command(CommandWord.inventory,"broom"));
-		//go to fight the prof
-		game.goRoom(new Command(CommandWord.go,"west"));
-		game.goRoom(new Command(CommandWord.go,"north"));
-		game.goRoom(new Command(CommandWord.go,"east"));
-		assertTrue(game.attack(new Command(CommandWord.attack,"prof")));
+		assertTrue(game.attack(new Command(CommandWord.attack,"Orc")));
 	}	
 }
