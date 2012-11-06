@@ -101,9 +101,19 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			if(drawable.getClass().equals(Player2D.class)) { //if the element is the player, 
 				
 				for(Drawable2D other : drawList){ //loop over each drawable
-					if(other.getClass().equals(Player2D.class) || other.getClass().equals(Room2D.class)) {
+					if(other.getClass().equals(Player2D.class)) {
 						continue; //continue on if it is the room or the player again
 					}
+					if(other.getClass().equals(Room2D.class)) {
+						String direction = ((Room2D)other).inExitBounds(drawable.getBounds());
+						if(direction!=null) {
+							notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction)));
+							Point newPlayerLocation = new Point(other.getBounds().width/2, other.getBounds().height/2);
+							drawable.setLocation(newPlayerLocation);
+							drawable.moveTo(newPlayerLocation);
+						}
+					}
+					
 					if(drawable.collidesWith(other)) { //check if it is colliding with the other drawable
 						if(other.getClass().equals(Monster2D.class)) {
 							String monsterName = ((Monster2D)other).getName(); //send input messages if it does collide

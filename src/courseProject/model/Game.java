@@ -101,7 +101,6 @@ public class Game
         outside.addExit("east",theater);
         outside.addExit("south",lab);
         outside.addExit("west",pub);
-        outside.addExit("north", office);
         theater.addExit("west",outside);
         pub.addExit("east",outside);
         lab.addExit("north",outside);
