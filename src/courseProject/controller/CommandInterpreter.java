@@ -35,6 +35,8 @@ public class CommandInterpreter implements InputListener
     
     /**
      * Create a parser to read from the terminal window.
+     * @param view what version of the view using
+     * @param game the game you are playing
      */
     public CommandInterpreter(View view, Game game) {
         this.view = view;
@@ -70,7 +72,8 @@ public class CommandInterpreter implements InputListener
     
     
     /**
-     * 
+     * The start of the program
+     * has user select the type of view (text/2d/3d)
      * @param args
      */
     public static void main(String[] args){
@@ -97,6 +100,7 @@ public class CommandInterpreter implements InputListener
     	}
     	else {
     		view = new ViewText();
+    		view.displayMessage("No such view exists yet, switching to text view");
     	}
     	
     	Game game = new Game();

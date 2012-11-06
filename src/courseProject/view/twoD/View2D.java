@@ -180,7 +180,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		
 	}
 	@Override
-	public void end(){
+	public void dispose(){
 		mainWindow.dispose();
 	}
 
