@@ -23,8 +23,8 @@ public interface Drawable2D {
 	/**The Starting Y Location for the Drawable Object*/
 	public static final int DEFAULT_Y = 0;
 	
-	/**The amount of time between interpolation updates in seconds*/
-	public static final float INTERPOLATION_STEPS = 0.25f;
+	/**The amount of time between interpolation updates in nano seconds*/
+	public static final float INTERPOLATION_STEPS = 1000000f;
 	
 	/**
 	 * Gets the point on the screen where the drawable object will be drawn.

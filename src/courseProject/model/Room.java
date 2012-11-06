@@ -26,10 +26,10 @@ import java.util.ArrayList;
 
 public class Room 
 {
-    private String description;
-    private Map<String,Room> exits;
-    private Inventory items;
-    private List<Monster> monsters;
+	protected String description;
+    protected Map<String,Room> exits;
+    protected Inventory items;
+    protected List<Monster> monsters;
 
     /**
      * Create a room described "description". Initially, it has

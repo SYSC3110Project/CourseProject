@@ -29,7 +29,7 @@ public class ItemTest {
 	public void testCopyConstructor() { // this method will also test to make sure the equals works properly
 		Item copy = new Item(item);
 		
-		assertEquals("Item copied using copy constructor: ",item, copy); 
+		assertTrue("Item copied using copy constructor: ",item.equals(copy)); 
 		assertNotSame("Item copied is not a reference to the same item: ",item, copy);
 	}
 	

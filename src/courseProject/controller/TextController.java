@@ -8,9 +8,17 @@ import java.util.Scanner;
  */
 public class TextController {
     private Scanner reader;         // source of command input
+    /**
+     * constructor for textController
+     * makes a new Scanner
+     */
     public TextController(){
         reader = new Scanner(System.in);
     }
+    /**
+     * reads typed text from player
+     * @return InputEvent the contains the command
+     */
 	public InputEvent getText(){
 
         String inputLine;   // will hold the full input line
@@ -21,6 +29,11 @@ public class TextController {
         Command com = getCommand(inputLine);
 		return new InputEvent(com);
 	}
+	/**
+	 * Gets command from a string
+	 * @param inputLine the string to convert to command
+	 * @return the command object representing the command
+	 */
 	private Command getCommand(String inputLine) {
         String word1 = null;
         String word2 = null;
