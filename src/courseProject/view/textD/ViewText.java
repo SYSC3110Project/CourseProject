@@ -34,14 +34,6 @@ public class ViewText implements ModelListener, View {
 		inputListeners = new ArrayList<InputListener>();
 		texCom = new TextController();
 	}
-
-	/**
-	 * updates the view based on the changes to the model
-	 */
-	public void update(ModelChangeEvent event)
-	{
-		displayMessage(event.getMessage());
-	}
 	/**
 	 * Gets the command from the user
 	 * @return the next command input by the user

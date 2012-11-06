@@ -59,10 +59,6 @@ public class Game
         redoStack = new Stack<Player>();
         createRooms();
     }
-    /**
-     * starting point of the game
-     * @param args
-     */
     
     /**
      * Adds a listener to the game model
@@ -71,8 +67,6 @@ public class Game
     public void addModelListeners(ModelListener listener){
     	listeners.add(listener);
     }
-    
-
 
     /**
      * Create all the rooms and link their exits together.
