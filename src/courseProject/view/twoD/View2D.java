@@ -2,8 +2,6 @@ package courseProject.view.twoD;
 
 import javax.swing.*;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -51,19 +49,6 @@ public class View2D extends ViewText implements MouseListener{
 		
 	}
 	
-	
-	/**
-	 * paints all the drawable components to the gamePanel
-	 * @param g
-	 */
-	public void paint(Graphics g) {
-		Graphics2D graphics2D = (Graphics2D)g;
-		for(Drawable2D drawable : drawList){
-			drawable.update(0);
-			drawable.draw(graphics2D);
-		}
-	}
-	
 	/**
 	 * Moves the character to the coordinates specified by the mouse event
 	 * @param e
@@ -73,10 +58,9 @@ public class View2D extends ViewText implements MouseListener{
 		for(Drawable2D drawable : drawList){
 			if(drawable.getClass().getName() == "courseProject.view.twoD.drawable.Player2D"){
 				drawable.moveTo(e.getCoordinates());
-				System.out.println("bla");
+				System.out.println("Player at point: " + drawable.getLocation().getX() + " " + drawable.getLocation().getY());
 			}
 		}
-		//paint(gamePanel.getGraphics());
 	}
 	
 	
@@ -88,7 +72,7 @@ public class View2D extends ViewText implements MouseListener{
 		System.out.println(e.getMessage());
 		drawList = e.getDrawable();
 		drawArea.updateDrawable(drawList);
-		//paint(gamePanel.getGraphics());
+		drawArea.repaint();
 		
 	}
 	/**
@@ -98,7 +82,7 @@ public class View2D extends ViewText implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent mouse) {
 		notifyInputListeners(new InputEvent2D(new Point(mouse.getX(),mouse.getY())));
-		
+		//System.out.println(drawList.size());
 		
 		
 	}
