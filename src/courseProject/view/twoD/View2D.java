@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import courseProject.controller.Command;
 import courseProject.controller.CommandWord;
@@ -42,6 +43,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	
 	private JButton inventoryButton;
 	private JTextArea textArea;
+	private JTextField inputField;
 	
 	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 	
@@ -66,14 +68,35 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		
 		inventoryButton = new JButton("Inventory");
 		inventoryButton.addActionListener(this);
+		inventoryButton.setEnabled(false);
+		
+		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		
+		JPanel inputFieldPane = new JPanel(new BorderLayout());
+		
+		inputField = new JTextField();
+		inputField.addActionListener(this);
+		
+		JLabel inputLabel = new JLabel(" >");
+		
+		inputFieldPane.add(inputLabel, BorderLayout.WEST);
+		inputFieldPane.add(inputField, BorderLayout.CENTER);
+		
+		
+		
+		textAreaPanel.add(scrollPane, BorderLayout.CENTER);
+		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
+		
 		JPanel gameContent = new JPanel(new GridLayout(1,2));
 		
 		gameContent.add(drawArea);
-		gameContent.add(textArea);
+		gameContent.add(textAreaPanel);
 		
 		mainWindow.add(gameContent, BorderLayout.CENTER);
 		mainWindow.add(inventoryButton, BorderLayout.SOUTH);
@@ -200,8 +223,40 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource().getClass().equals(JButton.class)) {
+			JButton pressed = (JButton)(event.getSource());
+			if(pressed.getText().equals("inventory")) {
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
+			}
+			else {
+				
+			}
+		}
+		if(event.getSource().getClass().equals(JTextField.class)) {
+			JTextField source = (JTextField)(event.getSource());
+			
+			displayMessage(source.getText());
+			
+			String word1 = null;
+	        String word2 = null;
+
+	        Scanner tokenizer = new Scanner(source.getText());
+	        if(tokenizer.hasNext()) {
+	        	word1 = tokenizer.next();      // get first word
+	        	if(tokenizer.hasNext()) {
+	        		word2 = tokenizer.next();      // get second word
+	        		// note: we just ignore the rest of the input line.
+	        	}
+	        }
+	        tokenizer.close();
+	        System.out.println(word1+" "+word2);
+
+	        Command toNotify = new Command(CommandWord.getCommandFromString(word1), word2);
+			notifyInputListeners(new InputEvent2D(toNotify));
+			
+			source.setText("");
+		}
 	}
 
 	
