@@ -224,7 +224,7 @@ public class Game
         		redoStack.clear();
         	}
         	else if(undoStack.peek().getRoom().getDescription() != (mc.getRoom().getDescription())){ //We already have the Checkpoint on the stack
-        		undoStack.add(new Player((Player2D)mc));
+        		undoStack.add(new Player2D((Player2D)mc));
         	}
         }
         
