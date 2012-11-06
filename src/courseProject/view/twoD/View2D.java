@@ -42,6 +42,9 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private List<Drawable2D> drawList;
 	
 	private JButton inventoryButton;
+	private JButton characterButton;
+	private JButton helpButton;
+	private JButton quitButton;
 	private JTextArea textArea;
 	private JTextField inputField;
 	
@@ -66,9 +69,24 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		drawArea = new Drawable2DArea();
 		drawArea.addMouseListener(this);
 		
+		JPanel buttonPanel = new JPanel(new GridLayout(1,4));
+		
 		inventoryButton = new JButton("Inventory");
 		inventoryButton.addActionListener(this);
-		inventoryButton.setEnabled(false);
+		
+		characterButton = new JButton("Character");
+		characterButton.addActionListener(this);
+		
+		helpButton = new JButton("Help");
+		helpButton.addActionListener(this);
+		
+		quitButton = new JButton("Quit");
+		quitButton.addActionListener(this);
+		
+		buttonPanel.add(inventoryButton);
+		buttonPanel.add(characterButton);
+		buttonPanel.add(helpButton);
+		buttonPanel.add(quitButton);
 		
 		JPanel textAreaPanel = new JPanel(new BorderLayout());
 		
@@ -102,8 +120,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		gameContent.setToolTipText("Game Visuals");
 		
 		mainWindow.add(gameContent, BorderLayout.CENTER);
-		mainWindow.add(inventoryButton, BorderLayout.SOUTH);
-		
+		mainWindow.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -257,11 +274,17 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().getClass().equals(JButton.class)) {
 			JButton pressed = (JButton)(event.getSource());
-			if(pressed.getText().equals("inventory")) {
+			if(pressed.equals(inventoryButton)) {
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
 			}
-			else {
-				
+			else if(pressed.equals(characterButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
+			}
+			else if(pressed.equals(helpButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
+			}
+			else if(pressed.equals(quitButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.quit,null)));
 			}
 		}
 		if(event.getSource().getClass().equals(JTextField.class)) {
