@@ -15,23 +15,23 @@ public class Item
 {
     private int weight;	
     private String name;	
-    private String desc;
+    private String description;
     private ItemType type;
     private int value;		//damage for weapons, healing power for health, defence for armor
 
     /**
      * Constructor for Item takes in all the information pertaining to an item.
      * @param name The name of the item
-     * @param desc A description of the item
+     * @param description A description of the item
      * @param weight The item's weight
      * @param type The type of Item
      * @param value The value for the associated item; damage for weapons, healing power for health, defence for armor
      */
     public Item(String name, String description, int weight, ItemType type, int value)
     {
+    	this.weight = weight;
         this.name = name;
-        this.desc = description;
-        this.weight = weight;
+        this.description = description;
         this.type = type;
         this.value = value;
     }
@@ -44,7 +44,7 @@ public class Item
     public Item(Item toCopy){
     	
     	name = toCopy.name;
-    	desc = toCopy.desc;
+    	description = toCopy.description;
     	weight = toCopy.weight;
     	type = toCopy.type;
     	value = toCopy.value;
@@ -71,7 +71,7 @@ public class Item
      * @return the description of the item.
      */
     public String getDesc(){
-        return desc;
+        return description;
     }
     
     /**
@@ -95,7 +95,7 @@ public class Item
     	StringBuffer buff = new StringBuffer();
     	buff.append(name);
     	buff.append(": ");
-    	buff.append(desc);
+    	buff.append(description);
     	buff.append(",\nType: ");
     	buff.append(type.name());
     	buff.append(",\n");
@@ -113,11 +113,11 @@ public class Item
     	if(other.getClass().equals(this.getClass())) {
     		Item toCompare = (Item) other;
     		boolean equal = (other == this) || //if they are the same object
-    						((this.desc.equals(toCompare.desc)) && //compare each property of the item
+    						((this.description.equals(toCompare.description)) && //compare each property of the item
     						(this.name.equals(toCompare.name)) &&
     						(this.type.equals(toCompare.type)) &&
     						(this.value == toCompare.value) &&
-    						(this.weight == toCompare.value));
+    						(this.weight == toCompare.weight));
     		return equal;    		
     	}
     	

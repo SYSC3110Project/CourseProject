@@ -125,7 +125,6 @@ public class Inventory {
             if(i!=items.size()-1) {
             	buff.append(", ");
             }
-            System.out.println(buff);
         }
         return buff.toString();
     }

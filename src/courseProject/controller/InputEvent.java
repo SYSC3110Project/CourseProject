@@ -3,6 +3,8 @@
  */
 package courseProject.controller;
 
+import courseProject.controller.Command;
+
 /**
  * @author Matthew Smith
  * @author Mike Hamon
@@ -17,10 +19,9 @@ public class InputEvent {
 	 * 
 	 */
 	public InputEvent(Command command) {
-		// TODO Auto-generated constructor stub
 		this.command = command;
 	}
-	
+
 	public Command getCommand(){
 		return command;
 	}
