@@ -14,6 +14,7 @@
  */
 
 package courseProject.model;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -82,48 +83,77 @@ public class Game
       
         // create the rooms
        // BufferedImage orb = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB); 
-        BufferedImage orb = null;
+        
+        BufferedImage basicRoom = null;
+        
         try {
-            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
+            basicRoom = ImageIO.read(new File("res\\BasicRoom.png"));
         } catch (IOException e) {
         }
-        outside = new Room2D("outside the main entrance of the university", orb);
-        theater = new Room2D("in a lecture theater", orb);
-        pub = new Room2D("in the campus pub", orb);
-        lab = new Room2D("in a computing lab", orb);
-        office = new Room2D("in the computing admin office", orb);
+        
+        outside = new Room2D("outside the main entrance of the university", basicRoom);
+        theater = new Room2D("in a lecture theater", basicRoom);
+        pub = new Room2D("in the campus pub", basicRoom);
+        lab = new Room2D("in a computing lab", basicRoom);
+        office = new Room2D("in the computing admin office", basicRoom);
         
         // initialize room exits
         outside.addExit("east",theater);
         outside.addExit("south",lab);
         outside.addExit("west",pub);
+        outside.addExit("north", office);
         theater.addExit("west",outside);
         pub.addExit("east",outside);
         lab.addExit("north",outside);
         lab.addExit("east",office);
         office.addExit("west",lab);
         
+        
+        BufferedImage orb = null;
+        try {
+            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
+        } catch (IOException e) {
+        }
+        
+        
         // initialize items in rooms
         Item stapler = new Item2D("stapler","fear it",3,ItemType.weapon,4, orb);
-        Item broom = new Item2D("broom","sweap your foes away",12,ItemType.weapon,10, orb);
+        Item broom = new Item2D("magic orb","orb those enemies",12,ItemType.weapon,10, orb);
+        ((Item2D)broom).setLocation(new Point(225,275));
         Item beer1 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
         Item beer2 = new Item2D("beer", "nice and cold", 4, ItemType.health, 2, orb);
         Item textBook = new Item2D("textbook", "its really thick", 5, ItemType.armor, 3, orb);
         
         //
         office.drop(stapler);
-        office.drop(broom);
+        outside.drop(broom);
         pub.drop(beer1);
         pub.drop(beer2);
         theater.drop(textBook);
         
+        BufferedImage orc = null;
+        try {
+            orc = ImageIO.read(new File("res\\Orc.png"));
+        } catch (IOException e) {
+        }
+        
+        
         //initialize creatures
-        Monster m = new Monster2D("prof", 10, 1, 1, 4, 2, orb);
+        Monster m = new Monster2D("Orc", 10, 1, 1, 4, 2, orc);
     	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6, orb));
         theater.addMonster(m);
+        
+        
+        BufferedImage george = null;
+        try {
+        	george = ImageIO.read(new File("res\\SingleGeorge.png"));
+        } catch (IOException e) {
+        }
 
         //initialize player
-        mc = new Player2D(outside,20,1,1, orb);
+        mc = new Player2D(outside,20,1,1, george);
+        ((Player2D)mc).setLocation(new Point(75,150));
+        
     }
     
     
@@ -251,8 +281,9 @@ public class Game
      */
     private void notifyListeners(String msg){
     	List<Drawable2D> drawList = new ArrayList<Drawable2D>();
-    	drawList.add((Drawable2D)mc);
+    	//NOTE: These must be added in their reverse draw priority.
     	drawList.add((Drawable2D)mc.getRoom());
+    	drawList.add((Drawable2D)mc);    	
     	for(Monster m : mc.getRoom().getMonsters()){
     		if(!m.isDead()){
     			drawList.add((Drawable2D)m);
@@ -261,6 +292,7 @@ public class Game
     	for(Item i : mc.getRoom().getItems()){
     		drawList.add((Drawable2D)i);
     	}
+    	
     	for(ModelListener listener : listeners){
     		listener.handleModelChangeEvent(new ModelChangeEvent(msg, drawList));
     	}

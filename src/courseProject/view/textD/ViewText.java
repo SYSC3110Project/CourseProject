@@ -34,21 +34,13 @@ public class ViewText implements ModelListener, View {
 		inputListeners = new ArrayList<InputListener>();
 		texCom = new TextController();
 	}
-	/**
-	 * The text view displays by printing a string to the console
-	 * @param message
-	 */
-	public void display(String message)
-	{
-		System.out.println(message);
-		
-	}
+
 	/**
 	 * updates the view based on the changes to the model
 	 */
 	public void update(ModelChangeEvent event)
 	{
-		display(event.getMessage());
+		displayMessage(event.getMessage());
 	}
 	/**
 	 * Gets the command from the user

@@ -7,6 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import courseProject.model.Room;
 
@@ -19,6 +25,8 @@ public class Room2D extends Room implements Drawable2D {
 	
 	private BufferedImage sprite;
 	private Rectangle bounds;
+	
+	private Map<String, BufferedImage> exitImages;
 
 	/**
 	 * Create a room described "description". Initially, it has
@@ -31,6 +39,7 @@ public class Room2D extends Room implements Drawable2D {
 		super(description);
 		this.sprite = sprite;// use 0,0 as origin
 		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getWidth(), this.sprite.getHeight());
+		this.exitImages = new HashMap<String, BufferedImage>();
 	}
 
 	/**
@@ -41,7 +50,50 @@ public class Room2D extends Room implements Drawable2D {
 		super(toCopy);
 		this.sprite = toCopy.sprite;
 		this.bounds = toCopy.bounds;
+		this.exitImages = new HashMap<String, BufferedImage>(toCopy.exitImages);
 	}
+	
+	/**
+     * Adds an exit to this room in the passed direction.
+     * @param dir The direction of the exit.
+     * @param exit The room the exit connects to.
+     */
+    public void addExit(String dir, Room exit) {
+        exits.put(dir,exit);
+        
+        if(dir.equals("north")) {
+        	BufferedImage northExit;
+        	try {
+        		northExit = ImageIO.read(new File("res\\NorthExit.png"));
+        		exitImages.put(dir, northExit);
+            } catch (IOException e) {
+            }
+        }
+        else if(dir.equals("south")) {
+        	BufferedImage northExit;
+        	try {
+        		northExit = ImageIO.read(new File("res\\SouthExit.png"));
+        		exitImages.put(dir, northExit);
+            } catch (IOException e) {
+            }
+		}
+        else if(dir.equals("east")) {
+        	BufferedImage northExit;
+        	try {
+        		northExit = ImageIO.read(new File("res\\EastExit.png"));
+        		exitImages.put(dir, northExit);
+            } catch (IOException e) {
+            }
+		}
+        else if(dir.equals("west")) {
+        	BufferedImage northExit;
+        	try {
+        		northExit = ImageIO.read(new File("res\\WestExit.png"));
+        		exitImages.put(dir, northExit);
+            } catch (IOException e) {
+            }
+		}
+    }
 
 	@Override
 	public Point getLocation() {
@@ -79,6 +131,24 @@ public class Room2D extends Room implements Drawable2D {
 	public void draw(Graphics2D graphics2d) {
 		
 		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+		for(String direction : exits.keySet()) { //Very Hackish
+			if(direction.equals("north")) {
+				BufferedImage img = exitImages.get(direction);
+				graphics2d.drawImage(img, 115, 0, img.getWidth(), img.getHeight(), null);
+	        }
+	        else if(direction.equals("south")) {
+	        	BufferedImage img = exitImages.get(direction);
+				graphics2d.drawImage(img, 100, 355, img.getWidth(), img.getHeight(), null);
+			}
+	        else if(direction.equals("east")) {
+	        	BufferedImage img = exitImages.get(direction);
+				graphics2d.drawImage(img, 313, 105, img.getWidth(), img.getHeight(), null);
+			}
+	        else if(direction.equals("west")) {
+	        	BufferedImage img = exitImages.get(direction);
+				graphics2d.drawImage(img, 0, 102, img.getWidth(), img.getHeight(), null);
+			}
+		}
 	}
 	
 	@Override

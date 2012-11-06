@@ -1,7 +1,11 @@
 package courseProject.controller;
 
+import javax.swing.JOptionPane;
+
 import courseProject.model.Game;
+import courseProject.model.ModelListener;
 import courseProject.view.View;
+import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
 
 /**
@@ -48,11 +52,11 @@ public class CommandInterpreter implements InputListener
     	if(e.getClass().equals(InputEvent2D.class)){
     		if(e.getCommand() == null){
     			((View2D) view).moveCharacter((InputEvent2D)e);
+    			return;
     		}
     	}
-    	else{
-    		finished = game.processCommand(e.getCommand());
-    	}
+    	finished = game.processCommand(e.getCommand());
+    	
     	
     }
 
@@ -70,11 +74,35 @@ public class CommandInterpreter implements InputListener
      * @param args
      */
     public static void main(String[] args){
-    	View2D view = new View2D();
+    	
+    	Object[] options = {"Text-Based",
+                "2D Game",
+                "3D Game"};
+    	
+    	Object viewOption = JOptionPane.showInputDialog(null,
+				"Welcome to the World of Nameless\nWhich version of the game would you like to play? ",
+				"Game Mode Selection",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[1]);
+    	
+    	View view ;
+    	
+    	if(viewOption.equals(options[0])) { // Text-Based Option
+    		view =  new ViewText();
+    	}
+    	else if (viewOption.equals(options[1])) { // 2D option
+    		view = new View2D();
+    	}
+    	else {
+    		view = new ViewText();
+    	}
+    	
     	Game game = new Game();
     	CommandInterpreter c = new CommandInterpreter(view, game);
 
-    	game.addModelListeners(view);
+    	game.addModelListeners((ModelListener)view);
     	c.play();
     	view.dispose();
     }
