@@ -34,7 +34,6 @@ public class ViewText implements ModelListener, View {
 		inputListeners = new ArrayList<InputListener>();
 		texCom = new TextController();
 	}
-
 	/**
 	 * Gets the command from the user and notifies listener
 	 */

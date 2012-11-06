@@ -123,8 +123,13 @@ public class CommandInterpreter implements InputListener
         	view.update(delta);
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
+            	view.dispose();
             	break;
             }
+            try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+			}
         }
     }
 }

@@ -37,11 +37,13 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JFrame mainWindow;
 	//private JPanel gamePanel;
 	private Drawable2DArea drawArea;
+	private Player2D player;
 	private List<Drawable2D> drawList;
 	
 	private JButton inventoryButton;
 	private JTextArea textArea;
 	
+	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 	
 	/**
 	 * Constructor for the 2D view, creates JPanel within a frame and initializes
@@ -104,36 +106,44 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	public void update(double delta) {
 		
 		for(Drawable2D drawable : drawList){
-			drawable.update(delta);
-			 //collision detection is complicated
-			if(drawable.getClass().equals(Player2D.class)) { //if the element is the player, 
+			drawable.update(delta); //update the drawable
+			
+			if(!(drawable.equals(player))) { //if the drawable is not the player
 				
-				for(Drawable2D other : drawList){ //loop over each drawable
-					if(other.getClass().equals(Player2D.class)) {
-						continue; //continue on if it is the room or the player again
+				if(drawable.getClass().equals(Room2D.class)) {
+					String direction = ((Room2D)drawable).inExitBounds(player.getBounds());
+					if(direction!=null) { //if the player is in the exit bounds
+						notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction)));
+						Point newPlayerLocation = new Point(drawable.getBounds().width/2, drawable.getBounds().height/2);
+						player.setLocation(newPlayerLocation); //set player to the middle of the room
 					}
-					if(other.getClass().equals(Room2D.class)) {
-						String direction = ((Room2D)other).inExitBounds(drawable.getBounds());
-						if(direction!=null) {
-							notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction)));
-							Point newPlayerLocation = new Point(other.getBounds().width/2, other.getBounds().height/2);
-							drawable.setLocation(newPlayerLocation);
-							drawable.moveTo(newPlayerLocation);
-						}
-					}
-					
-					if(drawable.collidesWith(other)) { //check if it is colliding with the other drawable
-						if(other.getClass().equals(Monster2D.class)) {
-							String monsterName = ((Monster2D)other).getName(); //send input messages if it does collide
+					continue;
+				}
+				
+				//if the drawable is not the player and collides with the player
+				if(collidingWithObject == null) {
+					if(player.collidesWith(drawable)) {
+						if(drawable.getClass().equals(Monster2D.class)) { //if player collides with a monster
+							String monsterName = ((Monster2D)drawable).getName(); //send input messages if it does collide
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.attack, monsterName)));
+							
+							collidingWithObject = drawable;
 						}
-						if(other.getClass().equals(Item2D.class)) {
-							String itemName = ((Item2D)other).getName();
+						else if(drawable.getClass().equals(Item2D.class)) { //if player collides with an item
+							String itemName = ((Item2D)drawable).getName();
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.take, itemName)));
+	
+							collidingWithObject = drawable;
 						}
 					}
 				}
+				else {
+					if(!player.collidesWith(collidingWithObject)) { //check if you move out of the colliding objects bounds
+						collidingWithObject = null; //we are off the other object, set it to null
+					}
+				}
 			}
+			
 		}
 		
 		drawArea.repaint();
@@ -159,6 +169,11 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	public void handleModelChangeEvent(ModelChangeEvent e){
 		displayMessage(e.getMessage());
 		drawList = e.getDrawable();
+		for(Drawable2D drawable : drawList) {
+			if(drawable.getClass().equals(Player2D.class)) {
+				player = (Player2D)drawable;
+			}
+		}
 		drawArea.updateDrawable(drawList);
 	}
 	/**
@@ -204,6 +219,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void dispose(){
+		//put some kind of 'you have died' popup here
 		mainWindow.dispose();
 	}
 
