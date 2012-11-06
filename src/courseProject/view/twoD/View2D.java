@@ -75,20 +75,22 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		textArea.setCaretPosition(textArea.getDocument().getLength());
+		textArea.setToolTipText("What is happening to me");
 		
 		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setAutoscrolls(true);
 		
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 		
 		inputField = new JTextField();
 		inputField.addActionListener(this);
+		inputField.setToolTipText("Input Text commands here");
 		
 		JLabel inputLabel = new JLabel(" >");
 		
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
-		inputFieldPane.add(inputField, BorderLayout.CENTER);
-		
-		
+		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 		
 		textAreaPanel.add(scrollPane, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
@@ -97,6 +99,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		
 		gameContent.add(drawArea);
 		gameContent.add(textAreaPanel);
+		gameContent.setToolTipText("Game Visuals");
 		
 		mainWindow.add(gameContent, BorderLayout.CENTER);
 		mainWindow.add(inventoryButton, BorderLayout.SOUTH);
@@ -278,7 +281,6 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	        	}
 	        }
 	        tokenizer.close();
-	        System.out.println(word1+" "+word2);
 
 	        Command toNotify = new Command(CommandWord.getCommandFromString(word1), word2);
 			notifyInputListeners(new InputEvent2D(toNotify));

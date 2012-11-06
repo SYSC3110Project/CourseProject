@@ -123,6 +123,7 @@ public class CommandInterpreter implements InputListener
         	view.update(delta);
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
+            	JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);
             	view.dispose();
             	break;
             }
