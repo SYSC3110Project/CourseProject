@@ -262,7 +262,6 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void dispose(){
-		//put some kind of 'you have died' popup here
 		mainWindow.dispose();
 	}
 

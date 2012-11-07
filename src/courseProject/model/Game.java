@@ -146,11 +146,17 @@ public class Game
             orc = ImageIO.read(new File("res\\Orc.png"));
         } catch (IOException e) {
         }
-        
+        BufferedImage candyIcon = null;
+        try {
+            candyIcon = ImageIO.read(new File("res\\candy.png"));
+        } catch (IOException e) {
+        }
         
         //initialize creatures
         Monster m = new Monster2D("Orc", 10, 1, 1, 4, 2, orc);
-    	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6, orb));
+        Item2D candy = new Item2D("candy","yay sugar",1,ItemType.health,6, candyIcon);
+        candy.setLocation(new Point(250,125));
+    	m.addItem(candy);
     	((Monster2D)m).setLocation(new Point(220,60));
         closet.addMonster(m);
         
