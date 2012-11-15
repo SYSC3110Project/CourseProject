@@ -69,7 +69,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		drawArea = new Drawable2DArea();
 		drawArea.addMouseListener(this);
 		
-		JPanel buttonPanel = new JPanel(new GridLayout(1,4));
+		JPanel buttonPanel = new JPanel(new GridLayout(2,4));
 		
 		inventoryButton = new JButton("Inventory");
 		inventoryButton.addActionListener(this);
