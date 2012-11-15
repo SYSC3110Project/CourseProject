@@ -1,6 +1,7 @@
 package courseProject.view.twoD;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -93,7 +94,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setCaretPosition(textArea.getDocument().getLength());
+		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
 		
 		JScrollPane scrollPane = new JScrollPane(textArea);
