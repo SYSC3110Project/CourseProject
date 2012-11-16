@@ -9,11 +9,14 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import courseProject.model.Inventory;
+import courseProject.model.Monster;
 import courseProject.model.Room;
 
 /**
@@ -50,6 +53,14 @@ public class Room2D extends Room implements Drawable2D {
 	 */
 	public Room2D(Room2D toCopy) {
 		super(toCopy);
+		
+		items=new Inventory(toCopy.items);
+		ArrayList<Monster> monsterList = new ArrayList<Monster>();
+		for(Monster m: toCopy.monsters){
+    		monsterList.add(new Monster2D((Monster2D)m));
+    	}
+    	monsters  = monsterList;
+		
 		this.sprite = toCopy.sprite;
 		this.bounds = toCopy.bounds;
 		this.exitImages = new HashMap<String, BufferedImage>(toCopy.exitImages);
