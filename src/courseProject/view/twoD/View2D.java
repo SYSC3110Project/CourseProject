@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -280,6 +281,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			}
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
+				characterWindow();
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
@@ -312,8 +314,32 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			source.setText("");
 		}
 	}
-
 	
-	
-	
+	public void characterWindow()
+	{
+		JFrame characterWindow=new JFrame("Character");
+		
+		JTextField health= new JTextField(player.health());
+		health.setEditable(false);
+		
+		JTextField weapon= new JTextField(player.weapon());
+		weapon.setEditable(false);
+		
+		JTextField armor= new JTextField(player.armor());
+		armor.setEditable(false);
+		
+		
+		
+		characterWindow.setBounds(0, 0, 50, 150);
+		characterWindow.setResizable(false);
+		characterWindow.setLayout(new FlowLayout());
+		characterWindow.add(health);
+		characterWindow.add(weapon);
+		characterWindow.add(armor);
+		
+		
+		
+		characterWindow.setVisible(true);
+		
+	}
 }

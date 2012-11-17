@@ -233,6 +233,28 @@ public class Player extends Creature {
     	
     }
     
+    public String health()
+    {
+    	return "Health: " + health + "/" + healthMax;
+    }
+    
+    public String weapon()
+    {
+    	if(weapon==null){
+    		return "Weapon: none";
+    	}else{
+    		return "Weapon: "+weapon.getName();
+    	}
+    }
+    
+    public String armor()
+    {
+    	if(weapon==null){
+    		return "Armor: none";
+    	}else{
+    		return "Armor: "+armor.getName();
+    	}
+    }
     
     
     /**
@@ -241,22 +263,12 @@ public class Player extends Creature {
      */
     public String character(){
     	StringBuffer buff = new StringBuffer();
-    	buff.append("Health: ");
-    	buff.append(health);
-    	buff.append("/");
-    	buff.append(healthMax);
+    	buff.append(health());
+    	buff.append("\n");
+    	buff.append(weapon());
+    	buff.append("\n");
+    	buff.append(armor());
     	buff.append("\nWeapon: ");
-    	if(weapon==null){
-    		buff.append("none");
-    	}else{
-    		buff.append(weapon.getName());
-    	}
-    	buff.append("\nArmor: ");
-    	if(armor==null){
-    		buff.append("none");
-    	}else{
-    		buff.append(armor.getName());
-    	}
     	return buff.toString();
     }
     public boolean equals (Object o){
