@@ -226,6 +226,16 @@ public class Player extends Creature {
     			}
     			return s;
     	}
+    	else if(armor!=null && armor.getName().equals(name)){
+    		inv.add(armor);
+    		armor = null;
+    		return name+" was unequiped";
+    	}
+    	else if(weapon!=null && weapon.getName().equals(name)){
+    		inv.add(weapon);
+    		weapon = null;
+    		return name+" was unequiped";
+    	}
     	else
     	{
     		return "You don't have that";
@@ -249,7 +259,7 @@ public class Player extends Creature {
     
     public String armor()
     {
-    	if(weapon==null){
+    	if(armor==null){
     		return "Armor: none";
     	}else{
     		return "Armor: "+armor.getName();
@@ -280,5 +290,8 @@ public class Player extends Creature {
     		return true;
     	}
     	return false;
+    }
+    public Inventory getInventory(){
+    	return new Inventory(inv);
     }
 }

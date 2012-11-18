@@ -253,7 +253,7 @@ public class Game
         else if (commandWord.equals(CommandWord.drop)) {
             attackable = drop(command);
         }else if (commandWord.equals(CommandWord.inventory)){
-        	inventory(command);
+        	inventory();
         }else if (commandWord.equals(CommandWord.attack)){
         	attackable = attack(command);
         }else if (commandWord.equals(CommandWord.character)){
@@ -262,6 +262,8 @@ public class Game
         	undo();
         }else if (commandWord.equals(CommandWord.redo)){
         	redo();
+        }else if (commandWord.equals(CommandWord.use)){
+        	use(command);
         }
         if(attackable){
         	notifyListeners(mc.getRoom().monsterAttack(mc));
@@ -407,12 +409,20 @@ public class Game
    }
    
     /**
-     * Checks inventory (no second word) or uses an item in inventory
+     * Checks inventory
      * @param command
      */
-    public void inventory(Command command){
+    public void inventory(){
+    	notifyListeners(mc.showInv());
+        
+    }
+    /**
+     * uses an item in the inventory or unequips from character
+     * @param command
+     */
+    public void use(Command command){
     	if(!command.hasSecondWord()){
-            notifyListeners(mc.showInv());
+            notifyListeners("Use what?");
         }else{
             notifyListeners(mc.use(command.getSecondWord()));
         }
