@@ -7,14 +7,19 @@
 package courseProject.model;
 
 
+
+
 /** 
  * @author Micheal Hamon
  * @author Andrew Venus
  * @author Denis Dionne
  * @version 01/11/2012
  */
-public class Player extends Creature {
-    private int limit;
+public class Player extends Creature{
+    /**
+	 * 
+	 */
+	private int limit;
     protected Room currRoom;
     /**
      * Constructor for objects of class Player
@@ -226,6 +231,16 @@ public class Player extends Creature {
     			}
     			return s;
     	}
+    	else if(armor!=null && armor.getName().equals(name)){
+    		inv.add(armor);
+    		armor = null;
+    		return name+" was unequiped";
+    	}
+    	else if(weapon!=null && weapon.getName().equals(name)){
+    		inv.add(weapon);
+    		weapon = null;
+    		return name+" was unequiped";
+    	}
     	else
     	{
     		return "You don't have that";
@@ -233,6 +248,28 @@ public class Player extends Creature {
     	
     }
     
+    public String health()
+    {
+    	return "Health: " + health + "/" + healthMax;
+    }
+    
+    public String weapon()
+    {
+    	if(weapon==null){
+    		return "Weapon: none";
+    	}else{
+    		return "Weapon: "+weapon.getName();
+    	}
+    }
+    
+    public String armor()
+    {
+    	if(armor==null){
+    		return "Armor: none";
+    	}else{
+    		return "Armor: "+armor.getName();
+    	}
+    }
     
     
     /**
@@ -241,22 +278,12 @@ public class Player extends Creature {
      */
     public String character(){
     	StringBuffer buff = new StringBuffer();
-    	buff.append("Health: ");
-    	buff.append(health);
-    	buff.append("/");
-    	buff.append(healthMax);
+    	buff.append(health());
+    	buff.append("\n");
+    	buff.append(weapon());
+    	buff.append("\n");
+    	buff.append(armor());
     	buff.append("\nWeapon: ");
-    	if(weapon==null){
-    		buff.append("none");
-    	}else{
-    		buff.append(weapon.getName());
-    	}
-    	buff.append("\nArmor: ");
-    	if(armor==null){
-    		buff.append("none");
-    	}else{
-    		buff.append(armor.getName());
-    	}
     	return buff.toString();
     }
     public boolean equals (Object o){
@@ -268,5 +295,8 @@ public class Player extends Creature {
     		return true;
     	}
     	return false;
+    }
+    public Inventory getInventory(){
+    	return new Inventory(inv);
     }
 }

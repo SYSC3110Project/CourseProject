@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -18,6 +19,7 @@ import java.util.Scanner;
 import courseProject.controller.Command;
 import courseProject.controller.CommandWord;
 import courseProject.controller.InputEvent2D;
+import courseProject.model.Inventory;
 import courseProject.model.ExitDirection;
 import courseProject.model.ModelChangeEvent;
 import courseProject.model.Room;
@@ -104,7 +106,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		textArea.setToolTipText("What is happening to me");
 
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setAutoscrolls(true);
+		//scrollPane.setAutoscrolls(true);
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -294,15 +296,20 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			JButton pressed = (JButton)(event.getSource());
 			if(pressed.equals(inventoryButton)) {
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
+				inventoryWindow();
 			}
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
+				characterWindow();
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
 			}
 			else if(pressed.equals(quitButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.quit,null)));
+			}else{//inventory and character buttons
+				JButton src = (JButton)event.getSource();
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.use,""+src.getText())));
 			}
 		}
 		if(event.getSource().getClass().equals(JTextField.class)) {
@@ -329,8 +336,53 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			source.setText("");
 		}
 	}
-
-
-
-
+	
+	public void characterWindow()
+	{
+		JFrame characterWindow=new JFrame("Character");
+		
+		JTextField health= new JTextField(player.health());
+		health.setEditable(false);
+		
+		JButton weapon = new JButton(player.weapon().split(" ")[1]);
+		if(player.weapon().split(" ")[1].equals("none")){
+			weapon.setEnabled(false);
+		}
+		weapon.addActionListener(this);
+		
+		JButton armor = new JButton(player.armor().split(" ")[1]);
+		if(player.armor().split(" ")[1].equals("none")){
+			armor.setEnabled(false);
+		}
+		armor.addActionListener(this);
+		
+		characterWindow.setBounds(0, 0, 50, 150);
+		characterWindow.setResizable(false);
+		characterWindow.setLayout(new FlowLayout());
+		characterWindow.add(health);
+		characterWindow.add(weapon);
+		characterWindow.add(armor);
+		
+		
+		
+		characterWindow.setVisible(true);
+		
+	}
+	public void inventoryWindow(){
+		JFrame inventoryWin = new JFrame("Inventory");
+		Inventory inv = player.getInventory();
+		int y = inv.getSize();
+		if(y==0){
+			displayMessage("Inventory is empty");
+			return;
+		}
+		inventoryWin.setLayout(new GridLayout((y+2)/3,3));
+		for(int i = 0; i<y; i++){
+			JButton b = new JButton(inv.getItem(i).getName());
+			inventoryWin.add(b, i);
+			b.addActionListener(this);
+		}
+		inventoryWin.setBounds(0, 0, 300, 100*(y+2)/3);
+		inventoryWin.setVisible(true);
+	}
 }

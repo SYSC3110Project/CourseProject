@@ -40,7 +40,4 @@ public class InputEvent2D extends InputEvent {
 	public Point getCoordinates(){
 		return coordinates;
 	}
-	
-	
-
 }

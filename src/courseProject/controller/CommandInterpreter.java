@@ -55,9 +55,11 @@ public class CommandInterpreter implements InputListener
     	if(e.getClass().equals(InputEvent2D.class)){
     		if(e.getCommand() == null){
     			((View2D) view).moveCharacter((InputEvent2D)e);
+    			game.addUndo();
     			return;
     		}
     	}
+    	
     	finished = game.processCommand(e.getCommand());
     	
     	

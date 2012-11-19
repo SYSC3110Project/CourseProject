@@ -6,13 +6,15 @@ package courseProject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import courseProject.view.twoD.drawable.Item2D;
+
 /**
  * An inventory is a list of Items and there total weight. 
  * Rooms and Creatures have an inventory.
  * @author Andrew Venus
  * @version 04/11/12
  */
-public class Inventory {
+public class Inventory{
 	private List<Item> items;
 	private int mass;
 	
@@ -32,12 +34,17 @@ public class Inventory {
      */
 	public Inventory(Inventory inv)
 	{
-		items=new ArrayList<Item>();
-		mass=0;
-    	for(int i=0;i<inv.getSize();i++)
-    	{
-    		items.add(inv.getItem(i));
-    	}
+//		items=new ArrayList<Item>();
+//		mass=0;
+//    	for(int i=0;i<inv.getSize();i++)
+//    	{
+//    		items.add(inv.getItem(i));
+//    	}
+		ArrayList<Item> temp = new ArrayList<Item>();
+		for(Item i : inv.items){
+			temp.add(new Item2D((Item2D)i));
+		}
+		this.items = temp;
 	}
 	/**
 	 * adds the item to the inventory

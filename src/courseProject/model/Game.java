@@ -219,6 +219,7 @@ public class Game
             notifyListeners("I don't know what you mean...");
             return false;
         }
+        
 
         CommandWord commandWord = command.getCommandWord();
         
@@ -226,11 +227,11 @@ public class Game
         //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
         if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo))){
         	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
-        		undoStack.add(new Player2D((Player2D)mc));
+        		undoStack.push(new Player2D((Player2D)mc));
         		redoStack.clear();
         	}
         	else if(undoStack.peek().getRoom().getDescription() != (mc.getRoom().getDescription())){ //We already have the Checkpoint on the stack
-        		undoStack.add(new Player2D((Player2D)mc));
+        		undoStack.push(new Player2D((Player2D)mc));
         	}
         }
         
@@ -253,7 +254,7 @@ public class Game
         else if (commandWord.equals(CommandWord.drop)) {
             attackable = drop(command);
         }else if (commandWord.equals(CommandWord.inventory)){
-        	inventory(command);
+        	inventory();
         }else if (commandWord.equals(CommandWord.attack)){
         	attackable = attack(command);
         }else if (commandWord.equals(CommandWord.character)){
@@ -262,11 +263,12 @@ public class Game
         	undo();
         }else if (commandWord.equals(CommandWord.redo)){
         	redo();
+        }else if (commandWord.equals(CommandWord.use)){
+        	use(command);
         }
         if(attackable){
         	notifyListeners(mc.getRoom().monsterAttack(mc));
         }
-
         return wantToQuit;
     }
 
@@ -329,9 +331,12 @@ public class Game
 
         ExitDirection direction = ExitDirection.parse(command.getSecondWord());
         notifyListeners(mc.setRoom(direction));
-        undoStack.add(new Player2D((Player2D)mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
         
-    }    
+        if(undoStack.peek().getRoom().getDescription() != mc.getRoom().getDescription()){
+        	undoStack.push(new Player2D((Player2D)mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
+        }
+        
+    }
     
     /** 
      * "Quit" was entered. Check the rest of the command to see
@@ -405,12 +410,20 @@ public class Game
    }
    
     /**
-     * Checks inventory (no second word) or uses an item in inventory
+     * Checks inventory
      * @param command
      */
-    public void inventory(Command command){
+    public void inventory(){
+    	notifyListeners(mc.showInv());
+        
+    }
+    /**
+     * uses an item in the inventory or unequips from character
+     * @param command
+     */
+    public void use(Command command){
     	if(!command.hasSecondWord()){
-            notifyListeners(mc.showInv());
+            notifyListeners("Use what?");
         }else{
             notifyListeners(mc.use(command.getSecondWord()));
         }
@@ -452,9 +465,10 @@ public class Game
      * If you happen to undo twice, without doing any actions in between, then you will undo to the start of the previous room (and so forth)
      */
     public void undo(){
-		if(!(undoStack.isEmpty())){
+    	
+		if(!undoStack.isEmpty()){
     		Player temp = undoStack.pop();
-    		UpdateRoomReferences(temp);
+    		
     		redoStack.add(mc);
     		mc = temp;
     		
@@ -463,6 +477,7 @@ public class Game
 		else{
 			notifyListeners("nothing to undo");
 		}
+		
     }
     
     
@@ -472,8 +487,7 @@ public class Game
     public void redo(){
     	if(!(redoStack.isEmpty())){
     		Player temp = redoStack.pop();
-    		UpdateRoomReferences(temp);
-    		undoStack.add(mc);
+    		undoStack.push(mc);
     		mc = temp;
     		notifyListeners(mc.getRoom().getLoc());
     	}
@@ -482,21 +496,7 @@ public class Game
     		
     	}
     }
-    
-    
-    /**
-     * Helper method for the undo() and redo() commands
-     * Updates the references between rooms
-     * @param temp
-     */
-    public void UpdateRoomReferences(Player temp){
-    	for(ExitDirection s: temp.getRoom().getExitMap().keySet()){
-			Room2D adjacent = (Room2D)temp.getRoom().getExitMap().get(s);
-			adjacent.getExitMap().put(s, temp.getRoom());
-		}
-    }
-    
-    
+ 
     /**
      * getter method for the undoStack
      * @return the undoStack
@@ -512,4 +512,17 @@ public class Game
     public Stack<Player> getRedoStack(){
     	return redoStack;
     }
+    
+    
+    /**
+     * Adds an undo to the stack of undo events (needed in order to 
+     * to add undo events for every mouse click
+     */
+    public void addUndo(){
+    	undoStack.push(new Player2D((Player2D)mc));
+    }
+    
+    
+    
+    
 }
