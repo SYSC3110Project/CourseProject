@@ -88,14 +88,14 @@ public class Game
         office = new Room2D("in the office", basicRoom);
         
         // initialize room exits
-        outside.addExit("east",closet);
-        outside.addExit("south",lab);
-        outside.addExit("west",pub);
-        closet.addExit("west",outside);
-        pub.addExit("east",outside);
-        lab.addExit("north",outside);
-        lab.addExit("east",office);
-        office.addExit("west",lab);
+        outside.addExit(ExitDirection.east,closet);
+        outside.addExit(ExitDirection.south,lab);
+        outside.addExit(ExitDirection.west,pub);
+        closet.addExit(ExitDirection.west,outside);
+        pub.addExit(ExitDirection.east,outside);
+        lab.addExit(ExitDirection.north,outside);
+        lab.addExit(ExitDirection.east,office);
+        office.addExit(ExitDirection.west,lab);
         
         // initialize items in rooms
         BufferedImage orb = null;
@@ -327,13 +327,11 @@ public class Game
             return;
         }
 
-        String direction = command.getSecondWord();
+        ExitDirection direction = ExitDirection.parse(command.getSecondWord());
         notifyListeners(mc.setRoom(direction));
         undoStack.add(new Player2D((Player2D)mc)); //Add a checkpoint referencing the start of the current room (since we changed rooms)
         
-    }
-    
-    
+    }    
     
     /** 
      * "Quit" was entered. Check the rest of the command to see
@@ -492,20 +490,9 @@ public class Game
      * @param temp
      */
     public void UpdateRoomReferences(Player temp){
-    	for(String s: temp.getRoom().getExitMap().keySet()){
+    	for(ExitDirection s: temp.getRoom().getExitMap().keySet()){
 			Room2D adjacent = (Room2D)temp.getRoom().getExitMap().get(s);
-			if( s == "west"){
-				adjacent.getExitMap().put("east", temp.getRoom());
-			}
-			else if(s == "east"){
-				adjacent.getExitMap().put("west", temp.getRoom());
-			}
-			else if(s == "north"){
-				adjacent.getExitMap().put("south", temp.getRoom());
-			}
-			else{
-				adjacent.getExitMap().put("north", temp.getRoom());
-			}
+			adjacent.getExitMap().put(s, temp.getRoom());
 		}
     }
     

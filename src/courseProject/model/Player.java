@@ -51,7 +51,7 @@ public class Player extends Creature {
      * @param direction
      * @return string description of what happened
      */
-    public String setRoom(String direction){
+    public String setRoom(ExitDirection direction){
         Room nextRoom = currRoom.getExit(direction);
         if (nextRoom == null) {
             return "There is no door!";

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import courseProject.model.ExitDirection;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
@@ -20,8 +21,8 @@ public class MonsterTest {
 	public void setup(){
 		northRoom = new Room("North Room");
 		southRoom = new Room("South Room");
-		northRoom.addExit("south", southRoom);
-		southRoom.addExit("north",northRoom);
+		northRoom.addExit(ExitDirection.south, southRoom);
+		southRoom.addExit(ExitDirection.north,northRoom);
 		p1 = new Player(northRoom,20,0,0);
 		
 		m1 = new Monster("MONSTER", 20, 5, 5, 5, 5);

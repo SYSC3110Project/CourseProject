@@ -1,6 +1,7 @@
 package courseProject.controller;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
@@ -90,25 +91,28 @@ public class CommandInterpreter implements InputListener
 				options,
 				options[1]);
     	
-    	View view ;
     	
-    	if(viewOption.equals(options[0])) { // Text-Based Option
-    		view =  new ViewText();
+    	if(viewOption!=null) {
+        	View view ;
+	    	
+	    	if(viewOption.equals(options[0])) { // Text-Based Option
+	    		view =  new ViewText();
+	    	}
+	    	else if (viewOption.equals(options[1])) { // 2D option
+	    		view = new View2D();
+	    	}
+	    	else {
+	    		view = new ViewText();
+	    		view.displayMessage("No such view exists yet, switching to text view");
+	    	}
+	    	
+	    	Game game = new Game();
+	    	CommandInterpreter c = new CommandInterpreter(view, game);
+	
+	    	game.addModelListeners((ModelListener)view);
+	    	c.play();
+	    	view.dispose();
     	}
-    	else if (viewOption.equals(options[1])) { // 2D option
-    		view = new View2D();
-    	}
-    	else {
-    		view = new ViewText();
-    		view.displayMessage("No such view exists yet, switching to text view");
-    	}
-    	
-    	Game game = new Game();
-    	CommandInterpreter c = new CommandInterpreter(view, game);
-
-    	game.addModelListeners((ModelListener)view);
-    	c.play();
-    	view.dispose();
     }
 
     
@@ -119,8 +123,14 @@ public class CommandInterpreter implements InputListener
     	game.printWelcome();
     	finished = false;
         while (! finished) {
-        	double delta = System.nanoTime()-previousTime;
-        	view.update(delta);
+        	final double delta = System.nanoTime()-previousTime;
+        	SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+	        	    view.update(delta);
+				}
+        	});
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
             	JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);
