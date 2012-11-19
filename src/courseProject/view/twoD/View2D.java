@@ -125,7 +125,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		JPanel infoPanel = new JPanel(new GridLayout(2,1));
 		
 		infoPanel.add(mapArea);
-		infoPanel.add(textArea);
+		infoPanel.add(textAreaPanel);
 
 		JPanel gameContent = new JPanel(new GridLayout(1,2));
 
@@ -206,6 +206,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			public void run() {
 				drawArea.repaint();
 				mapArea.repaint();
+				mainWindow.repaint();
+				mainWindow.validate();
 			}
 		});
 	}
