@@ -146,11 +146,17 @@ public class Game
             orc = ImageIO.read(new File("res\\Orc.png"));
         } catch (IOException e) {
         }
-        
+        BufferedImage candyIcon = null;
+        try {
+            candyIcon = ImageIO.read(new File("res\\candy.png"));
+        } catch (IOException e) {
+        }
         
         //initialize creatures
         Monster m = new Monster2D("Orc", 10, 1, 1, 4, 2, orc);
-    	m.addItem(new Item2D("candy","yay sugar",1,ItemType.health,6, orb));
+        Item2D candy = new Item2D("candy","yay sugar",1,ItemType.health,6, candyIcon);
+        candy.setLocation(new Point(250,125));
+    	m.addItem(candy);
     	((Monster2D)m).setLocation(new Point(220,60));
         closet.addMonster(m);
         
@@ -248,7 +254,7 @@ public class Game
         else if (commandWord.equals(CommandWord.drop)) {
             attackable = drop(command);
         }else if (commandWord.equals(CommandWord.inventory)){
-        	inventory(command);
+        	inventory();
         }else if (commandWord.equals(CommandWord.attack)){
         	attackable = attack(command);
         }else if (commandWord.equals(CommandWord.character)){
@@ -257,6 +263,8 @@ public class Game
         	undo();
         }else if (commandWord.equals(CommandWord.redo)){
         	redo();
+        }else if (commandWord.equals(CommandWord.use)){
+        	use(command);
         }
         if(attackable){
         	notifyListeners(mc.getRoom().monsterAttack(mc));
@@ -404,12 +412,20 @@ public class Game
    }
    
     /**
-     * Checks inventory (no second word) or uses an item in inventory
+     * Checks inventory
      * @param command
      */
-    public void inventory(Command command){
+    public void inventory(){
+    	notifyListeners(mc.showInv());
+        
+    }
+    /**
+     * uses an item in the inventory or unequips from character
+     * @param command
+     */
+    public void use(Command command){
     	if(!command.hasSecondWord()){
-            notifyListeners(mc.showInv());
+            notifyListeners("Use what?");
         }else{
             notifyListeners(mc.use(command.getSecondWord()));
         }
