@@ -1,7 +1,6 @@
 package courseProject.controller;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
