@@ -51,10 +51,32 @@ public class Room2D extends Room implements Drawable2D {
 	 * Copy constructor copies all values from the passed Room2D to this new Room2D.
 	 * @param toCopy The Room2D to copy.
 	 */
-	public Room2D(Room2D toCopy) {
+	public Room2D(Room2D toCopy , String fromDir, Room2D previousRoom, ArrayList<Room> explored) {
 		super(toCopy);
+		if(explored == null){
+			explored = new ArrayList<Room>();
+		}
+		explored.add(this);
+		exits = new HashMap<String, Room>();
+		for(String s : toCopy.exits.keySet()){
+			boolean foundExit = false;
+    		String reverse = reverseMapping(s);
+    		for(Room r : explored){
+    			if(toCopy.exits.get(s).getDescription() == r.getDescription()){
+    				exits.put(s, r);
+    				foundExit = true;
+    			}
+    		}
+    		if(s == fromDir && !foundExit){
+    			exits.put(s, previousRoom);
+    		}
+    		else if(!foundExit){
+    			exits.put(s, new Room2D((Room2D)toCopy.exits.get(s), reverse, this, explored));
+    		}
+    	}
 		
-		items=new Inventory(toCopy.items);
+		
+		this.items = new Inventory(toCopy.items);
 		ArrayList<Monster> monsterList = new ArrayList<Monster>();
 		for(Monster m: toCopy.monsters){
     		monsterList.add(new Monster2D((Monster2D)m));

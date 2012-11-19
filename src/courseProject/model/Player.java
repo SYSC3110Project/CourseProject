@@ -7,14 +7,19 @@
 package courseProject.model;
 
 
+
+
 /** 
  * @author Micheal Hamon
  * @author Andrew Venus
  * @author Denis Dionne
  * @version 01/11/2012
  */
-public class Player extends Creature {
-    private int limit;
+public class Player extends Creature{
+    /**
+	 * 
+	 */
+	private int limit;
     protected Room currRoom;
     /**
      * Constructor for objects of class Player
@@ -269,4 +274,6 @@ public class Player extends Creature {
     	}
     	return false;
     }
+    
+    
 }

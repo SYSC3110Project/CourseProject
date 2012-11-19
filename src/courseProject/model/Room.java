@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 
-public class Room 
+public class Room
 {
 	protected String description;
     protected Map<String,Room> exits;
@@ -50,10 +50,11 @@ public class Room
      * @param r the room to copy from
      */
     public Room(Room r){
-    	description = r.description;
+    	
     	exits = new HashMap<String, Room>();
     	exits.putAll(r.exits);
     	
+    	description = r.description;
     	items=new Inventory(r.items);
     	
     	List<Monster> monsterList = new ArrayList<Monster>();
@@ -61,6 +62,23 @@ public class Room
     		monsterList.add(new Monster(m));
     	}
     	monsters  = monsterList;
+    	
+    	
+    }
+    
+    protected String reverseMapping(String s){
+    	if(s == "east"){
+    		return "west";
+    	}
+    	else if(s == "west"){
+    		return "east";
+    	}
+    	else if(s == "north"){
+    		return "south";
+    	}
+    	else{
+    		return "north";
+    	}
     }
     
     public List<Monster> getMonsters(){

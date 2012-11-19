@@ -3,6 +3,7 @@
  */
 package courseProject.model;
 
+
 /**
  * Items to be picked up in the game.
  * Valid types are specified in the ItemType

@@ -10,7 +10,8 @@ package courseProject.model;
 
 
 
-public abstract class Creature {
+
+public abstract class Creature{
 
     protected Inventory inv;
     protected int health;
