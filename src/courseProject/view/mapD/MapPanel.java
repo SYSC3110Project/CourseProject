@@ -60,7 +60,7 @@ public class MapPanel extends JPanel {
 			}
 		}
 	}
-	
+	/*
 	private void drawGrid(Graphics graphics) {
 		graphics.setColor(Color.black);
 		for(int x=0;x<=getWidth();x+=ROOM.width) {
@@ -71,7 +71,7 @@ public class MapPanel extends JPanel {
 
 			graphics.drawLine(0, y, getWidth(), y);
 		}
-	}
+	}*/
 
 	private void drawRect(Graphics graphics, Color color, Dimension dimension, Point position) {
 		graphics.setColor(color);

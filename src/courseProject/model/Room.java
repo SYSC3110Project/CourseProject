@@ -66,18 +66,17 @@ public class Room
     	
     }
     
-    protected String reverseMapping(String s){
-    	if(s == "east"){
-    		return "west";
-    	}
-    	else if(s == "west"){
-    		return "east";
-    	}
-    	else if(s == "north"){
-    		return "south";
-    	}
-    	else{
-    		return "north";
+    protected ExitDirection reverseMapping(ExitDirection s){
+    	switch(s) {
+    	case north:
+    		return ExitDirection.south;
+    	case south:
+    		return ExitDirection.north;
+    	case east:
+    		return ExitDirection.west;
+    	case west:
+		default:
+			return ExitDirection.east;
     	}
     }
     
