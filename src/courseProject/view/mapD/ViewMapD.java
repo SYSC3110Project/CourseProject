@@ -10,11 +10,9 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultCaret;
 
 import courseProject.controller.Command;
 import courseProject.controller.CommandWord;
@@ -46,11 +44,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		//DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		//caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
-
-		JScrollPane scrollPane = new JScrollPane(textArea);
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -63,7 +57,6 @@ public class ViewMapD extends ViewText implements ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
 		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
@@ -80,7 +73,9 @@ public class ViewMapD extends ViewText implements ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		
+		if(textArea.getLineCount()>=10){
+			textArea.setText("");
+		}
 		textArea.append(message);
 		textArea.append("\n");
 	}

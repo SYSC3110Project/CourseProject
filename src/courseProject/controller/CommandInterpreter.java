@@ -1,7 +1,6 @@
 package courseProject.controller;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
@@ -61,9 +60,6 @@ public class CommandInterpreter implements InputListener
     	}
     	
     	finished = game.processCommand(e.getCommand());
-
-        
-    	
     }
 
     /**
@@ -92,7 +88,7 @@ public class CommandInterpreter implements InputListener
 				JOptionPane.QUESTION_MESSAGE,
 				null,
 				options,
-				options[1]);
+				options[2]);
     	
     	
     	if(viewOption!=null) {
@@ -126,13 +122,7 @@ public class CommandInterpreter implements InputListener
     	finished = false;
         while (! finished) {
         	final double delta = System.nanoTime()-previousTime;
-        	SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-	        	    view.update(delta);
-				}
-        	});
+    	    view.update(delta);
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
             	//JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);

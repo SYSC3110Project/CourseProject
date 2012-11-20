@@ -178,7 +178,6 @@ public class Room
 				s.append(m.getName());
 				s.append(" attacks, ");
 				s.append(m.attack(p));
-				s.append("\n");
     		}
     	}
     	return s.toString();

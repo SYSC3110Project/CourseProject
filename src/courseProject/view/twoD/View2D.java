@@ -1,7 +1,6 @@
 package courseProject.view.twoD;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -104,11 +103,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
-
-		JScrollPane scrollPane = new JScrollPane(textArea);
 
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
@@ -122,7 +117,6 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
 		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
@@ -155,7 +149,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		
+		if(message.length()==0) return;
+		if(textArea.getLineCount()>=10){
+			textArea.setText("");
+		}
 		textArea.append(message);
 		textArea.append("\n");
 	}
@@ -212,6 +209,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 				drawArea.repaint();
 				mapArea.repaint();
 				textAreaPanel.repaint();
+				mainWindow.repaint();
+				mainWindow.validate();
 			}
 		});
 	}
