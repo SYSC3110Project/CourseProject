@@ -30,6 +30,7 @@ public class Room
     protected Map<ExitDirection,Room> exits;
     protected Inventory items;
     protected List<Monster> monsters;
+    protected boolean visited;
 
     /**
      * Create a room described "description". Initially, it has
@@ -43,6 +44,20 @@ public class Room
         exits = new HashMap<ExitDirection,Room>();
         items = new Inventory();
         monsters = new ArrayList<Monster>();
+        visited = false;
+    }
+    /**
+     * sets that the player has visited here
+     */
+    public void visit(){
+    	visited = true;
+    }
+    /**
+     * checks if the player has visited here
+     * @return if the player has visited
+     */
+    public boolean visited(){
+    	return visited;
     }
     
     /**

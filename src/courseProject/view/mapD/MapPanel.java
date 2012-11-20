@@ -31,7 +31,7 @@ public class MapPanel extends JPanel {
 	private static final Dimension ROOM_EXIT = new Dimension(5,5);
 
 	private Room currentRoom; //for centering the map
-
+	
 	private Map<Room,Point> roomLocations;
 
 	public MapPanel() {
@@ -53,7 +53,8 @@ public class MapPanel extends JPanel {
 
 				g.setColor(Color.black);
 				//g.drawString(key.getDescription(), p.x, p.y);
-			} else {
+				roomLocations.put(key, p);
+			} else if(key.visited()){
 				drawRect(g, INACTIVE_ROOM, ROOM, p); //draw the active room in a different color
 				g.setColor(Color.black);
 				//g.drawString(key.getDescription(), p.x, p.y);

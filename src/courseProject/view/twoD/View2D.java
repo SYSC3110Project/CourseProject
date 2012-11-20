@@ -108,7 +108,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		textArea.setToolTipText("What is happening to me");
 
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		//scrollPane.setAutoscrolls(true);
+
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -121,13 +121,14 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		textAreaPanel.add(scrollPane, BorderLayout.CENTER);
+		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
+		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
 		JPanel infoPanel = new JPanel(new GridLayout(2,1));
 		
 		infoPanel.add(mapArea);
-		infoPanel.add(textAreaPanel);//HERE (I believe this has something to do with the render problem)
+		infoPanel.add(textAreaPanel);
 
 		JPanel gameContent = new JPanel(new GridLayout(1,2));
 
@@ -153,6 +154,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
+		
 		textArea.append(message);
 		textArea.append("\n");
 	}

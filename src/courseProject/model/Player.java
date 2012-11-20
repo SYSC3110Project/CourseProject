@@ -63,6 +63,7 @@ public class Player extends Creature{
         }
         else {
         	currRoom.revMonster();
+        	currRoom.visit();
             currRoom = nextRoom;
             return getLoc();
         }
