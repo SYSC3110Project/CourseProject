@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -33,9 +35,11 @@ public class MapPanel extends JPanel {
 	private Room currentRoom; //for centering the map
 
 	private Map<Room,Point> roomLocations;
+	private List<Point[]> exitLocations; //represents an exit from point[0] to point[1]
 
 	public MapPanel() {
 		roomLocations = new HashMap<Room,Point>();
+		exitLocations = new ArrayList<Point[]>();
 	}
 
 	@Override
@@ -45,6 +49,11 @@ public class MapPanel extends JPanel {
 		// here we clear everything
 		drawRect(g, BACKGROUND, new Dimension(getWidth(),getHeight()), new Point(0,0));
 		//drawGrid(g);
+		
+		g.setColor(Color.black);
+		for(Point[] p : exitLocations) {
+			g.drawLine(p[0].x, p[0].y, p[1].x, p[1].y);
+		}
 		
 		for(Room key : roomLocations.keySet()) {
 			Point p = roomLocations.get(key);
@@ -59,6 +68,7 @@ public class MapPanel extends JPanel {
 				//g.drawString(key.getDescription(), p.x, p.y);
 			}
 		}
+		
 	}
 	/*
 	private void drawGrid(Graphics graphics) {
@@ -81,6 +91,7 @@ public class MapPanel extends JPanel {
 	public void setCurrentRoom(Room room) {
 		this.currentRoom = room;
 		roomLocations.clear();
+		exitLocations.clear();
 		Point p = new Point(this.getWidth()/2,this.getHeight()/2);
 		roomLocations.put(room, p);
 		locationSetup(room, p);
@@ -95,20 +106,28 @@ public class MapPanel extends JPanel {
 				switch(key) {
 				case north:
 					loc.y-=(ROOM.getHeight()*2)-ROOM_EXIT.getHeight();
-					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 					break;
 				case east:
 					loc.x+=(ROOM.getWidth()*2)-ROOM_EXIT.getWidth();
-					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 					break;
 				case south:
 					loc.y+=(ROOM.getHeight()*2)-ROOM_EXIT.getHeight();
-					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 					break;
 				case west:
 					loc.x-=(ROOM.getWidth()*2)-ROOM_EXIT.getWidth();
-					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 				}
+				Point exit1Point = new Point(previous);
+				exit1Point.x+=ROOM.getWidth()/2;
+				exit1Point.y+=ROOM.getHeight()/2;
+				
+				Point exit2Point = new Point(loc);
+				exit2Point.x+=ROOM.getWidth()/2;
+				exit2Point.y+=ROOM.getHeight()/2;
+				
+				roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
+				
+				this.exitLocations.add(new Point[]{exit1Point,exit2Point});
+				
 				locationSetup(exits.get(key), loc); //call the method on the next room.
 			}
 		}

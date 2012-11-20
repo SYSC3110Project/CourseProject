@@ -60,8 +60,6 @@ public class CommandInterpreter implements InputListener
     	}
     	
     	finished = game.processCommand(e.getCommand());
-    	
-    	
     }
 
     /**
