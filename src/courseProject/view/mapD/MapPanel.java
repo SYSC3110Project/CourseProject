@@ -88,7 +88,7 @@ public class MapPanel extends JPanel {
 				//g2d.setColor(Color.black);
 				//g.drawString(key.getDescription(), p.x, p.y);
 				roomLocations.put(key, p);
-			} else if(key.visited()){
+			} else {
 				drawBorderRect(g, INACTIVE_ROOM, ROOM, p,2); //draw the active room in a different color
 				g2d.drawImage(roomTexture, p.x, p.y, ROOM.width, ROOM.height, null);
 				//g2d.setColor(Color.black);
@@ -104,7 +104,7 @@ public class MapPanel extends JPanel {
 
 			graphics.drawLine(x, 0, x, getHeight());
 		}
-		for(int y=0;y<=getHeight();y+=ROOM.height) {
+ 		for(int y=0;y<=getHeight();y+=ROOM.height) {
 
 			graphics.drawLine(0, y, getWidth(), y);
 		}
@@ -127,7 +127,6 @@ public class MapPanel extends JPanel {
 
 	public void locationSetup(Room room, Point previous) {
 		Map<ExitDirection, Room> exits = room.getExitMap();
-
 		for(ExitDirection key : exits.keySet()) {
 			if(!roomLocations.containsKey(exits.get(key))) { //skip over rooms already in the set
 				Point loc = new Point(previous);
@@ -152,11 +151,12 @@ public class MapPanel extends JPanel {
 				exit2Point.x+=ROOM.getWidth()/2;
 				exit2Point.y+=ROOM.getHeight()/2;
 
-				roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
-
 				this.exitLocations.add(new Point[]{exit1Point,exit2Point});
 
-				locationSetup(exits.get(key), loc); //call the method on the next room.
+				if(room.visited()) {
+					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
+					locationSetup(exits.get(key), loc); //call the method on the next room.
+				}
 			}
 		}
 	}
