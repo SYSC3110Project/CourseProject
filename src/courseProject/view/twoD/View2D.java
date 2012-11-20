@@ -3,7 +3,6 @@ package courseProject.view.twoD;
 import javax.swing.*;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -389,9 +388,9 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		}
 		armor.addActionListener(this);
 		
-		characterWindow.setBounds(0, 0, 50, 150);
+		characterWindow.setBounds(0, 0, 200, 150);
 		characterWindow.setResizable(false);
-		characterWindow.setLayout(new FlowLayout());
+		characterWindow.setLayout(new GridLayout(3,1));
 		characterWindow.add(health);
 		characterWindow.add(weapon);
 		characterWindow.add(armor);
