@@ -56,6 +56,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JTextField inputField;
 	private JFrame characterWindow;
 	private JFrame inventoryWin;
+	private JPanel textAreaPanel;
 
 	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 
@@ -98,7 +99,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		buttonPanel.add(helpButton);
 		buttonPanel.add(quitButton);
 
-		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		textAreaPanel = new JPanel(new BorderLayout());
 
 
 		textArea = new JTextArea();
@@ -210,6 +211,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			public void run() {
 				drawArea.repaint();
 				mapArea.repaint();
+				textAreaPanel.repaint();
 			}
 		});
 	}

@@ -23,7 +23,6 @@ import courseProject.model.ModelChangeEvent;
 import courseProject.model.Room;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.drawable.Drawable2D;
-import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.twoD.drawable.Room2D;
 
 public class ViewMapD extends ViewText implements ActionListener{
@@ -31,6 +30,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 	private MapPanel mapArea;
 	private JTextArea textArea;
 	private JTextField inputField;
+	private JPanel textAreaPanel;
 	
 	public ViewMapD(){
 		super();
@@ -42,15 +42,15 @@ public class ViewMapD extends ViewText implements ActionListener{
 		mainWindow.setVisible(true);
 		
 		mapArea = new MapPanel();
-		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		textAreaPanel = new JPanel(new BorderLayout());
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		//DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+		//caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
 
-		//JScrollPane scrollPane = new JScrollPane(textArea);
+		JScrollPane scrollPane = new JScrollPane(textArea);
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -94,6 +94,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				mapArea.repaint();
+				textAreaPanel.repaint();
 			}
 		});
 	}
