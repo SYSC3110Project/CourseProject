@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
+import courseProject.view.mapD.ViewMapD;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
 
@@ -51,7 +52,6 @@ public class CommandInterpreter implements InputListener
      * @param e is the event coming from the view (whether it be a textview, 2Dview or 3Dview)
      */
     public void input(InputEvent e){
-    	//need to implement this
     	if(e.getClass().equals(InputEvent2D.class)){
     		if(e.getCommand() == null){
     			((View2D) view).moveCharacter((InputEvent2D)e);
@@ -61,7 +61,8 @@ public class CommandInterpreter implements InputListener
     	}
     	
     	finished = game.processCommand(e.getCommand());
-    	
+
+        
     	
     }
 
@@ -101,11 +102,10 @@ public class CommandInterpreter implements InputListener
 	    		view =  new ViewText();
 	    	}
 	    	else if (viewOption.equals(options[1])) { // 2D option
-	    		view = new View2D();
+	    		view = new ViewMapD();
 	    	}
 	    	else {
-	    		view = new ViewText();
-	    		view.displayMessage("No such view exists yet, switching to text view");
+	    		view = new View2D();
 	    	}
 	    	
 	    	Game game = new Game();
@@ -135,7 +135,7 @@ public class CommandInterpreter implements InputListener
         	});
         	previousTime = System.nanoTime();
             if(game.getPlayer().isDead()){
-            	JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);
+            	//JOptionPane.showMessageDialog(null, "You died,\nThanks for playing", "You Died", JOptionPane.WARNING_MESSAGE);
             	view.dispose();
             	break;
             }
