@@ -153,7 +153,7 @@ public class MapPanel extends JPanel {
 
 				this.exitLocations.add(new Point[]{exit1Point,exit2Point});
 
-				if(room.visited()) {
+				if(exits.get(key).visited()) {
 					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 					locationSetup(exits.get(key), loc); //call the method on the next room.
 				}
