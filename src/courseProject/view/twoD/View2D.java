@@ -54,6 +54,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JButton quitButton;
 	private JTextArea textArea;
 	private JTextField inputField;
+	private JFrame characterWindow;
+	private JFrame inventoryWin;
 
 	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 
@@ -106,7 +108,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		textArea.setToolTipText("What is happening to me");
 
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		//scrollPane.setAutoscrolls(true);
+
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -119,7 +121,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		textAreaPanel.add(scrollPane, BorderLayout.CENTER);
+		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
+		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
 		JPanel infoPanel = new JPanel(new GridLayout(2,1));
@@ -151,6 +154,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
+		
 		textArea.append(message);
 		textArea.append("\n");
 	}
@@ -241,6 +245,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			}
 		}
 		drawArea.updateDrawable(drawList);
+		
 	}
 	/**
 	 * When you press the mouse, it generates an event that gets sent to all inputListeners, notifying them of the coordinates
@@ -285,7 +290,14 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void dispose(){
+		if(inventoryWin!=null && inventoryWin.isDisplayable()){
+			inventoryWin.dispose();
+		}
+		if(characterWindow!=null && characterWindow.isDisplayable()){
+			characterWindow.dispose();
+		}
 		mainWindow.dispose();
+		
 	}
 
 	/**
@@ -309,9 +321,24 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			}
 			else if(pressed.equals(quitButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.quit,null)));
-			}else{//inventory and character buttons
+			}
+			else
+			{//inventory and character buttons
 				JButton src = (JButton)event.getSource();
-				notifyInputListeners(new InputEvent2D(new Command(CommandWord.use,""+src.getText())));
+				if(src.getText().startsWith("drop")){
+					notifyInputListeners(new InputEvent2D(new Command(CommandWord.drop,""+src.getText().substring(5))));
+				}
+				else
+				{
+					notifyInputListeners(new InputEvent2D(new Command(CommandWord.use,""+src.getText())));
+				}
+				//updates windows
+				if(inventoryWin!=null && inventoryWin.isDisplayable()){
+					inventoryWindow();
+				}
+				if(characterWindow!=null && characterWindow.isDisplayable()){
+					characterWindow();
+				}
 			}
 		}
 		if(event.getSource().getClass().equals(JTextField.class)) {
@@ -338,10 +365,15 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			source.setText("");
 		}
 	}
-	
+	/**
+	 * Displays the character window
+	 */
 	public void characterWindow()
 	{
-		JFrame characterWindow=new JFrame("Character");
+		if(characterWindow!=null){
+			characterWindow.dispose();
+		}
+		characterWindow=new JFrame("Character");
 		
 		JTextField health= new JTextField(player.health());
 		health.setEditable(false);
@@ -370,21 +402,33 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		characterWindow.setVisible(true);
 		
 	}
+	/**
+	 * Displays the inventory window
+	 */
 	public void inventoryWindow(){
-		JFrame inventoryWin = new JFrame("Inventory");
+		if(inventoryWin!=null){
+			inventoryWin.dispose();
+		}
+		inventoryWin = new JFrame("Inventory");
 		Inventory inv = player.getInventory();
 		int y = inv.getSize();
 		if(y==0){
 			displayMessage("Inventory is empty");
-			return;
+			return; 
 		}
-		inventoryWin.setLayout(new GridLayout((y+2)/3,3));
+		int cols = 2;
+		int rows = (y-y%cols)/cols;
+		if(y%cols!=0) rows = rows+1;
+		inventoryWin.setLayout(new GridLayout(0,cols*2));
 		for(int i = 0; i<y; i++){
 			JButton b = new JButton(inv.getItem(i).getName());
-			inventoryWin.add(b, i);
+			inventoryWin.add(b);
 			b.addActionListener(this);
+			JButton d = new JButton("drop "+inv.getItem(i).getName());
+			inventoryWin.add(d);
+			d.addActionListener(this);
 		}
-		inventoryWin.setBounds(0, 0, 300, 100*(y+2)/3);
+		inventoryWin.setBounds(150, 0, 300, 80*rows);
 		inventoryWin.setVisible(true);
 	}
 }

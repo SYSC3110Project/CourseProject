@@ -63,6 +63,7 @@ public class Player extends Creature{
         }
         else {
         	currRoom.revMonster();
+        	currRoom.visit();
             currRoom = nextRoom;
             return getLoc();
         }
@@ -248,11 +249,19 @@ public class Player extends Creature{
     	
     }
     
+    /**
+     * Gets a string representing the characters current health
+     * @return string with the players health
+     */
     public String health()
     {
     	return "Health: " + health + "/" + healthMax;
     }
     
+    /**
+     * Gets a string representing the characters currently equip weapon
+     * @return string with the players waepon
+     */
     public String weapon()
     {
     	if(weapon==null){
@@ -262,6 +271,10 @@ public class Player extends Creature{
     	}
     }
     
+    /**
+     * Gets a string representing the characters currently equiped armor
+     * @return string with the players armor
+     */
     public String armor()
     {
     	if(armor==null){
