@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import courseProject.model.ExitDirection;
 import courseProject.model.Inventory;
 import courseProject.model.Monster;
 import courseProject.model.Room;
@@ -29,8 +30,8 @@ public class Room2D extends Room implements Drawable2D {
 	private BufferedImage sprite;
 	private Rectangle bounds;
 	
-	private Map<String, BufferedImage> exitImages;
-	private Map<String, Rectangle> exitBounds;
+	private Map<ExitDirection, BufferedImage> exitImages;
+	private Map<ExitDirection, Rectangle> exitBounds;
 
 	/**
 	 * Create a room described "description". Initially, it has
@@ -43,18 +44,40 @@ public class Room2D extends Room implements Drawable2D {
 		super(description);
 		this.sprite = sprite;// use 0,0 as origin
 		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getWidth(), this.sprite.getHeight());
-		this.exitImages = new HashMap<String, BufferedImage>();
-		this.exitBounds = new HashMap<String, Rectangle>();
+		this.exitImages = new HashMap<ExitDirection, BufferedImage>();
+		this.exitBounds = new HashMap<ExitDirection, Rectangle>();
 	}
 
 	/**
 	 * Copy constructor copies all values from the passed Room2D to this new Room2D.
 	 * @param toCopy The Room2D to copy.
 	 */
-	public Room2D(Room2D toCopy) {
+	public Room2D(Room2D toCopy , ExitDirection fromDir, Room2D previousRoom, ArrayList<Room> explored) {
 		super(toCopy);
+		if(explored == null){
+			explored = new ArrayList<Room>();
+		}
+		explored.add(this);
+		exits = new HashMap<ExitDirection, Room>();
+		for(ExitDirection s : toCopy.exits.keySet()){
+			boolean foundExit = false;
+    		ExitDirection reverse = reverseMapping(s);
+    		for(Room r : explored){
+    			if(toCopy.exits.get(s).getDescription() == r.getDescription()){
+    				exits.put(s, r);
+    				foundExit = true;
+    			}
+    		}
+    		if(s == fromDir && !foundExit){
+    			exits.put(s, previousRoom);
+    		}
+    		else if(!foundExit){
+    			exits.put(s, new Room2D((Room2D)toCopy.exits.get(s), reverse, this, explored));
+    		}
+    	}
 		
-		items=new Inventory(toCopy.items);
+		
+		this.items = new Inventory(toCopy.items);
 		ArrayList<Monster> monsterList = new ArrayList<Monster>();
 		for(Monster m: toCopy.monsters){
     		monsterList.add(new Monster2D((Monster2D)m));
@@ -63,8 +86,8 @@ public class Room2D extends Room implements Drawable2D {
 		
 		this.sprite = toCopy.sprite;
 		this.bounds = toCopy.bounds;
-		this.exitImages = new HashMap<String, BufferedImage>(toCopy.exitImages);
-		this.exitBounds = new HashMap<String, Rectangle>(toCopy.exitBounds);
+		this.exitImages = new HashMap<ExitDirection, BufferedImage>(toCopy.exitImages);
+		this.exitBounds = new HashMap<ExitDirection, Rectangle>(toCopy.exitBounds);
 	}
 	
 	/**
@@ -72,47 +95,49 @@ public class Room2D extends Room implements Drawable2D {
      * @param dir The direction of the exit.
      * @param exit The room the exit connects to.
      */
-    public void addExit(String dir, Room exit) {
+    public void addExit(ExitDirection dir, Room exit) {
         exits.put(dir,exit);
 
     	BufferedImage exitImg;
-        if(dir.equals("north")) {
+    	switch(dir) {
+    	case north:
         	try {
         		exitImg = ImageIO.read(new File("res\\NorthExit.png"));
         		exitImages.put(dir, exitImg);
         		exitBounds.put(dir, new Rectangle(115, 0, exitImg.getWidth(), exitImg.getHeight()));
             } catch (IOException e) {
             }
-        }
-        else if(dir.equals("south")) {
+        	break;
+    	case south:
         	try {
         		exitImg = ImageIO.read(new File("res\\SouthExit.png"));
         		exitImages.put(dir, exitImg);
         		exitBounds.put(dir, new Rectangle(100, 355, exitImg.getWidth(), exitImg.getHeight()));
             } catch (IOException e) {
             }
-		}
-        else if(dir.equals("east")) {
+		break;
+    	case east:
         	try {
         		exitImg = ImageIO.read(new File("res\\EastExit.png"));
         		exitImages.put(dir, exitImg);
         		exitBounds.put(dir, new Rectangle(313, 105, exitImg.getWidth(), exitImg.getHeight()));
             } catch (IOException e) {
             }
-		}
-        else if(dir.equals("west")) {
+		break;
+    	case west:
         	try {
         		exitImg = ImageIO.read(new File("res\\WestExit.png"));
         		exitImages.put(dir, exitImg);
         		exitBounds.put(dir, new Rectangle(0, 102, exitImg.getWidth(), exitImg.getHeight()));
             } catch (IOException e) {
             }
-		}
+		break;
+    	}
     }
     
-    public String inExitBounds(Rectangle bounds) {
+    public ExitDirection inExitBounds(Rectangle bounds) {
     	
-    	for(String direction : exitBounds.keySet()) {
+    	for(ExitDirection direction : exitBounds.keySet()) {
     		if(exitBounds.get(direction).contains(bounds)) {
     			return direction;
     		}
@@ -157,7 +182,7 @@ public class Room2D extends Room implements Drawable2D {
 	public void draw(Graphics2D graphics2d) {
 		
 		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
-		for(String direction : exits.keySet()) { 
+		for(ExitDirection direction : exits.keySet()) { 
 			
 			BufferedImage img = exitImages.get(direction);
 			Rectangle bounds = exitBounds.get(direction);

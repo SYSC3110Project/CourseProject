@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import courseProject.model.ExitDirection;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
@@ -29,9 +30,9 @@ public class RoomTest {
 
 	@Test
 	public void testAddExit() {
-		northRoom.addExit("south", southRoom);
+		northRoom.addExit(ExitDirection.south, southRoom);
 		
-		assertEquals("southRoom added as an exit to northRoom", southRoom, northRoom.getExit("south"));
+		assertEquals("southRoom added as an exit to northRoom", southRoom, northRoom.getExit(ExitDirection.south));
 	}
 	
 	@Test
@@ -72,7 +73,7 @@ public class RoomTest {
 	
 	@Test
 	public void testGetLocation(){
-		northRoom.addExit("south", southRoom);
+		northRoom.addExit(ExitDirection.south, southRoom);
 		assertEquals("You are North Room\nExits: south", northRoom.getLoc());
 	}
 	

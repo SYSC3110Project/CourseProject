@@ -47,10 +47,10 @@ public class Player2D extends Player implements Drawable2D {
 	 */
 	public Player2D(Player2D toCopy) {
 		super(toCopy);
-		this.currRoom = new Room2D((Room2D)toCopy.currRoom);
+		this.currRoom = new Room2D((Room2D)toCopy.currRoom, null, null, null);
 		this.sprite = toCopy.sprite;
-		this.bounds = toCopy.bounds;
-		this.interpolating = toCopy.interpolating;
+		this.bounds = new Rectangle(toCopy.bounds);
+		this.interpolating = false;
 		this.interpolatingTo = toCopy.interpolatingTo;
 		this.timeSinceLastInterpolationUpdate = toCopy.timeSinceLastInterpolationUpdate;
 

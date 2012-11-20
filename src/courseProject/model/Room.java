@@ -24,10 +24,10 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 
-public class Room 
+public class Room
 {
 	protected String description;
-    protected Map<String,Room> exits;
+    protected Map<ExitDirection,Room> exits;
     protected Inventory items;
     protected List<Monster> monsters;
 
@@ -40,7 +40,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        exits = new HashMap<String,Room>();
+        exits = new HashMap<ExitDirection,Room>();
         items = new Inventory();
         monsters = new ArrayList<Monster>();
     }
@@ -50,10 +50,11 @@ public class Room
      * @param r the room to copy from
      */
     public Room(Room r){
-    	description = r.description;
-    	exits = new HashMap<String, Room>();
+    	
+    	exits = new HashMap<ExitDirection, Room>();
     	exits.putAll(r.exits);
     	
+    	description = r.description;
     	items=new Inventory(r.items);
     	
     	List<Monster> monsterList = new ArrayList<Monster>();
@@ -61,6 +62,22 @@ public class Room
     		monsterList.add(new Monster(m));
     	}
     	monsters  = monsterList;
+    	
+    	
+    }
+    
+    protected ExitDirection reverseMapping(ExitDirection s){
+    	switch(s) {
+    	case north:
+    		return ExitDirection.south;
+    	case south:
+    		return ExitDirection.north;
+    	case east:
+    		return ExitDirection.west;
+    	case west:
+		default:
+			return ExitDirection.east;
+    	}
     }
     
     public List<Monster> getMonsters(){
@@ -76,7 +93,7 @@ public class Room
      * @param dir The direction of the exit.
      * @param exit The room the exit connects to.
      */
-    public void addExit(String dir, Room exit) 
+    public void addExit(ExitDirection dir, Room exit) 
     {
         exits.put(dir,exit);
     }
@@ -86,7 +103,7 @@ public class Room
      * @param dir the direction of the exit to get
      * @return the connecting room in the passed direction
      */
-    public Room getExit (String dir){
+    public Room getExit (ExitDirection dir){
         return exits.get(dir);
     }
     
@@ -94,7 +111,7 @@ public class Room
      * returns a Map of each of the exits in a map with their direction as the key
      * @return the Map of the exits from the room.
      */
-    public Map<String,Room> getExitMap(){
+    public Map<ExitDirection,Room> getExitMap(){
     	return exits;
     }
     
@@ -171,9 +188,9 @@ public class Room
         dec.append(this.description);
         dec.append("\nExits: ");
         
-        Iterator<String> dir = exits.keySet().iterator(); 
+        Iterator<ExitDirection> dir = exits.keySet().iterator(); 
         while(dir.hasNext()){
-        	dec.append(dir.next());
+        	dec.append(dir.next().toString());
             if(dir.hasNext()) {
             	dec.append(", ");
             }

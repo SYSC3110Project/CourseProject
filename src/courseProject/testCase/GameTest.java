@@ -72,7 +72,7 @@ public class GameTest {
 	public void testAttack()
 	{
 		game.take(new Command(CommandWord.take,"magicOrb"));
-		game.inventory(new Command(CommandWord.inventory,"magicOrb"));
+		game.use(new Command(CommandWord.inventory,"magicOrb"));
 		game.goRoom(new Command(CommandWord.go,"east"));
 		assertTrue(game.attack(new Command(CommandWord.attack,"Orc")));
 	}	

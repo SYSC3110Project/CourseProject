@@ -14,7 +14,7 @@ package courseProject.controller;
 public enum CommandWord
 {
     go("go"), quit("quit"), help("help"), look("look"), take("take"), drop("drop"), inventory("inventory"), 
-    attack("attack"), character("character"), undo("undo"), redo("redo"), ;
+    attack("attack"), character("character"), undo("undo"), redo("redo"), use("use");
 
     private String description;
     

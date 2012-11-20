@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import courseProject.model.ExitDirection;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
@@ -20,8 +21,8 @@ public class PlayerTest {
 	public void setup(){
 		northRoom = new Room("North Room");
 		southRoom = new Room("South Room");
-		northRoom.addExit("south", southRoom);
-		southRoom.addExit("north",northRoom);
+		northRoom.addExit(ExitDirection.south, southRoom);
+		southRoom.addExit(ExitDirection.north,northRoom);
 		northRoom.setItem(new Item("WEAPON", "DESC", 1, ItemType.weapon, 1));
 
 		p1 = new Player(northRoom,20,10,5);
@@ -33,9 +34,9 @@ public class PlayerTest {
 	}
 	@Test
 	public void testSetRoom(){
-		p1.setRoom("east");
+		p1.setRoom(ExitDirection.east);
 		assertEquals("Player should not move because room is not valid",northRoom,p1.getRoom());
-		p1.setRoom("south");
+		p1.setRoom(ExitDirection.south);
 		assertEquals("Player should be in the south room",southRoom,p1.getRoom());
 	}
 	@Test

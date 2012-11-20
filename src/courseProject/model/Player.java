@@ -7,14 +7,19 @@
 package courseProject.model;
 
 
+
+
 /** 
  * @author Micheal Hamon
  * @author Andrew Venus
  * @author Denis Dionne
  * @version 01/11/2012
  */
-public class Player extends Creature {
-    private int limit;
+public class Player extends Creature{
+    /**
+	 * 
+	 */
+	private int limit;
     protected Room currRoom;
     /**
      * Constructor for objects of class Player
@@ -51,7 +56,7 @@ public class Player extends Creature {
      * @param direction
      * @return string description of what happened
      */
-    public String setRoom(String direction){
+    public String setRoom(ExitDirection direction){
         Room nextRoom = currRoom.getExit(direction);
         if (nextRoom == null) {
             return "There is no door!";
@@ -226,6 +231,16 @@ public class Player extends Creature {
     			}
     			return s;
     	}
+    	else if(armor!=null && armor.getName().equals(name)){
+    		inv.add(armor);
+    		armor = null;
+    		return name+" was unequiped";
+    	}
+    	else if(weapon!=null && weapon.getName().equals(name)){
+    		inv.add(weapon);
+    		weapon = null;
+    		return name+" was unequiped";
+    	}
     	else
     	{
     		return "You don't have that";
@@ -261,7 +276,7 @@ public class Player extends Creature {
      */
     public String armor()
     {
-    	if(weapon==null){
+    	if(armor==null){
     		return "Armor: none";
     	}else{
     		return "Armor: "+armor.getName();
@@ -292,5 +307,8 @@ public class Player extends Creature {
     		return true;
     	}
     	return false;
+    }
+    public Inventory getInventory(){
+    	return new Inventory(inv);
     }
 }
