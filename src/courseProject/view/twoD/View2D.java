@@ -209,6 +209,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			public void run() {
 				drawArea.repaint();
 				mapArea.repaint();
+				mainWindow.repaint();
+				mainWindow.validate();
 			}
 		});
 	}
