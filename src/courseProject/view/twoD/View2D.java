@@ -51,6 +51,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JButton characterButton;
 	private JButton helpButton;
 	private JButton quitButton;
+	private JButton undoButton;
+	private JButton redoButton;
 	private JTextArea textArea;
 	private JTextField inputField;
 	private JFrame characterWindow;
@@ -69,7 +71,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		mainWindow = new JFrame("World of the Nameless");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setBounds(100, 100, 730, 455);
+		mainWindow.setBounds(100, 100, 730, 480);
 		mainWindow.setResizable(false);
 		mainWindow.setLayout(new BorderLayout());
 		mainWindow.setVisible(true);
@@ -91,9 +93,17 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		quitButton = new JButton("Quit");
 		quitButton.addActionListener(this);
+		
+		undoButton = new JButton("Undo");
+		undoButton.addActionListener(this);
 
+		redoButton = new JButton("Redo");
+		redoButton.addActionListener(this);
+		
 		buttonPanel.add(inventoryButton);
 		buttonPanel.add(characterButton);
+		buttonPanel.add(undoButton);
+		buttonPanel.add(redoButton);
 		buttonPanel.add(helpButton);
 		buttonPanel.add(quitButton);
 
@@ -106,7 +116,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
 
-		JScrollPane scrollPane = new JScrollPane(textArea);
+		//JScrollPane scrollPane = new JScrollPane(textArea);
 
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
@@ -314,6 +324,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
 				characterWindow();
+			}
+			else if(pressed.equals(undoButton)) {
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.undo,null)));
+			}
+			else if(pressed.equals(redoButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.redo,null)));
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));

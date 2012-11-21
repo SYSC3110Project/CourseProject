@@ -37,6 +37,7 @@ public class MapPanel extends JPanel {
 	private static final Color ACTIVE_ROOM = new Color(100,100,200);
 	private static final Dimension ROOM = new Dimension(32,32);
 	private static final Dimension ROOM_EXIT = new Dimension(5,5);
+	private static final int EXIT_WIDTH = 8;
 	private static final String DEFAULT_MAP_TEXTURE_PATH = "res/map.jpg";
 	private static final String DEFAULT_ROOM_TEXTURE_PATH = "res/mapRoom.png";
 
@@ -72,7 +73,7 @@ public class MapPanel extends JPanel {
 		//drawGrid(g);
 
 		g2d.setColor(Color.black);
-		g2d.setStroke(new BasicStroke(3));
+		g2d.setStroke(new BasicStroke(EXIT_WIDTH));
 		for(Point[] p : exitLocations) {			
 			g2d.drawLine(p[0].x, p[0].y, p[1].x, p[1].y);
 		}

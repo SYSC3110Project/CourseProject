@@ -79,8 +79,8 @@ public class CommandInterpreter implements InputListener
     public static void main(String[] args){
     	
     	Object[] options = {"Text-Based",
-                "2D Game",
-                "3D Game"};
+                "Visual Text-Based",
+                "2D Game"};
     	
     	Object viewOption = JOptionPane.showInputDialog(null,
 				"Welcome to the World of Nameless\nWhich version of the game would you like to play? ",
@@ -88,7 +88,7 @@ public class CommandInterpreter implements InputListener
 				JOptionPane.QUESTION_MESSAGE,
 				null,
 				options,
-				options[1]);
+				options[2]);
     	
     	
     	if(viewOption!=null) {
