@@ -5,27 +5,26 @@ github: https://github.com/SYSC3110Project/CourseProject
 
 Work Seperation:
 
-For Milestone 2 we completely remodeled out design to use the MVC design pattern, this way we can run our game in any of the available views (currently
-there is the text view and the 2Dview.
+For Milestone 3 made a few changes to our game, we have fixed the bug that made our undo/redo unusable and we have added GUI interfaces for the Inventory and
+		Character information, we have also added a 2D text view or map view (what we were supposed to have for milestone 2 (since it turned out that we did
+		the 3d view instead). We also added functionality to the current top down view (3D view)
 
 Work Seperation:
 
-	Micheal worked on making the parser a part of the text view which notifies the controller (CommandInterpreter) of the input events. 
-		-Added test cases for the player and monster classes in the model.
-		
-	Andrew added the inventory class to represent the list of items used by the room, the player and the monsters. He also modified the game class to
-		no longer be the one to output game messages, making the text view handle the output.
-		-Added test cases for the game class in the model.
-		
-	Denis worked primarily on the 2D view, making the controller update the view and the model appropriately, also added the ability to control 
-		the player with the mouse. Also helped out a little with modifying the parser to work with the text view.
-		-Added test cases for the room and inventory classes in the model.
+	Micheal worked on adding the GUI view for the inventory (meaning it is no longer a text based inventory when in the 3D view
+	-Made sequence Diagrams for go, use and Character commands		
+
+	Andrew worked on adding the GUI view for the character information (display which items the player has equipped, show the amount of health remaining, etc)
+	-Made sequence Diagrams for Help, Take and Drop commands		
+
+	Denis worked on fixing the undo/redo methods so that they work properly (items no longer disappear when undoing)
+	-Made sequence diagrams for undo, redo and quit commands	
+
+	Matthew worked on adding the 2D text view to the game (a view where you essentially see a map if the area and where you are in it) 
+	-Made sequence diagrams for look, attack and inventory commands
+
 	
-	Matthew worked on the making the 2D view able to draw all the 2D actors (player2D, room2D, item2D, monster2D), have hit collisions with each other, 
-		and appropriately call the correct game commands based on mouse input.
-		-Added test cases for the Item class in the model. 
 		
-	Everyone contributed to identifying and fixing bugs
 	
 Known Issues:
 

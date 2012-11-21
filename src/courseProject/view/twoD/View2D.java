@@ -1,7 +1,6 @@
 package courseProject.view.twoD;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -51,10 +50,13 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JButton characterButton;
 	private JButton helpButton;
 	private JButton quitButton;
+	private JButton undoButton;
+	private JButton redoButton;
 	private JTextArea textArea;
 	private JTextField inputField;
 	private JFrame characterWindow;
 	private JFrame inventoryWin;
+	private JPanel textAreaPanel;
 
 	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 
@@ -69,7 +71,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		mainWindow = new JFrame("World of the Nameless");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setBounds(100, 100, 730, 455);
+		mainWindow.setBounds(100, 100, 730, 480);
 		mainWindow.setResizable(false);
 		mainWindow.setLayout(new BorderLayout());
 		mainWindow.setVisible(true);
@@ -91,23 +93,28 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		quitButton = new JButton("Quit");
 		quitButton.addActionListener(this);
+		
+		undoButton = new JButton("Undo");
+		undoButton.addActionListener(this);
 
+		redoButton = new JButton("Redo");
+		redoButton.addActionListener(this);
+		
 		buttonPanel.add(inventoryButton);
 		buttonPanel.add(characterButton);
+		buttonPanel.add(undoButton);
+		buttonPanel.add(redoButton);
 		buttonPanel.add(helpButton);
 		buttonPanel.add(quitButton);
 
-		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		textAreaPanel = new JPanel(new BorderLayout());
 
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
 
-		JScrollPane scrollPane = new JScrollPane(textArea);
-
+		//JScrollPane scrollPane = new JScrollPane(textArea);
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -120,7 +127,6 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
 		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
@@ -153,7 +159,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		
+		if(message.length()==0) return;//doesn't display empty lines
+		if(textArea.getLineCount()>=10){//cleans the text area every 10 lines
+			textArea.setText("");
+		}
 		textArea.append(message);
 		textArea.append("\n");
 	}
@@ -173,9 +182,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 				if(drawable.getClass().equals(Room2D.class)) {
 					ExitDirection direction = ((Room2D)drawable).inExitBounds(player.getBounds());
 					if(direction!=null) { //if the player is in the exit bounds
-						notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction.toString())));
 						Point newPlayerLocation = new Point(drawable.getBounds().width/2, drawable.getBounds().height/2);
 						player.setLocation(newPlayerLocation); //set player to the middle of the room
+						notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction.toString())));
+
 					}
 					continue;
 				}
@@ -209,6 +219,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			public void run() {
 				drawArea.repaint();
 				mapArea.repaint();
+				textAreaPanel.repaint();
 				mainWindow.repaint();
 				mainWindow.validate();
 			}
@@ -242,6 +253,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			if(drawable.getClass().equals(Room2D.class)) {
 				mapArea.setCurrentRoom((Room)drawable);
 			}
+		}
+		if(inventoryWin!=null && inventoryWin.isDisplayable()){
+			inventoryWindow();
+		}
+		if(characterWindow!=null && characterWindow.isDisplayable()){
+			characterWindow();
 		}
 		drawArea.updateDrawable(drawList);
 		
@@ -309,11 +326,25 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			JButton pressed = (JButton)(event.getSource());
 			if(pressed.equals(inventoryButton)) {
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
-				inventoryWindow();
+				if(inventoryWin!=null && inventoryWin.isDisplayable()){//closes window if its already open when you click the button
+					inventoryWin.dispose();
+				}else{
+					inventoryWindow();
+				}
 			}
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
-				characterWindow();
+				if(characterWindow!=null && characterWindow.isDisplayable()){
+					characterWindow.dispose();
+				}else{
+					characterWindow();
+				}
+			}
+			else if(pressed.equals(undoButton)) {
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.undo,null)));
+			}
+			else if(pressed.equals(redoButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.redo,null)));
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
@@ -321,14 +352,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			else if(pressed.equals(quitButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.quit,null)));
 			}
-			else
-			{//inventory and character buttons
+			else if(pressed.getClass().equals(JButton.class)) { //inventory or character button
 				JButton src = (JButton)event.getSource();
 				if(src.getText().startsWith("drop")){
 					notifyInputListeners(new InputEvent2D(new Command(CommandWord.drop,""+src.getText().substring(5))));
 				}
-				else
-				{
+				else {
 					notifyInputListeners(new InputEvent2D(new Command(CommandWord.use,""+src.getText())));
 				}
 				//updates windows
@@ -367,12 +396,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	/**
 	 * Displays the character window
 	 */
-	public void characterWindow()
-	{
+	public void characterWindow() {
 		if(characterWindow!=null){
 			characterWindow.dispose();
 		}
 		characterWindow=new JFrame("Character");
+		characterWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JTextField health= new JTextField(player.health());
 		health.setEditable(false);
@@ -389,17 +418,14 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		}
 		armor.addActionListener(this);
 		
-		characterWindow.setBounds(0, 0, 200, 150);
+		characterWindow.setBounds(mainWindow.getX()+mainWindow.getWidth(), mainWindow.getY(), 200, 150);
 		characterWindow.setResizable(false);
 		characterWindow.setLayout(new GridLayout(3,1));
 		characterWindow.add(health);
 		characterWindow.add(weapon);
 		characterWindow.add(armor);
-		
-		
-		
+
 		characterWindow.setVisible(true);
-		
 	}
 	/**
 	 * Displays the inventory window
@@ -409,6 +435,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			inventoryWin.dispose();
 		}
 		inventoryWin = new JFrame("Inventory");
+		inventoryWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Inventory inv = player.getInventory();
 		int y = inv.getSize();
 		if(y==0){
@@ -418,7 +445,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		int cols = 2;
 		int rows = (y-y%cols)/cols;
 		if(y%cols!=0) rows = rows+1;
-		inventoryWin.setLayout(new GridLayout(0,cols*2));
+		inventoryWin.setLayout(new GridLayout(rows,cols*2));
 		for(int i = 0; i<y; i++){
 			JButton b = new JButton(inv.getItem(i).getName());
 			inventoryWin.add(b);
@@ -427,7 +454,9 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			inventoryWin.add(d);
 			d.addActionListener(this);
 		}
-		inventoryWin.setBounds(150, 0, 300, 80*rows);
+		//inventoryWin.setBounds(350, 0, 300, 80*rows);
+		inventoryWin.setLocation(mainWindow.getX(), mainWindow.getY()+mainWindow.getHeight());
+		inventoryWin.pack();
 		inventoryWin.setVisible(true);
 	}
 }

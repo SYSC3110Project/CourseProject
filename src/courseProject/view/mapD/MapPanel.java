@@ -37,6 +37,7 @@ public class MapPanel extends JPanel {
 	private static final Color ACTIVE_ROOM = new Color(100,100,200);
 	private static final Dimension ROOM = new Dimension(32,32);
 	private static final Dimension ROOM_EXIT = new Dimension(5,5);
+	private static final int EXIT_WIDTH = 8;
 	private static final String DEFAULT_MAP_TEXTURE_PATH = "res/map.jpg";
 	private static final String DEFAULT_ROOM_TEXTURE_PATH = "res/mapRoom.png";
 
@@ -72,7 +73,7 @@ public class MapPanel extends JPanel {
 		//drawGrid(g);
 
 		g2d.setColor(Color.black);
-		g2d.setStroke(new BasicStroke(3));
+		g2d.setStroke(new BasicStroke(EXIT_WIDTH));
 		for(Point[] p : exitLocations) {			
 			g2d.drawLine(p[0].x, p[0].y, p[1].x, p[1].y);
 		}
@@ -87,7 +88,6 @@ public class MapPanel extends JPanel {
 				g2d.drawImage(roomTexture, p.x, p.y, ROOM.width, ROOM.height, null);
 				//g2d.setColor(Color.black);
 				//g.drawString(key.getDescription(), p.x, p.y);
-				roomLocations.put(key, p);
 			} else {
 				drawBorderRect(g, INACTIVE_ROOM, ROOM, p,2); //draw the active room in a different color
 				g2d.drawImage(roomTexture, p.x, p.y, ROOM.width, ROOM.height, null);
@@ -153,7 +153,7 @@ public class MapPanel extends JPanel {
 
 				this.exitLocations.add(new Point[]{exit1Point,exit2Point});
 
-				if(room.visited()) {
+				if(exits.get(key).visited()) {
 					roomLocations.put(exits.get(key), loc); //map the room to the point it will be on the map
 					locationSetup(exits.get(key), loc); //call the method on the next room.
 				}

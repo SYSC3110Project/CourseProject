@@ -10,11 +10,9 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultCaret;
 
 import courseProject.controller.Command;
 import courseProject.controller.CommandWord;
@@ -23,7 +21,6 @@ import courseProject.model.ModelChangeEvent;
 import courseProject.model.Room;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.drawable.Drawable2D;
-import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.twoD.drawable.Room2D;
 
 public class ViewMapD extends ViewText implements ActionListener{
@@ -31,6 +28,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 	private MapPanel mapArea;
 	private JTextArea textArea;
 	private JTextField inputField;
+	private JPanel textAreaPanel;
 	
 	public ViewMapD(){
 		super();
@@ -42,15 +40,11 @@ public class ViewMapD extends ViewText implements ActionListener{
 		mainWindow.setVisible(true);
 		
 		mapArea = new MapPanel();
-		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		textAreaPanel = new JPanel(new BorderLayout());
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
-
-		//JScrollPane scrollPane = new JScrollPane(textArea);
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
 
@@ -63,7 +57,6 @@ public class ViewMapD extends ViewText implements ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
 		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
@@ -80,7 +73,10 @@ public class ViewMapD extends ViewText implements ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		
+		if(message.length()==0) return;
+		if(textArea.getLineCount()>=10){
+			textArea.setText("");
+		}
 		textArea.append(message);
 		textArea.append("\n");
 	}
@@ -94,6 +90,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				mapArea.repaint();
+				textAreaPanel.repaint();
 			}
 		});
 	}
