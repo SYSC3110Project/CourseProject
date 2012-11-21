@@ -73,6 +73,7 @@ public class ViewMapD extends ViewText implements ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
+		if(message.length()==0) return;
 		if(textArea.getLineCount()>=10){
 			textArea.setText("");
 		}

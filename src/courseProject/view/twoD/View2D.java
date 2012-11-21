@@ -148,8 +148,8 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		if(message.length()==0) return;
-		if(textArea.getLineCount()>=10){
+		if(message.length()==0) return;//doesn't display empty lines
+		if(textArea.getLineCount()>=10){//cleans the text area every 10 lines
 			textArea.setText("");
 		}
 		textArea.append(message);
@@ -242,6 +242,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 				mapArea.setCurrentRoom((Room)drawable);
 			}
 		}
+		if(inventoryWin!=null && inventoryWin.isDisplayable()){
+			inventoryWindow();
+		}
+		if(characterWindow!=null && characterWindow.isDisplayable()){
+			characterWindow();
+		}
 		drawArea.updateDrawable(drawList);
 		
 	}
@@ -308,11 +314,19 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			JButton pressed = (JButton)(event.getSource());
 			if(pressed.equals(inventoryButton)) {
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
-				inventoryWindow();
+				if(inventoryWin!=null && inventoryWin.isDisplayable()){//closes window if its already open when you click the button
+					inventoryWin.dispose();
+				}else{
+					inventoryWindow();
+				}
 			}
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
-				characterWindow();
+				if(characterWindow!=null && characterWindow.isDisplayable()){
+					characterWindow.dispose();
+				}else{
+					characterWindow();
+				}
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
@@ -426,7 +440,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			inventoryWin.add(d);
 			d.addActionListener(this);
 		}
-		inventoryWin.setBounds(150, 0, 300, 80*rows);
+		inventoryWin.setBounds(350, 0, 300, 80*rows);
 		inventoryWin.setVisible(true);
 	}
 }
