@@ -173,9 +173,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 				if(drawable.getClass().equals(Room2D.class)) {
 					ExitDirection direction = ((Room2D)drawable).inExitBounds(player.getBounds());
 					if(direction!=null) { //if the player is in the exit bounds
-						notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction.toString())));
 						Point newPlayerLocation = new Point(drawable.getBounds().width/2, drawable.getBounds().height/2);
 						player.setLocation(newPlayerLocation); //set player to the middle of the room
+						notifyInputListeners(new InputEvent2D(new Command(CommandWord.go, direction.toString())));
+
 					}
 					continue;
 				}
