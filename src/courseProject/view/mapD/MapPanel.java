@@ -87,7 +87,6 @@ public class MapPanel extends JPanel {
 				g2d.drawImage(roomTexture, p.x, p.y, ROOM.width, ROOM.height, null);
 				//g2d.setColor(Color.black);
 				//g.drawString(key.getDescription(), p.x, p.y);
-				roomLocations.put(key, p);
 			} else {
 				drawBorderRect(g, INACTIVE_ROOM, ROOM, p,2); //draw the active room in a different color
 				g2d.drawImage(roomTexture, p.x, p.y, ROOM.width, ROOM.height, null);

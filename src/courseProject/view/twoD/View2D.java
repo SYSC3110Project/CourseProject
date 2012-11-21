@@ -1,7 +1,6 @@
 package courseProject.view.twoD;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -55,6 +54,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JTextField inputField;
 	private JFrame characterWindow;
 	private JFrame inventoryWin;
+	private JPanel textAreaPanel;
 
 	private Drawable2D collidingWithObject; //used for making it when you collide with an object only one collision happens
 
@@ -97,16 +97,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		buttonPanel.add(helpButton);
 		buttonPanel.add(quitButton);
 
-		JPanel textAreaPanel = new JPanel(new BorderLayout());
+		textAreaPanel = new JPanel(new BorderLayout());
 
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setToolTipText("What is happening to me");
-
-		JScrollPane scrollPane = new JScrollPane(textArea);
 
 
 		JPanel inputFieldPane = new JPanel(new BorderLayout());
@@ -120,7 +116,6 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		inputFieldPane.add(inputLabel, BorderLayout.WEST);
 		inputFieldPane.add(inputField, BorderLayout.CENTER);		
 
-		//textAreaPanel.add(scrollPane, BorderLayout.CENTER);//HERE (Its the scrollPane/caret that causes the render problem)
 		textAreaPanel.add(textArea, BorderLayout.CENTER);
 		textAreaPanel.add(inputFieldPane, BorderLayout.SOUTH);
 		
@@ -153,7 +148,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void displayMessage(String message) {
-		
+		if(message.length()==0) return;//doesn't display empty lines
+		if(textArea.getLineCount()>=10){//cleans the text area every 10 lines
+			textArea.setText("");
+		}
 		textArea.append(message);
 		textArea.append("\n");
 	}
@@ -210,6 +208,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			public void run() {
 				drawArea.repaint();
 				mapArea.repaint();
+				textAreaPanel.repaint();
 				mainWindow.repaint();
 				mainWindow.validate();
 			}
@@ -243,6 +242,12 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			if(drawable.getClass().equals(Room2D.class)) {
 				mapArea.setCurrentRoom((Room)drawable);
 			}
+		}
+		if(inventoryWin!=null && inventoryWin.isDisplayable()){
+			inventoryWindow();
+		}
+		if(characterWindow!=null && characterWindow.isDisplayable()){
+			characterWindow();
 		}
 		drawArea.updateDrawable(drawList);
 		
@@ -310,11 +315,19 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			JButton pressed = (JButton)(event.getSource());
 			if(pressed.equals(inventoryButton)) {
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.inventory,null)));
-				inventoryWindow();
+				if(inventoryWin!=null && inventoryWin.isDisplayable()){//closes window if its already open when you click the button
+					inventoryWin.dispose();
+				}else{
+					inventoryWindow();
+				}
 			}
 			else if(pressed.equals(characterButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.character,null)));
-				characterWindow();
+				if(characterWindow!=null && characterWindow.isDisplayable()){
+					characterWindow.dispose();
+				}else{
+					characterWindow();
+				}
 			}
 			else if(pressed.equals(helpButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.help,null)));
@@ -428,7 +441,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			inventoryWin.add(d);
 			d.addActionListener(this);
 		}
-		inventoryWin.setBounds(150, 0, 300, 80*rows);
+		inventoryWin.setBounds(350, 0, 300, 80*rows);
 		inventoryWin.setVisible(true);
 	}
 }

@@ -88,7 +88,7 @@ public class CommandInterpreter implements InputListener
 				JOptionPane.QUESTION_MESSAGE,
 				null,
 				options,
-				options[1]);
+				options[2]);
     	
     	
     	if(viewOption!=null) {
