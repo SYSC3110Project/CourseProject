@@ -445,7 +445,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		int cols = 2;
 		int rows = (y-y%cols)/cols;
 		if(y%cols!=0) rows = rows+1;
-		inventoryWin.setLayout(new GridLayout(rows,cols*2));
+		inventoryWin.setLayout(new GridLayout(0,cols*2));
 		for(int i = 0; i<y; i++){
 			JButton b = new JButton(inv.getItem(i).getName());
 			inventoryWin.add(b);
