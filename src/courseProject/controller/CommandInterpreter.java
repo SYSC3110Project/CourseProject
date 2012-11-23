@@ -2,6 +2,7 @@ package courseProject.controller;
 
 import javax.swing.JOptionPane;
 
+import courseProjct.gameEditor.GameEditor;
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
@@ -80,7 +81,8 @@ public class CommandInterpreter implements InputListener
     	
     	Object[] options = {"Text-Based",
                 "Visual Text-Based",
-                "2D Game"};
+                "2D Game", 
+                "Game Editor"};
     	
     	Object viewOption = JOptionPane.showInputDialog(null,
 				"Welcome to the World of Nameless\nWhich version of the game would you like to play? ",
@@ -100,8 +102,13 @@ public class CommandInterpreter implements InputListener
 	    	else if (viewOption.equals(options[1])) { // 2D option
 	    		view = new ViewMapD();
 	    	}
-	    	else {
+	    	else if (viewOption.equals(options[2])) {
 	    		view = new View2D();
+	    	}
+	    	else {
+	    		startLevelEditor();
+	    		
+	    		return;
 	    	}
 	    	
 	    	Game game = new Game();
@@ -134,5 +141,12 @@ public class CommandInterpreter implements InputListener
 			} catch (InterruptedException e) {
 			}
         }
+    }
+    
+    private static void startLevelEditor() {
+    	GameEditor editor = new GameEditor();
+    	
+    	editor.show();
+    	
     }
 }
