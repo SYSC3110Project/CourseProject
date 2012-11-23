@@ -18,12 +18,23 @@ import javax.swing.JPanel;
 
 import courseProject.view.twoD.drawable.Room2D;
 
+/**
+ * The GameEditor will be a way to construct rooms and their 
+ * contents to be playable in the main game. It lets someone 
+ * who has very little Coding experience develop content.
+ * 
+ * @author Matthew Smith
+ * @version 11/23/2012
+ */
 public class GameEditor implements ActionListener{
 	
 	private List<Room2D> rooms;
 	private JFrame mainWindow;
 	private ImageSplitter splitter;
 
+	/**
+	 * Game Editor Constructor
+	 */
 	public GameEditor() {
 		
 		rooms = new ArrayList<Room2D>();
@@ -36,6 +47,11 @@ public class GameEditor implements ActionListener{
 		mainWindow.add(initRoomPanel());
 	}
 	
+	/**
+	 * Helper method returns the MenuBar used in the game editor
+	 * (primarily for code sectioning)
+	 * @return The GameEditor's Menu Bar
+	 */
 	private JMenuBar initMenuBar() {
 		JMenuBar menu = new JMenuBar();
 		{ //Using scope to help section code
@@ -54,18 +70,31 @@ public class GameEditor implements ActionListener{
 		}
 		return menu;
 	}
+	
+	/**
+	 * Helper method returns the ImageSplitter Panel
+	 * @return The ImageSplitter Panel
+	 */
 	private ImageSplitter initImagePanel() {
 		splitter = new ImageSplitter();
-		
 		return splitter;
 	}
 	
+	/**
+	 * Helper Method initializes the Panel which 
+	 * displays the Game's current Room how it 
+	 * would be displayed while playing.
+	 * @return The Game's Room.
+	 */
 	private JPanel initRoomPanel() {
 		JPanel temp = new JPanel();
 		temp.setPreferredSize(new Dimension(512,512));
 		return temp; 
 	}
 	
+	/** 
+	 * Helper Method handles loading images into the imageSplitter.
+	 */
 	private void loadImage() {
 		JFileChooser fileNamer = new JFileChooser();
 
@@ -83,13 +112,21 @@ public class GameEditor implements ActionListener{
 		
 	}
 	
+	/**
+	 * Shows the GameEditor and its contents.
+	 */
 	public void show() {
 		mainWindow.pack();
 		mainWindow.setVisible(true);
 	}
 	
+	/**
+	 * dispose the GameEditor and its contents.
+	 */
 	public void dispose() {
+		//TODO would you like to save?
 		mainWindow.dispose();
+		
 	}
 
 	@Override
