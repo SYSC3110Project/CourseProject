@@ -30,8 +30,8 @@ public class GameEditor implements ActionListener{
 	
 	private List<Room2D> rooms;
 	private JFrame mainWindow;
-	private ImageSplitter splitter;
-
+	private GridImager splitter;
+	private RoomBuilder builder;
 	/**
 	 * Game Editor Constructor
 	 */
@@ -75,7 +75,7 @@ public class GameEditor implements ActionListener{
 	 * Helper method returns the ImageSplitter Panel
 	 * @return The ImageSplitter Panel
 	 */
-	private ImageSplitter initImagePanel() {
+	private GridImager initImagePanel() {
 		splitter = new ImageSplitter();
 		return splitter;
 	}
@@ -86,10 +86,9 @@ public class GameEditor implements ActionListener{
 	 * would be displayed while playing.
 	 * @return The Game's Room.
 	 */
-	private JPanel initRoomPanel() {
-		JPanel temp = new JPanel();
-		temp.setPreferredSize(new Dimension(512,512));
-		return temp; 
+	private RoomBuilder initRoomPanel() {
+		builder = new RoomBuilder();
+		return builder; 
 	}
 	
 	/** 
@@ -104,7 +103,7 @@ public class GameEditor implements ActionListener{
 			File source;
 			source = fileNamer.getSelectedFile();
 			splitter.setImage(source); // set the image of the splitter
-			
+			builder.setImage(source);
 		}
 		else if(returnVal == JFileChooser.ERROR_OPTION) {
 			JOptionPane.showMessageDialog(null,"There was an error loading the Image.", "Load Error", JOptionPane.ERROR_MESSAGE);
@@ -135,7 +134,6 @@ public class GameEditor implements ActionListener{
 			JMenuItem pressed = (JMenuItem) event.getSource();		
 
 			if(pressed.getText().equals("Load Image")) {
-				System.out.println("Loading Image");
 				loadImage();
 			} else if(pressed.getText().equals("Save")) {
 				

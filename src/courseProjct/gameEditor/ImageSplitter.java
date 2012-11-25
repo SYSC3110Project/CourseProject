@@ -1,19 +1,9 @@
 package courseProjct.gameEditor;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  * ImageSplitter is a class which can select sections of images and 
@@ -23,133 +13,43 @@ import javax.swing.JPanel;
  * @author Matthew Smith
  * @version 11/23/2012
  */
-public class ImageSplitter extends JPanel implements MouseListener{
+public class ImageSplitter extends GridImager{
 
 	/**eclipse Generated SerialID*/
 	private static final long serialVersionUID = -4701743223624841432L;
-	private static final Color DEF_GRID_COLOR = Color.red;
-	private static final Color DEF_BACKGROUND_COLOUR = Color.magenta;
-	private static final int GRID_SECTIONS = 32;
-	private static final int IMAGE_SIZE = 512;
-	private static final String SELECTOR_PATH = "res/selector.png";
-	
-	private BufferedImage image;
-	private BufferedImage selector;
-	private Point selectorLocation;
-	private String imagePath;
-	
-	private boolean gridVisible;
-	private Color gridColor;
-
 	/**
 	 * Constructor for the ImageSplitter.
 	 */
 	public ImageSplitter(){
 		super();
-		
-		try {
-            selector = ImageIO.read(new File(SELECTOR_PATH)); //load the image of the selector
-        } catch (IOException e) {}
-		
-		selectorLocation = new Point(0,0); //start the selector at 0,0
 
-		gridColor = DEF_GRID_COLOR; //set the color of the grid
-		gridVisible = true;
-		
-		this.addMouseListener(this); // listen for mouse events on self.
 		this.setPreferredSize(new Dimension(IMAGE_SIZE,IMAGE_SIZE));
-	}
-	
-	/**
-	 * Set the Image which will be drawn under the grid.
-	 * @param source the File source for the image to be loaded.
-	 */
-	public void setImage(File source) {
-		this.imagePath = source.getAbsolutePath();
-		try {
-			source = new File(imagePath);
-            image = ImageIO.read(source);
-        } catch (IOException e) {
-        	JOptionPane.showMessageDialog(this, "Cannot read File: "+imagePath, "Error Opening File", JOptionPane.ERROR_MESSAGE);
-        }
-		this.repaint();
-	}
-	
-	/**
-	 * Return the path of the image being used.
-	 * @return The image Path.
-	 */
-	public String getImagePath() {
-		return imagePath;
-	}
-	
-	/**
-	 * Set the color of the grid drawn on the screen
-	 * @param color The new color of the grid.
-	 */
-	public void setGridColor(Color color) {
-		this.gridColor = color;
-	}
-	
-	/**
-	 * Return the color of the grid drawn on the screen.
-	 * @return The color of the grid.
-	 */
-	public Color getGridColor() {
-		return gridColor;
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
+
 		g.setColor(DEF_BACKGROUND_COLOUR);
 		g.fillRect(0, 0, IMAGE_SIZE, IMAGE_SIZE); //clear the screen to remove artifacts
+		
 		
 		Graphics2D g2d = (Graphics2D) g;
 		if(image != null) { // if there is an image to draw, draw it
 			g2d.drawImage(image, 0, 0, IMAGE_SIZE, IMAGE_SIZE, 0, 0, IMAGE_SIZE, IMAGE_SIZE, null);
 		}
-		
+	
 		if(gridVisible) {
 			drawGrid(g); //draw the grid 
 		}
-		
+				
 		//Draw the selector to the screen over top of everything else
 		g2d.drawImage(selector, selectorLocation.x, selectorLocation.y, selectorLocation.x+GRID_SECTIONS, selectorLocation.y+GRID_SECTIONS, 
 						0, 0, GRID_SECTIONS, GRID_SECTIONS, null);
 	}
 
-	/**
-	 * Helper method draws a grid to the specified graphics using 
-	 * the GRID_SECTIONS constant for the grid spacing.
-	 * @param g The Graphics to draw the grid to.
-	 */
-	private void drawGrid(Graphics g) {
-		g.setColor(gridColor); 
-		for(int step=0;step<=IMAGE_SIZE;step+=GRID_SECTIONS) { //draw the columns
-			g.drawLine(step, 0, step, IMAGE_SIZE); 
-			g.drawLine(0, step, IMAGE_SIZE, step);  
-		} 
-	}
-
-
 	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		selectorLocation.x = e.getX()-e.getX()%32; //set the selector icon to the new grid point (mod for positioning with the grid)
-		selectorLocation.y = e.getY()-e.getY()%32;
-		this.repaint();
+	protected void handleMouseEvent(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
