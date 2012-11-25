@@ -2,14 +2,14 @@ package courseProjct.gameEditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -31,6 +31,8 @@ public abstract class GridImager extends JPanel implements MouseListener{
 	protected boolean gridVisible;
 	protected Color gridColor;
 
+	protected List<GridListener> listeners;
+	
 	public GridImager() {
 		super();
 		try {
@@ -42,21 +44,25 @@ public abstract class GridImager extends JPanel implements MouseListener{
 		gridColor = DEF_GRID_COLOR; //set the color of the grid
 		gridVisible = true;
 		
+		listeners = new ArrayList<GridListener>();
+		
 		this.addMouseListener(this); // listen for mouse events on self.
 	}
-
-	public GridImager(LayoutManager layout) {
-		super(layout);
+	
+	public void addGridListener(GridListener listener) {
+		listeners.add(listener);
 	}
 
-	public GridImager(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
+	public void removeGridListener(GridListener listener) {
+		listeners.remove(listener);
 	}
-
-	public GridImager(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
+	
+	protected void notifyGridListeners(GridEvent e) {
+		for(GridListener l : listeners) {
+			l.handleGridEvent(e);
+		}
 	}
-
+	
 	/**
 	 * Set the Image which will be drawn under the grid.
 	 * @param source the File source for the image to be loaded.
@@ -78,6 +84,10 @@ public abstract class GridImager extends JPanel implements MouseListener{
 	 */
 	public String getImagePath() {
 		return imagePath;
+	}
+	
+	public Point getSelectorPoint() {
+		return selectorLocation;
 	}
 
 	/**

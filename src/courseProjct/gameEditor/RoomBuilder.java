@@ -1,6 +1,3 @@
-/**
- * 
- */
 package courseProjct.gameEditor;
 
 import java.awt.Dimension;
@@ -10,8 +7,9 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 /**
+ * The RoomBuilder class represents what a room will look like when it is being drawn in the game.
  * @author Matthew Smith
- *
+ * @version 11/25/2012
  */
 public class RoomBuilder extends GridImager{
 
@@ -19,18 +17,45 @@ public class RoomBuilder extends GridImager{
 	private static final long serialVersionUID = -3585892715409340417L;
 	
 	private Point[][] levelLayout;
+	private Point[][] levelObjects;
 
+	/**
+	 * RoomBuilder is used to represent the layout and content of a Game Room before it is saved to an XML file.
+	 */
 	public RoomBuilder() {
 		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
 
 		// make an array for each grid section and x/y coords for the image section it will show
 		levelLayout = new Point[layoutSize][layoutSize]; 
+		levelObjects = new Point[layoutSize][layoutSize];
 		for(int row = 0;row<layoutSize;row++) {
-			for(int col = 0;col<layoutSize;col++) {
-				levelLayout[row][col] = new Point(row*GRID_SECTIONS,col*GRID_SECTIONS);
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				levelLayout[row][col] = new Point(0,0);
 			}
 		}		
 		this.setPreferredSize(new Dimension(IMAGE_SIZE,IMAGE_SIZE));
+	}
+	
+	/**
+	 * Set the point on the Image which will be drawn at the selector's location
+	 * @param startLocation The location to draw from on the source image
+	 */
+	public void setBackgroundAtSelector(Point startLocation) {
+		int row = selectorLocation.y/GRID_SECTIONS;
+		int col = selectorLocation.x/GRID_SECTIONS;
+		
+		levelLayout[row][col].setLocation(startLocation);
+	}
+	
+	/**
+	 * Set the point on the Image which will be drawn at the selector's location
+	 * @param startLocation The location to draw from on the source image
+	 */
+	public void setObjectAtSelector(Point startLocation) {
+		int row = selectorLocation.y/GRID_SECTIONS;
+		int col = selectorLocation.x/GRID_SECTIONS;
+		
+		levelObjects[row][col] = new Point(startLocation);
 	}
 
 	@Override
@@ -47,13 +72,20 @@ public class RoomBuilder extends GridImager{
 					int rowIndex = row/GRID_SECTIONS;
 					int colIndex = col/GRID_SECTIONS;
 
-				g2d.drawImage(image, col, row, col+GRID_SECTIONS, row+GRID_SECTIONS, 
-						levelLayout[rowIndex][colIndex].x, levelLayout[rowIndex][colIndex].y,
-						levelLayout[rowIndex][colIndex].x+GRID_SECTIONS, levelLayout[rowIndex][colIndex].y+GRID_SECTIONS, null);
+					g2d.drawImage(image, col, row, col+GRID_SECTIONS, row+GRID_SECTIONS,  //draw the background content
+							levelLayout[rowIndex][colIndex].x, levelLayout[rowIndex][colIndex].y,
+							levelLayout[rowIndex][colIndex].x+GRID_SECTIONS, levelLayout[rowIndex][colIndex].y+GRID_SECTIONS, null);
+					
+
+					if(levelObjects[rowIndex][colIndex] != null) { //if there is a level Object there, draw it
+						g2d.drawImage(image, col, row, col+GRID_SECTIONS, row+GRID_SECTIONS, 
+								levelObjects[rowIndex][colIndex].x, levelObjects[rowIndex][colIndex].y,
+								levelObjects[rowIndex][colIndex].x+GRID_SECTIONS, levelObjects[rowIndex][colIndex].y+GRID_SECTIONS, null);
+					}
+					
 				}
 			}
 		}
-
 
 		if(gridVisible) {
 			drawGrid(g); //draw the grid 
@@ -66,8 +98,7 @@ public class RoomBuilder extends GridImager{
 
 	@Override
 	protected void handleMouseEvent(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.notifyGridListeners(new GridEvent(this, selectorLocation.x, selectorLocation.y));
 	}
 
 }

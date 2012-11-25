@@ -1,13 +1,15 @@
 package courseProjct.gameEditor;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,25 +28,38 @@ import courseProject.view.twoD.drawable.Room2D;
  * @author Matthew Smith
  * @version 11/23/2012
  */
-public class GameEditor implements ActionListener{
+public class GameEditor implements ActionListener, GridListener{
 	
 	private List<Room2D> rooms;
 	private JFrame mainWindow;
 	private GridImager splitter;
 	private RoomBuilder builder;
+	private JButton modeButton;
+	private EditorMode mode;
+	
 	/**
 	 * Game Editor Constructor
 	 */
 	public GameEditor() {
 		
 		rooms = new ArrayList<Room2D>();
+		mode = EditorMode.Background;
 		
 		mainWindow = new JFrame("Game Editor");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setLayout(new GridLayout(1,2,5,5));
+		mainWindow.setLayout(new BorderLayout());
+		
+		JPanel contentPanel = new JPanel(new GridLayout(1,2,5,5));
+		contentPanel.add(initImagePanel());
+		contentPanel.add(initRoomPanel());
+		
+		modeButton = new JButton("Background Layer");
+		modeButton.addActionListener(this);
+		
+		mainWindow.add(contentPanel, BorderLayout.CENTER);
+		mainWindow.add(modeButton, BorderLayout.SOUTH);
 		mainWindow.setJMenuBar(initMenuBar());
-		mainWindow.add(initImagePanel());
-		mainWindow.add(initRoomPanel());
+		
 	}
 	
 	/**
@@ -77,6 +92,7 @@ public class GameEditor implements ActionListener{
 	 */
 	private GridImager initImagePanel() {
 		splitter = new ImageSplitter();
+		splitter.addGridListener(this);
 		return splitter;
 	}
 	
@@ -88,6 +104,7 @@ public class GameEditor implements ActionListener{
 	 */
 	private RoomBuilder initRoomPanel() {
 		builder = new RoomBuilder();
+		builder.addGridListener(this);
 		return builder; 
 	}
 	
@@ -138,6 +155,32 @@ public class GameEditor implements ActionListener{
 			} else if(pressed.getText().equals("Save")) {
 				
 			}
+		} else if(event.getSource().equals(modeButton)) {
+			switch(mode) {
+			case Background:
+				modeButton.setText("Object Mode");
+				mode = EditorMode.Object;
+				break;
+			case Object:
+				modeButton.setText("Background Mode");
+				mode = EditorMode.Background;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void handleGridEvent(GridEvent e) {
+		if(e.getSource().equals(builder)) {
+			if(mode.equals(EditorMode.Background)) {
+				builder.setBackgroundAtSelector(splitter.getSelectorPoint());
+			} else if(mode.equals(EditorMode.Object)) {
+				builder.setObjectAtSelector(splitter.getSelectorPoint());
+			}
+		} else if(e.getSource().equals(splitter)) {
+			
 		}
 	}
 	
