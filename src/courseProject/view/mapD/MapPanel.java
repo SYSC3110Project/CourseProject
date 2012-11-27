@@ -77,31 +77,34 @@ public class MapPanel extends JPanel {
 
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(EXIT_WIDTH));
-		for (Point[] p : this.exitLocations) {
-			g2d.drawLine(p[0].x, p[0].y, p[1].x, p[1].y);
-		}
+		
+				  for (Point[] p : this.exitLocations) {
+					  g2d.drawLine(p[0].x, p[0].y, p[1].x, p[1].y);
+				  }
+			  
 
 		// g2d.setStroke(new BasicStroke(0));
-		for (Room key : this.roomLocations.keySet()) {
-			Point p = this.roomLocations.get(key);
-			if (key == this.currentRoom) { // literally a reference to the same
+		
+				  for (Room key : this.roomLocations.keySet()) {
+					  Point p = this.roomLocations.get(key);
+					  if (key == this.currentRoom) { // literally a reference to the same
 											// room, not just if the two are equal
-				drawBorderRect(g, ACTIVE_ROOM, ROOM, p, 5); 
-				// draw the active room in a different color
+						  drawBorderRect(g, ACTIVE_ROOM, ROOM, p, 5); 
+						  // draw the active room in a different color
 
-				g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
-						ROOM.height, null);
-				// g2d.setColor(Color.black);
-				// g.drawString(key.getDescription(), p.x, p.y);
-			} else {
-				drawBorderRect(g, INACTIVE_ROOM, ROOM, p, 2); 
-				// draw the inactive room in a different color
-				g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
-						ROOM.height, null);
-				// g2d.setColor(Color.black);
-				// g.drawString(key.getDescription(), p.x, p.y);
-			}
-		}
+						  g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
+								  ROOM.height, null);
+						  // g2d.setColor(Color.black);
+						  // g.drawString(key.getDescription(), p.x, p.y);
+					  } else {
+						  drawBorderRect(g, INACTIVE_ROOM, ROOM, p, 2); 
+						  // draw the inactive room in a different color
+						  g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
+								  ROOM.height, null);
+						  // g2d.setColor(Color.black);
+						  // g.drawString(key.getDescription(), p.x, p.y);
+					  }
+				  }
 
 	}
 
@@ -187,15 +190,17 @@ public class MapPanel extends JPanel {
 				Point exit2Point = new Point(loc); //set up the ending point for the exit
 				exit2Point.x += ROOM.getWidth() / 2;
 				exit2Point.y += ROOM.getHeight() / 2;
-
 				this.exitLocations.add(new Point[] { exit1Point, exit2Point }); //add it to be drawn later
-
+				
+				
 				if (exits.get(key).visited()) {
-					this.roomLocations.put(exits.get(key), loc); 
-					// map the room to the point it will be on the map
-					locationSetup(exits.get(key), loc); // call this method again on the next room.
-					// this will happen until there are no more
-					// attached rooms to traverse or they have not been visited.
+					
+						this.roomLocations.put(exits.get(key), loc); 
+						// map the room to the point it will be on the map
+						locationSetup(exits.get(key), loc); // call this method again on the next room.
+						// this will happen until there are no more
+						// attached rooms to traverse or they have not been visited.
+						
 				}
 			}
 		}
