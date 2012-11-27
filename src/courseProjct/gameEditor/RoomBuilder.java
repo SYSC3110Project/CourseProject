@@ -53,6 +53,15 @@ public class RoomBuilder extends GridImager{
 		
 		levelLayout[row][col].setLocation(startLocation);
 	}
+	/**
+	 * Changes the background image at the selector's location to the default one
+	 */
+	public void delBackgroundAtSelector(){
+		int row = selectorLocation.y/GRID_SECTIONS;
+		int col = selectorLocation.x/GRID_SECTIONS;
+		
+		levelLayout[row][col].setLocation(0, 0);
+	}
 	
 	/**
 	 * Set the point on the Image which will be drawn at the selector's location
@@ -63,6 +72,15 @@ public class RoomBuilder extends GridImager{
 		int col = selectorLocation.x/GRID_SECTIONS;
 		
 		levelObjects[row][col] = new Point(startLocation);
+	}
+	/**
+	 * Removes the object image at the selector's location
+	 */
+	public void delObjectAtSelector(){
+		int row = selectorLocation.y/GRID_SECTIONS;
+		int col = selectorLocation.x/GRID_SECTIONS;
+		
+		levelObjects[row][col] = null;
 	}
 
 	@Override

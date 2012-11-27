@@ -1,6 +1,7 @@
 package courseProjct.gameEditor;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,9 @@ public class GameEditor implements ActionListener, GridListener{
 	private GridImager splitter;
 	private RoomBuilder builder;
 	private JButton modeButton;
+	private JButton adButton;
 	private EditorMode mode;
+	private AddDelMode admode;
 	
 	/**
 	 * Game Editor Constructor
@@ -44,6 +47,7 @@ public class GameEditor implements ActionListener, GridListener{
 		
 		rooms = new ArrayList<Room2D>();
 		mode = EditorMode.Background;
+		admode = AddDelMode.Add;
 		
 		mainWindow = new JFrame("Game Editor");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,11 +57,17 @@ public class GameEditor implements ActionListener, GridListener{
 		contentPanel.add(initImagePanel());
 		contentPanel.add(initRoomPanel());
 		
-		modeButton = new JButton("Background Layer");
+		modeButton = new JButton("Background Mode");
 		modeButton.addActionListener(this);
 		
+		adButton = new JButton("Add Tiles");
+		adButton.addActionListener(this);
+		
 		mainWindow.add(contentPanel, BorderLayout.CENTER);
-		mainWindow.add(modeButton, BorderLayout.SOUTH);
+		JPanel buttonPanel = new JPanel(new BorderLayout());
+		buttonPanel.add(adButton, BorderLayout.NORTH);
+		buttonPanel.add(modeButton, BorderLayout.SOUTH);
+		mainWindow.add(buttonPanel, BorderLayout.SOUTH);
 		mainWindow.setJMenuBar(initMenuBar());
 		
 	}
@@ -112,7 +122,7 @@ public class GameEditor implements ActionListener, GridListener{
 	 * Helper Method handles loading images into the imageSplitter.
 	 */
 	private void loadImage() {
-		JFileChooser fileNamer = new JFileChooser();
+		JFileChooser fileNamer = new JFileChooser("res\\");
 
 		int returnVal = fileNamer.showOpenDialog(null);
 
@@ -171,17 +181,39 @@ public class GameEditor implements ActionListener, GridListener{
 			default:
 				break;
 			}
+		} else if(event.getSource().equals(adButton)){
+			switch(admode){
+			case Add:
+				adButton.setText("Delete Tiles");
+				admode = AddDelMode.Del;
+				break;
+			case Del:
+				adButton.setText("Add Tiles");
+				admode = AddDelMode.Add;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
 	@Override
 	public void handleGridEvent(GridEvent e) {
 		if(e.getSource().equals(builder)) {
-			if(mode.equals(EditorMode.Background)) {
-				builder.setBackgroundAtSelector(splitter.getSelectorPoint());
-			} else if(mode.equals(EditorMode.Object)) {
-				builder.setObjectAtSelector(splitter.getSelectorPoint());
+			if(admode.equals(AddDelMode.Add)){
+				if(mode.equals(EditorMode.Background)) {
+					builder.setBackgroundAtSelector(splitter.getSelectorPoint());
+				} else if(mode.equals(EditorMode.Object)) {
+					builder.setObjectAtSelector(splitter.getSelectorPoint());
+				}
+			}else if(admode.equals(AddDelMode.Del)){
+				if(mode.equals(EditorMode.Background)) {
+					builder.delBackgroundAtSelector();
+				} else if(mode.equals(EditorMode.Object)) {
+					builder.delObjectAtSelector();
+				}
 			}
+			
 		} else if(e.getSource().equals(splitter)) {
 			
 		}
