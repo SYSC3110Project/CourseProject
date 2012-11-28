@@ -77,6 +77,7 @@ public class Room
     		monsterList.add(new Monster(m));
     	}
     	monsters  = monsterList;
+    	visited = r.visited();
     	
     	
     }

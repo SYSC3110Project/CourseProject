@@ -50,6 +50,9 @@ public abstract class Creature{
     	}else{
         	int damage = weapon.getValue()*attack;
         	s = c.hurt(damage);
+        	if(c.health>0){
+        		s = s + ", "+ c.health +" health left";
+        	}
     	}
     	return s;
     }
