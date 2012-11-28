@@ -162,6 +162,9 @@ public class GameEditor implements ActionListener, GridListener{
 			if(pressed.getText().equals("Load Image")) {
 				loadImage();
 			} else if(pressed.getText().equals("Save")) {
+				System.out.println(builder.backgroundLayerToString());
+				System.out.println(builder.objectLayerToString());
+			} else if(pressed.getText().equals("Load")) {
 				
 			}
 		} else if(event.getSource().equals(modeButton)) {

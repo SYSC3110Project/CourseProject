@@ -6,6 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import courseProject.Util;
+
+
 /**
  * The RoomBuilder class represents what a room will look like when it is being drawn in the game.
  * @author Matthew Smith
@@ -25,6 +31,7 @@ public class RoomBuilder extends GridImager{
 	public RoomBuilder() {
 		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
 
+		
 		// make an array for each grid section and x/y coords for the image section it will show
 		levelLayout = new Point[layoutSize][layoutSize]; 
 		levelObjects = new Point[layoutSize][layoutSize];
@@ -114,6 +121,77 @@ public class RoomBuilder extends GridImager{
 				0, 0, GRID_SECTIONS, GRID_SECTIONS, null);
 	}
 
+	/**
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	public Element toXMLElement(Document doc) {
+		Element objects = doc.createElement("objects");
+		objects.setTextContent(this.objectLayerToString());
+		
+		Element background = doc.createElement("background");
+		background.setTextContent(this.backgroundLayerToString());
+
+		Element layout = doc.createElement("layout");
+		layout.appendChild(background);
+		layout.appendChild(objects);
+		
+		return layout;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String objectLayerToString() {
+		StringBuffer buff = new StringBuffer();
+
+		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
+		
+		for(int row = 0;row<layoutSize;row++) {
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				if(levelObjects[row][col] != null) {
+					int x = levelObjects[row][col].x/GRID_SECTIONS;
+					int y = levelObjects[row][col].y/GRID_SECTIONS;
+					
+					buff.append(Util.intToHexChar(x));
+					buff.append(Util.intToHexChar(y));
+					buff.append(" ");
+				} else {
+					buff.append("XX ");
+				}
+			}
+			buff.append("\n");
+		}	
+		
+		return buff.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String backgroundLayerToString() {
+		StringBuffer buff = new StringBuffer();
+
+		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
+
+		for(int row = 0;row<layoutSize;row++) {
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				int x = levelLayout[row][col].x/GRID_SECTIONS;
+				int y = levelLayout[row][col].y/GRID_SECTIONS;
+				
+				buff.append(Util.intToHexChar(x));
+				buff.append(Util.intToHexChar(y));
+				buff.append(" ");
+			}
+			buff.append("\n");
+		}	
+		
+		return buff.toString();
+	}
+	
 	@Override
 	protected void handleMouseEvent(MouseEvent e) {
 		this.notifyGridListeners(new GridEvent(this, selectorLocation.x, selectorLocation.y));
