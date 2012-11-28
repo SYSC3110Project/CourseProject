@@ -32,7 +32,7 @@ public class GameTest {
 	public void testGoRoom()
 	{
 		room1=game.getPlayer().getRoom();
-		game.goRoom(new Command(CommandWord.go,"west"));
+		game.processCommand(new Command(CommandWord.go,"west"));
 		room2=game.getPlayer().getRoom();
 		assertTrue(room1!=room2);
 	}
@@ -73,7 +73,7 @@ public class GameTest {
 	{
 		game.take(new Command(CommandWord.take,"magicOrb"));
 		game.use(new Command(CommandWord.inventory,"magicOrb"));
-		game.goRoom(new Command(CommandWord.go,"east"));
+		game.processCommand(new Command(CommandWord.go,"east"));
 		assertTrue(game.attack(new Command(CommandWord.attack,"Orc")));
 	}	
 }

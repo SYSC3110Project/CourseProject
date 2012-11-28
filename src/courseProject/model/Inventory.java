@@ -42,7 +42,11 @@ public class Inventory{
 //    	}
 		ArrayList<Item> temp = new ArrayList<Item>();
 		for(Item i : inv.items){
-			temp.add(new Item2D((Item2D)i));
+			if(i instanceof Item2D){
+				temp.add(new Item2D((Item2D)i));
+			}else{
+				temp.add(new Item(i));
+			}
 		}
 		this.items = temp;
 	}
