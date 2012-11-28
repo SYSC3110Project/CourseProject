@@ -198,7 +198,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.attack, monsterName)));
 
 							collidingWithObject = drawable;
-							if(characterWindow!=null && characterWindow.isDisplayable()){
+							if(characterWindow!=null && characterWindow.isVisible()){
 								characterWindow();
 							}
 						}
@@ -207,7 +207,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.take, itemName)));
 
 							collidingWithObject = drawable;
-							if(inventoryWin!=null && inventoryWin.isDisplayable()){
+							if(inventoryWin!=null && inventoryWin.isVisible()){
 								inventoryWindow();
 							}
 						}
