@@ -198,12 +198,18 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.attack, monsterName)));
 
 							collidingWithObject = drawable;
+							if(characterWindow!=null && characterWindow.isVisible()){
+								characterWindow();
+							}
 						}
 						else if(drawable.getClass().equals(Item2D.class)) { //if player collides with an item
 							String itemName = ((Item2D)drawable).getName();
 							notifyInputListeners(new InputEvent2D(new Command(CommandWord.take, itemName)));
 
 							collidingWithObject = drawable;
+							if(inventoryWin!=null && inventoryWin.isVisible()){
+								inventoryWindow();
+							}
 						}
 					}
 				}
@@ -253,12 +259,11 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			if(drawable.getClass().equals(Room2D.class)) {
 				mapArea.setCurrentRoom((Room)drawable);
 			}
-		}
-		if(inventoryWin!=null && inventoryWin.isDisplayable()){
-			inventoryWindow();
-		}
-		if(characterWindow!=null && characterWindow.isDisplayable()){
-			characterWindow();
+			if(drawable.getClass().equals(Item2D.class)){
+				if(player.collidesWith(drawable)){
+					collidingWithObject = drawable;
+				}
+			}
 		}
 		drawArea.updateDrawable(drawList);
 		
@@ -306,10 +311,10 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	 */
 	@Override
 	public void dispose(){
-		if(inventoryWin!=null && inventoryWin.isDisplayable()){
+		if(inventoryWin!=null && inventoryWin.isVisible()){
 			inventoryWin.dispose();
 		}
-		if(characterWindow!=null && characterWindow.isDisplayable()){
+		if(characterWindow!=null && characterWindow.isVisible()){
 			characterWindow.dispose();
 		}
 		mainWindow.dispose();
@@ -356,15 +361,16 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 				JButton src = (JButton)event.getSource();
 				if(src.getText().startsWith("drop")){
 					notifyInputListeners(new InputEvent2D(new Command(CommandWord.drop,""+src.getText().substring(5))));
+					
 				}
 				else {
 					notifyInputListeners(new InputEvent2D(new Command(CommandWord.use,""+src.getText())));
 				}
 				//updates windows
-				if(inventoryWin!=null && inventoryWin.isDisplayable()){
+				if(inventoryWin!=null && inventoryWin.isVisible()){
 					inventoryWindow();
 				}
-				if(characterWindow!=null && characterWindow.isDisplayable()){
+				if(characterWindow!=null && characterWindow.isVisible()){
 					characterWindow();
 				}
 			}
