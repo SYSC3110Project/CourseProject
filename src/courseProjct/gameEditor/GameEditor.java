@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -88,6 +89,10 @@ public class GameEditor implements ActionListener, GridListener{
 				JMenuItem saveEntry = new JMenuItem("Save");
 				saveEntry.addActionListener(this);
 				fileMenu.add(saveEntry);
+				
+				JMenuItem connectR = new JMenuItem("Connect Rooms");
+				connectR.addActionListener(this);
+				fileMenu.add(connectR);
 			}
 			
 			menu.add(fileMenu);
@@ -138,6 +143,29 @@ public class GameEditor implements ActionListener, GridListener{
 	}
 	
 	/**
+	 * Helper Method handles building the room connecter window
+	 */
+	private void gameBuilder(){
+		JFrame connectWindow = new JFrame("Game Connector");
+		connectWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		connectWindow.setLayout(new BorderLayout());
+		
+		JMenuBar menu = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem saveEntry = new JMenuItem("Save Game");
+		saveEntry.addActionListener(this);
+		fileMenu.add(saveEntry);
+		menu.add(fileMenu);
+		connectWindow.setJMenuBar(menu);
+		
+		JPanel buildPanel = new JPanel();
+		//buildPanel.setLayout(new BoxLayout(buildPanel, BoxLayout.Y_AXIS));
+		
+		connectWindow.pack();
+		connectWindow.setVisible(true);
+	}
+	
+	/**
 	 * Shows the GameEditor and its contents.
 	 */
 	public void show() {
@@ -166,6 +194,10 @@ public class GameEditor implements ActionListener, GridListener{
 				System.out.println(builder.objectLayerToString());
 			} else if(pressed.getText().equals("Load")) {
 				
+			}else if(pressed.getText().equals("Connect Rooms")){
+				gameBuilder();
+			}else if(pressed.getText().equals("Save Game")){
+				//TODO
 			}
 		} else if(event.getSource().equals(modeButton)) {
 			switch(mode) {
