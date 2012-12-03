@@ -48,6 +48,7 @@ public class Game
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
     private List<ModelListener> listeners;
+    private List<Room> rooms; 
         
     /**
      * Create the game and initialize its internal map.
@@ -57,6 +58,7 @@ public class Game
     	listeners = new ArrayList<ModelListener>();
     	undoStack = new Stack<Player>();
         redoStack = new Stack<Player>();
+        rooms=new ArrayList<Room>();
         createRooms();
     }
     
@@ -521,6 +523,14 @@ public class Game
     public void addUndo(){
     	undoStack.push(new Player2D((Player2D)mc));
     }
+    
+    /**
+     * used by the level loader to set the list of rooms.
+     * @param rooms
+     */
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
+	}
     
     
     
