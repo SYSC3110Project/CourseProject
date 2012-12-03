@@ -48,7 +48,6 @@ public class Game
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
     private List<ModelListener> listeners;
-    private List<Room> rooms; 
         
     /**
      * Create the game and initialize its internal map.
@@ -58,8 +57,7 @@ public class Game
     	listeners = new ArrayList<ModelListener>();
     	undoStack = new Stack<Player>();
         redoStack = new Stack<Player>();
-        rooms=new ArrayList<Room>();
-        createRooms();
+        //createRooms();
     }
     
     /**
@@ -171,8 +169,7 @@ public class Game
 
         //initialize player
         mc = new Player2D(outside,20,1,1, george);
-        ((Player2D)mc).setLocation(new Point(75,150));
-        
+        ((Player2D)mc).setLocation(new Point(75,150)); 
     }
     
     
@@ -526,14 +523,10 @@ public class Game
     
     
     /**
-     * used by the level loader to set the list of rooms.
-     * @param rooms
+     * used by the level loader to set the Player.
+     * @param player
      */
-	public void setRooms(List<Room> rooms) {
-		this.rooms = rooms;
-	}
-    
-    
-    
-    
+	public void setPlayer(Player player) {
+		mc=player;
+	}    
 }

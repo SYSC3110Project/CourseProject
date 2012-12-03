@@ -2,9 +2,10 @@ package courseProject.controller;
 
 import javax.swing.JOptionPane;
 
-import courseProject.gameEditor.GameEditor;
+
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
+import courseProject.model.Player;
 import courseProject.view.View;
 import courseProject.view.mapD.ViewMapD;
 import courseProject.view.textD.ViewText;
@@ -106,13 +107,24 @@ public class CommandInterpreter implements InputListener
 	    		view = new View2D();
 	    	}
 	    	else {
-	    		startLevelEditor();
+	    		//startLevelEditor();
 	    		
 	    		return;
 	    	}
 	    	
-	    	Game game=new Game();
 	    	
+	    	LevelLoader loader=new LevelLoader();
+	    	
+	    	Game game=new Game();
+			try {
+				Player player=loader.LoadLevel("res\\game\\gameTest.xml");
+				game.setPlayer(player);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
 	    	game.addModelListeners((ModelListener)view);
@@ -143,11 +155,12 @@ public class CommandInterpreter implements InputListener
 			}
         }
     }
-    
+    /*
     private static void startLevelEditor() {
-    /*	GameEditor editor = new GameEditor();
+    	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    */
+    
     }
+    */
 }

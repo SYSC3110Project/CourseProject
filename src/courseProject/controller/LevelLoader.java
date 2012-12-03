@@ -14,14 +14,12 @@ import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
 import courseProject.view.twoD.drawable.Item2D;
+import courseProject.view.twoD.drawable.Room2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
 
-
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
-
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,7 +38,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class LevelLoader {
 	
 	private Map<String,Room> rooms;
-	Document doc=null;
+	private Player mc;
+	private Document doc=null;
 	
 	/**
 	 * creates a new LevelLoader
@@ -75,9 +74,11 @@ public class LevelLoader {
 	
 	
 	
-	
+	/**
+	 * Parses the document made by parseXMLFile. Creates a a list of rooms
+	 * with monsters and items in them and a player in one of the rooms.
+	 */
 	private void parseDocument(){
-		
 		
 		//get the root element
 		Element docEle = doc.getDocumentElement();
@@ -105,18 +106,34 @@ public class LevelLoader {
 				getConnection(el);
 			}
 		}
+		nodelist=docEle.getElementsByTagName("player");
+		if(nodelist != null && nodelist.getLength() > 0) {
+			for(int i = 0 ; i < nodelist.getLength();i++) {
+				//get the player element
+				Element el = (Element)nodelist.item(0);
+				mc=getPlayer(el);
+			}
+		}
 	}
 	
 	/**
 	 * Adds the room represented by roomElement to the rooms map.
 	 */
 	private void getRoom(Element roomElement) {
-		
+		String spriteName=roomElement.getAttribute("sprite");
 		String name=getTextValue(roomElement,"name");
 		String description=getTextValue(roomElement,"description");
 		
+		
+
+		BufferedImage sprite = null;
+        try {
+            sprite = ImageIO.read(new File(spriteName));
+        } catch (IOException e) {
+        }
+		
 		//Create a new Room with the value read from the xml nodes
-		Room room = new Room(description);
+		Room2D room = new Room2D(description,sprite);
 		
 		rooms.put(name, room);
 		
@@ -166,12 +183,6 @@ public class LevelLoader {
 		int yloc=getIntValue(itemElement,"yloc");
 		String spriteName = itemElement.getAttribute("sprite");
 		
-		/*
-		System.out.println(description);
-		System.out.println(typeName);
-		System.out.println(weight);
-		System.out.println(spriteName);
-		*/
 		
 		BufferedImage sprite = null;
         try {
@@ -211,6 +222,7 @@ public class LevelLoader {
 		monster.setLocation(new Point(xloc,yloc));
 		return monster;
 	}
+	
 	/**
 	 * Connects two rooms based off a connection element.
 	 */
@@ -221,13 +233,40 @@ public class LevelLoader {
 		String termName = connectElement.getAttribute("terminator");
 		
 		String typeName = connectElement.getAttribute("type");
-		int xloc=getIntValue(connectElement,"xloc");
-		int yloc=getIntValue(connectElement,"yloc");
 		
 		Room originator=rooms.get(origName);
 		Room terminator=rooms.get(termName);
 		
+		System.out.println(typeName);
 		originator.addExit(ExitDirection.parse(typeName),terminator);
+		
+	}
+	/**
+	 * 
+	 * @param playerElement
+	 */
+	private Player getPlayer(Element playerElement)
+	{
+		String startRoom=playerElement.getAttribute("startRoom");
+		int health=getIntValue(playerElement,"health");
+		int attack=getIntValue(playerElement,"attack");
+		int defence=getIntValue(playerElement,"defence");
+		int xloc=getIntValue(playerElement,"xloc");
+		int yloc=getIntValue(playerElement,"yloc");
+		
+		String spriteName = playerElement.getAttribute("sprite");
+		
+		BufferedImage sprite = null;
+        try {
+            sprite = ImageIO.read(new File(spriteName));
+        } catch (IOException e) {
+        }
+        
+        Room room=rooms.get(startRoom);
+        Player  mc = new Player2D(room,health,attack,defence, sprite);
+	    ((Player2D)mc).setLocation(new Point(xloc,yloc));
+	    
+	    return mc;
 		
 	}
 	/**
@@ -250,7 +289,6 @@ public class LevelLoader {
 	 * Calls getTextValue and returns a int value
 	 */
 	private int getIntValue(Element ele, String tagName) {
-		//in production application you would catch the exception
 		return Integer.parseInt(getTextValue(ele,tagName));
 	}
 	/**
@@ -258,48 +296,31 @@ public class LevelLoader {
 	 */
 	public static void main(String[] args){
 		LevelLoader loader=new LevelLoader();
-		File f=new File("res\\gameTest.xml");
-		loader.parseXmlFile(f);
-		loader.parseDocument();
+    	
+    	Game game=new Game();
+		try {
+			Player player=loader.LoadLevel("res\\gameTest.xml");
+			game.setPlayer(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
 	/**
-	 * Creates a Game based off the XML file fileName
+	 * Creates a Player in a room based off the XML file fileName
 	 * @param fileName
 	 * @return the new game
 	 */
-	public Game LoadLevel(String fileName) throws Exception
+	public Player LoadLevel(String fileName) throws Exception
 	{
-		Game game= new Game();
 		File f=new File(fileName);
 		parseXmlFile(f);
 		parseDocument();
-		
-		
-		ArrayList<Room> roomList=new ArrayList<Room>();
-		for(Room r:rooms.values())
-		{
-			roomList.add(r);
-		}
-		//game.setRooms(roomList);
-		
-		
-		BufferedImage george = null;
-	    try {
-	       george = ImageIO.read(new File("res\\SingleGeorge.png"));
-	    } catch (IOException e) {
-	    }
-
-	    //initialize player
-	    Player  mc = new Player2D(roomList.get(0),20,1,1, george);
-	    ((Player2D)mc).setLocation(new Point(75,150));
-		
-		return game;
-		
+		return mc;
 	}
 	/**
-	 * retruns the document doc
+	 * returns the document doc
 	 * @return
 	 */
 	public Document getDoc() {

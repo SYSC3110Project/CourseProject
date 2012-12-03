@@ -3,7 +3,7 @@
 		"The game Description"
 	</description>
 	<rooms>
-		<room>
+		<room sprite="res\\BasicRoom.png">
 			<name>House Entrance</name>
 			<description>"You are in front of a cave entrance."</description>
 			<tileset>"../res/woodland.png"</tileset>
@@ -25,7 +25,7 @@
 				</monster>
 			</monsters>
 		</room>
-		<room>
+		<room sprite="res\\BasicRoom.png">
 			<name>Outside</name>
 			<description>"You are outside."</description>
 			<tileset>"../res/woodland.png"</tileset>
@@ -37,19 +37,25 @@
 					<yloc>256</yloc>
 				</item>
 			</items>
-	
 		</room>
 	</rooms>
 	<connections>
-		<connection originator="Outside" terminator="House Entrance">
-			<type>"south"</type>
+		<connection originator="Outside" terminator="House Entrance" type="north">
 			<xloc>256</xloc>
 			<yloc>512</yloc>
 		</connection>
-		<connection originator="House Entrance" terminator="Outside">
-			<type>"north"</type>
+		<connection originator="House Entrance" terminator="Outside" type="south">
 			<xloc>256</xloc>
 			<yloc>0</yloc>	
 		</connection>	
 	</connections>
+	<players>
+	<player sprite="res\\SingleGeorge.png" startRoom="Outside">
+		<health>20</health>
+		<attack>1</attack>
+		<defence>1</defence>
+		<xloc>75</xloc>
+		<yloc>150</yloc>	
+	</player>
+	</players>
 </game>
