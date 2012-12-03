@@ -4,21 +4,21 @@
 		"The game Description"
 	</description>
 	<rooms>
-		<room>"Outside.xml"</room>
-		<room>"HouseEntrance.xml</room>
+		<room>"LakeSide.xml"</room>
+		<room>"CaveEntrance.xml</room>
 	</rooms>
 	<connections>
 		<connect>
-			<room1 name="Outside">
-				<exit type="south">
-					<xloc>256</xloc>
-					<yloc>512</yloc>
+			<room1 name="Lake Side">
+				<exit type="north">
+					<xloc>448</xloc>
+					<yloc>0</yloc>
 				</exit>
 			</room1>
-			<room2 name="House Entrance">
-				<exit type="north">
-					<xloc>256</xloc>
-					<yloc>0</yloc>
+			<room2 name="Cave Entrance">
+				<exit type="south">
+					<xloc>448</xloc>
+					<yloc>480</yloc>
 				</exit>
 			</room2>
 		</connect>
