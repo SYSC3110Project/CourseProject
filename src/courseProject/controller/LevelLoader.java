@@ -8,12 +8,14 @@ import javax.imageio.ImageIO;
 
 import courseProject.model.ExitDirection;
 import courseProject.model.Game;
+import courseProject.model.Player;
 import courseProject.model.Room;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
 import courseProject.model.Monster;
 import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.Monster2D;
+import courseProject.view.twoD.drawable.Player2D;
 
 
 import java.util.ArrayList;
@@ -270,16 +272,28 @@ public class LevelLoader {
 	public Game LoadLevel(String fileName) throws Exception
 	{
 		Game game= new Game();
-		File f=new File("res\\gameTest.xml");
+		File f=new File(fileName);
 		parseXmlFile(f);
 		parseDocument();
+		
 		
 		ArrayList<Room> roomList=new ArrayList<Room>();
 		for(Room r:rooms.values())
 		{
 			roomList.add(r);
 		}
-		game.setRooms(roomList);
+		//game.setRooms(roomList);
+		
+		
+		BufferedImage george = null;
+	    try {
+	       george = ImageIO.read(new File("res\\SingleGeorge.png"));
+	    } catch (IOException e) {
+	    }
+
+	    //initialize player
+	    Player  mc = new Player2D(roomList.get(0),20,1,1, george);
+	    ((Player2D)mc).setLocation(new Point(75,150));
 		
 		return game;
 		

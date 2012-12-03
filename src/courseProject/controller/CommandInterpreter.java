@@ -111,7 +111,8 @@ public class CommandInterpreter implements InputListener
 	    		return;
 	    	}
 	    	
-	    	Game game = new Game();
+	    	Game game=new Game();
+	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
 	    	game.addModelListeners((ModelListener)view);
