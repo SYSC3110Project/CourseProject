@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import courseProject.Util;
+
 /**
  * ImageSplitter is a class which can select sections of images and 
  * return the information needed to re-draw that section of the image.
@@ -23,19 +25,19 @@ public class ImageSplitter extends GridImager{
 	public ImageSplitter(){
 		super();
 
-		this.setPreferredSize(new Dimension(IMAGE_SIZE,IMAGE_SIZE));
+		this.setPreferredSize(new Dimension(Util.IMAGE_SIZE,Util.IMAGE_SIZE));
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 
 		g.setColor(DEF_BACKGROUND_COLOUR);
-		g.fillRect(0, 0, IMAGE_SIZE, IMAGE_SIZE); //clear the screen to remove artifacts
+		g.fillRect(0, 0, Util.IMAGE_SIZE, Util.IMAGE_SIZE); //clear the screen to remove artifacts
 		
 		
 		Graphics2D g2d = (Graphics2D) g;
 		if(image != null) { // if there is an image to draw, draw it
-			g2d.drawImage(image, 0, 0, IMAGE_SIZE, IMAGE_SIZE, 0, 0, IMAGE_SIZE, IMAGE_SIZE, null);
+			g2d.drawImage(image, 0, 0, Util.IMAGE_SIZE, Util.IMAGE_SIZE, 0, 0, Util.IMAGE_SIZE, Util.IMAGE_SIZE, null);
 		}
 	
 		if(gridVisible) {
@@ -43,8 +45,8 @@ public class ImageSplitter extends GridImager{
 		}
 				
 		//Draw the selector to the screen over top of everything else
-		g2d.drawImage(selector, selectorLocation.x, selectorLocation.y, selectorLocation.x+GRID_SECTIONS, selectorLocation.y+GRID_SECTIONS, 
-						0, 0, GRID_SECTIONS, GRID_SECTIONS, null);
+		g2d.drawImage(selector, selectorLocation.x, selectorLocation.y, selectorLocation.x+Util.GRID_SECTIONS, selectorLocation.y+Util.GRID_SECTIONS, 
+						0, 0, Util.GRID_SECTIONS, Util.GRID_SECTIONS, null);
 	}
 
 	@Override

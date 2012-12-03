@@ -424,6 +424,7 @@ public class Game implements Serializable
 			FileInputStream	fileIn = new FileInputStream("gameData.ser");	
 			ObjectInputStream In = new ObjectInputStream(fileIn);
 			Game game = (Game) In.readObject();
+			In.close();
 			return game;
 			
 		}
@@ -448,6 +449,7 @@ public class Game implements Serializable
 			FileOutputStream fileOut = new FileOutputStream("gameData.ser");
 			ObjectOutputStream Out = new ObjectOutputStream(fileOut);
 			Out.writeObject(this);
+			Out.close();
 		}
 		catch(FileNotFoundException e){
 			e.printStackTrace();

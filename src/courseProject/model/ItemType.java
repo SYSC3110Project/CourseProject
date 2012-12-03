@@ -29,15 +29,15 @@ public enum ItemType {
 	 */
 	public static ItemType ItemTypeFromString(String typeName)
 	{
-		if(typeName=="weapon")
+		if(typeName.equals("weapon"))
 		{
 			  return ItemType.weapon;
 		}
-		else if(typeName=="armor") 	
+		else if(typeName.equals("armor")) 	
 		{	
 			return ItemType.armor;
 		}
-		else	//typeName=="health"
+		else	//typeName.equals("health")
 		{
 			return ItemType.health;
 		}

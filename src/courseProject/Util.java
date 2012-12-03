@@ -18,6 +18,11 @@ public class Util {
 	/**Prime number used for seeding hash code.*/
 	public static final int HASH_SEED = 37;
 	
+	/**The Grid size for drawing the tileset*/
+	public static final int GRID_SECTIONS = 32;
+	/**The default image size for tilesets*/
+	public static final int IMAGE_SIZE = 512;
+	
 	/**
 	 * Takes an int and changes it into a hex char between 0 and F.
 	 * above 15 or below 0 return an 'X'
@@ -61,6 +66,51 @@ public class Util {
 		}
 
 		return 'X';
+	}
+	
+	/**
+	 * Takes a hex char between 0 and F and changes it into an int.
+	 * above 15 or below 0 return an -1.
+	 * @param c the character to change
+	 * @return integer representation of hex char
+	 */
+	public static int hexCharToInt(char c) {
+		switch (c) {
+		case '0':
+			return 0;
+		case '1':
+			return 1;
+		case '2':
+			return 2;
+		case '3':
+			return 3;
+		case '4':
+			return 4;
+		case '5':
+			return 5;
+		case '6':
+			return 6;
+		case '7':
+			return 7;
+		case '8':
+			return 8;
+		case '9':
+			return 9;
+		case 'A':
+			return 10;
+		case 'B':
+			return 11;
+		case 'C':
+			return 12;
+		case 'D':
+			return 13;
+		case 'E':
+			return 14;
+		case 'F':
+			return 15;			
+		}
+
+		return -1;
 	}
 	
 	/**

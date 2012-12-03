@@ -29,7 +29,7 @@ public class RoomBuilder extends GridImager{
 	 * RoomBuilder is used to represent the layout and content of a Game Room before it is saved to an XML file.
 	 */
 	public RoomBuilder() {
-		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
+		int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
 
 		
 		// make an array for each grid section and x/y coords for the image section it will show
@@ -40,7 +40,7 @@ public class RoomBuilder extends GridImager{
 				levelLayout[row][col] = new Point(0,0);
 			}
 		}		
-		this.setPreferredSize(new Dimension(IMAGE_SIZE,IMAGE_SIZE));
+		this.setPreferredSize(new Dimension(Util.IMAGE_SIZE,Util.IMAGE_SIZE));
 	}
 	
 	/**
@@ -48,8 +48,8 @@ public class RoomBuilder extends GridImager{
 	 * @param startLocation The location to draw from on the source image
 	 */
 	public void setBackgroundAtSelector(Point startLocation) {
-		int row = selectorLocation.y/GRID_SECTIONS;
-		int col = selectorLocation.x/GRID_SECTIONS;
+		int row = selectorLocation.y/Util.GRID_SECTIONS;
+		int col = selectorLocation.x/Util.GRID_SECTIONS;
 		
 		levelLayout[row][col].setLocation(startLocation);
 	}
@@ -57,8 +57,8 @@ public class RoomBuilder extends GridImager{
 	 * Changes the background image at the selector's location to the default one
 	 */
 	public void delBackgroundAtSelector(){
-		int row = selectorLocation.y/GRID_SECTIONS;
-		int col = selectorLocation.x/GRID_SECTIONS;
+		int row = selectorLocation.y/Util.GRID_SECTIONS;
+		int col = selectorLocation.x/Util.GRID_SECTIONS;
 		
 		levelLayout[row][col].setLocation(0, 0);
 	}
@@ -68,8 +68,8 @@ public class RoomBuilder extends GridImager{
 	 * @param startLocation The location to draw from on the source image
 	 */
 	public void setObjectAtSelector(Point startLocation) {
-		int row = selectorLocation.y/GRID_SECTIONS;
-		int col = selectorLocation.x/GRID_SECTIONS;
+		int row = selectorLocation.y/Util.GRID_SECTIONS;
+		int col = selectorLocation.x/Util.GRID_SECTIONS;
 		
 		levelObjects[row][col] = new Point(startLocation);
 	}
@@ -77,8 +77,8 @@ public class RoomBuilder extends GridImager{
 	 * Removes the object image at the selector's location
 	 */
 	public void delObjectAtSelector(){
-		int row = selectorLocation.y/GRID_SECTIONS;
-		int col = selectorLocation.x/GRID_SECTIONS;
+		int row = selectorLocation.y/Util.GRID_SECTIONS;
+		int col = selectorLocation.x/Util.GRID_SECTIONS;
 		
 		levelObjects[row][col] = null;
 	}
@@ -87,25 +87,25 @@ public class RoomBuilder extends GridImager{
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g.setColor(DEF_BACKGROUND_COLOUR);
-		g.fillRect(0, 0, IMAGE_SIZE, IMAGE_SIZE); //clear the screen to remove artifacts
+		g.fillRect(0, 0, Util.IMAGE_SIZE, Util.IMAGE_SIZE); //clear the screen to remove artifacts
 
 
 		if(image != null) { // if there is an image to draw, draw it
-			for(int row = 0;row<IMAGE_SIZE;row+=GRID_SECTIONS) {
-				for(int col = 0;col<IMAGE_SIZE;col+=GRID_SECTIONS) {
+			for(int row = 0;row<Util.IMAGE_SIZE;row+=Util.GRID_SECTIONS) {
+				for(int col = 0;col<Util.IMAGE_SIZE;col+=Util.GRID_SECTIONS) {
 					
-					int rowIndex = row/GRID_SECTIONS;
-					int colIndex = col/GRID_SECTIONS;
+					int rowIndex = row/Util.GRID_SECTIONS;
+					int colIndex = col/Util.GRID_SECTIONS;
 
-					g2d.drawImage(image, col, row, col+GRID_SECTIONS, row+GRID_SECTIONS,  //draw the background content
+					g2d.drawImage(image, col, row, col+Util.GRID_SECTIONS, row+Util.GRID_SECTIONS,  //draw the background content
 							levelLayout[rowIndex][colIndex].x, levelLayout[rowIndex][colIndex].y,
-							levelLayout[rowIndex][colIndex].x+GRID_SECTIONS, levelLayout[rowIndex][colIndex].y+GRID_SECTIONS, null);
+							levelLayout[rowIndex][colIndex].x+Util.GRID_SECTIONS, levelLayout[rowIndex][colIndex].y+Util.GRID_SECTIONS, null);
 					
 
 					if(levelObjects[rowIndex][colIndex] != null) { //if there is a level Object there, draw it
-						g2d.drawImage(image, col, row, col+GRID_SECTIONS, row+GRID_SECTIONS, 
+						g2d.drawImage(image, col, row, col+Util.GRID_SECTIONS, row+Util.GRID_SECTIONS, 
 								levelObjects[rowIndex][colIndex].x, levelObjects[rowIndex][colIndex].y,
-								levelObjects[rowIndex][colIndex].x+GRID_SECTIONS, levelObjects[rowIndex][colIndex].y+GRID_SECTIONS, null);
+								levelObjects[rowIndex][colIndex].x+Util.GRID_SECTIONS, levelObjects[rowIndex][colIndex].y+Util.GRID_SECTIONS, null);
 					}
 					
 				}
@@ -117,8 +117,8 @@ public class RoomBuilder extends GridImager{
 		}
 
 		//Draw the selector to the screen over top of everything else
-		g2d.drawImage(selector, selectorLocation.x, selectorLocation.y, selectorLocation.x+GRID_SECTIONS, selectorLocation.y+GRID_SECTIONS, 
-				0, 0, GRID_SECTIONS, GRID_SECTIONS, null);
+		g2d.drawImage(selector, selectorLocation.x, selectorLocation.y, selectorLocation.x+Util.GRID_SECTIONS, selectorLocation.y+Util.GRID_SECTIONS, 
+				0, 0, Util.GRID_SECTIONS, Util.GRID_SECTIONS, null);
 	}
 
 	/**
@@ -147,13 +147,13 @@ public class RoomBuilder extends GridImager{
 	public String objectLayerToString() {
 		StringBuffer buff = new StringBuffer();
 
-		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
+		int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
 		
 		for(int row = 0;row<layoutSize;row++) {
 			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
 				if(levelObjects[row][col] != null) {
-					int x = levelObjects[row][col].x/GRID_SECTIONS;
-					int y = levelObjects[row][col].y/GRID_SECTIONS;
+					int x = levelObjects[row][col].x/Util.GRID_SECTIONS;
+					int y = levelObjects[row][col].y/Util.GRID_SECTIONS;
 					
 					buff.append(Util.intToHexChar(x));
 					buff.append(Util.intToHexChar(y));
@@ -175,12 +175,12 @@ public class RoomBuilder extends GridImager{
 	public String backgroundLayerToString() {
 		StringBuffer buff = new StringBuffer();
 
-		int layoutSize = IMAGE_SIZE/GRID_SECTIONS;
+		int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
 
 		for(int row = 0;row<layoutSize;row++) {
 			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
-				int x = levelLayout[row][col].x/GRID_SECTIONS;
-				int y = levelLayout[row][col].y/GRID_SECTIONS;
+				int x = levelLayout[row][col].x/Util.GRID_SECTIONS;
+				int y = levelLayout[row][col].y/Util.GRID_SECTIONS;
 				
 				buff.append(Util.intToHexChar(x));
 				buff.append(Util.intToHexChar(y));
@@ -196,5 +196,4 @@ public class RoomBuilder extends GridImager{
 	protected void handleMouseEvent(MouseEvent e) {
 		this.notifyGridListeners(new GridEvent(this, selectorLocation.x, selectorLocation.y));
 	}
-
 }

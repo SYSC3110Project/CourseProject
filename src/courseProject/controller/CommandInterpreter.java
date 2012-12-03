@@ -19,7 +19,7 @@ import courseProject.gameEditor.GameEditor;
  * "World of Zuul" is a very simple, text based adventure game.  
  * 
  * This parser reads user input and tries to interpret it as an "Adventure"
- * command. Every time it is called it reads a line from the terminal and
+ * command. Every time it is called it reads  a line from the terminal and
  * tries to interpret the line as a two word command. It returns the command
  * as an object of class Command.
  *
@@ -38,7 +38,7 @@ public class CommandInterpreter implements InputListener//, Serializable
     private View view;
     private boolean finished;
     private double previousTime;
-    public static final String fileName= "res\\game\\indirectTest.xml";
+    public static final String fileName= "res\\game\\Game.xml";
     
     /**
      * Create a parser to read from the terminal window.
@@ -132,16 +132,9 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		try {
 					game = Game.load();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    	}
-	    	
-	    	
-	    	
-			
-			
-			
 	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
