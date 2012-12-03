@@ -16,7 +16,9 @@ import java.io.Serializable;
  */
 public class Item implements Serializable
 {
-    private int weight;	
+    /**Generated SerialID*/
+	private static final long serialVersionUID = 7423554697843428032L;
+	private int weight;	
     private String name;	
     private String description;
     private ItemType type;

@@ -6,7 +6,6 @@ package courseProject.view.twoD.drawable;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 /**
  * This interface will be implemented by objects in the game which should be drawn to the screen. 

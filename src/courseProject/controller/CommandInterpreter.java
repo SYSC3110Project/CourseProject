@@ -1,7 +1,6 @@
 package courseProject.controller;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
@@ -13,6 +12,7 @@ import courseProject.view.View;
 import courseProject.view.mapD.ViewMapD;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
+import courseProject.gameEditor.GameEditor;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -112,17 +112,16 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		view = new View2D();
 	    	}
 	    	else {
-	    		//startLevelEditor();
+	    		startLevelEditor();
 	    		
 	    		return;
 	    	}
 
 	    	LevelLoader loader=new LevelLoader();
-	    	
 	    	Game game = null;
 	    	if(load != 0){
-	    		try {
-	    			game = new Game();
+	    		game=new Game();
+				try {
 					Player player=loader.LoadLevel(fileName);
 					game.setPlayer(player);
 				} catch (Exception e) {
@@ -137,6 +136,12 @@ public class CommandInterpreter implements InputListener//, Serializable
 					e.printStackTrace();
 				}
 	    	}
+	    	
+	    	
+	    	
+			
+			
+			
 	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
@@ -173,7 +178,7 @@ public class CommandInterpreter implements InputListener//, Serializable
     	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    
+    }
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
 		out.defaultWriteObject();
 		 

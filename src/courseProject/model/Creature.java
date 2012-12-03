@@ -15,7 +15,9 @@ import java.io.Serializable;
 
 public abstract class Creature implements Serializable{
 
-    protected Inventory inv;
+    /**Generated SerialID*/
+	private static final long serialVersionUID = -5509379772782182619L;
+	protected Inventory inv;
     protected int health;
     protected int healthMax;
     protected Item armor;

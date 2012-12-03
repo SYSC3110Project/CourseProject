@@ -3,7 +3,6 @@
  */
 package courseProject.view.textD;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import courseProject.controller.InputEvent;
@@ -46,6 +45,7 @@ public class ViewText implements ModelListener, View{//, Serializable {
 	 * updates the view based on the changes to the model
 	 * @param event Event object encapsulating the changes
 	 */
+	@Override
 	public void handleModelChangeEvent(ModelChangeEvent event)
 	{
 		displayMessage(event.getMessage());

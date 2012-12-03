@@ -6,8 +6,6 @@ package courseProject.view.twoD.drawable;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
 import courseProject.Util;
 import courseProject.model.Monster;
 
@@ -18,6 +16,8 @@ import courseProject.model.Monster;
  */
 public class Monster2D extends Monster implements Drawable2D {
 	
+	/**Generated SerialID*/
+	private static final long serialVersionUID = 923508249198184366L;
 	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	private boolean interpolating;

@@ -1,22 +1,16 @@
 package courseProject.gameEditor;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -28,10 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import courseProject.view.twoD.drawable.Room2D;
 
 /**
  * The GameEditor will be a way to construct rooms and their 
@@ -44,7 +37,6 @@ import courseProject.view.twoD.drawable.Room2D;
  */
 public class GameEditor implements ActionListener, GridListener, FocusListener, DocumentListener{
 	
-	private List<Room2D> rooms;
 	private JFrame mainWindow;
 	private GridImager splitter;
 	private RoomBuilder builder;
@@ -62,7 +54,6 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 */
 	public GameEditor() {
 		
-		rooms = new ArrayList<Room2D>();
 		mode = EditorMode.Background;
 		admode = AddDelMode.Add;
 		
@@ -168,7 +159,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 */
 	private void gameBuilder(){
 		connectWindow = new JFrame("Game Connector");
-		connectWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		connectWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		connectWindow.setLayout(new BorderLayout());
 		
 		JMenuBar menu = new JMenuBar();

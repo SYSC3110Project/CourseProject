@@ -16,6 +16,8 @@ package courseProject.model;
  * @version 01/11/2012
  */
 public class Player extends Creature{
+	/**Generated SerialID*/
+	private static final long serialVersionUID = -2646099733203838567L;
 	/**
 	 * 
 	 */

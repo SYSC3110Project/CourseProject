@@ -16,6 +16,8 @@ import courseProject.view.twoD.drawable.Item2D;
  * @version 04/11/12
  */
 public class Inventory implements Serializable{
+	/**Generated SerialID*/
+	private static final long serialVersionUID = -2230860564276666083L;
 	private List<Item> items;
 	private int mass;
 	

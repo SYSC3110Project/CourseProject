@@ -6,14 +6,9 @@ package courseProject.view.twoD.drawable;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import courseProject.model.ExitDirection;
 import courseProject.model.Inventory;
@@ -27,6 +22,8 @@ import courseProject.model.Room;
  */
 public class Room2D extends Room implements Drawable2D {
 	
+	/**Generated SerialID*/
+	private static final long serialVersionUID = 7600587034222551945L;
 	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	
@@ -95,7 +92,8 @@ public class Room2D extends Room implements Drawable2D {
      * @param dir The direction of the exit.
      * @param exit The room the exit connects to.
      */
-    public void addExit(ExitDirection dir, Room exit) {
+    @Override
+	public void addExit(ExitDirection dir, Room exit) {
         exits.put(dir,exit);
 
         SerializableBufferedImage exitImg;

@@ -16,6 +16,8 @@ import javax.imageio.ImageIO;
  *
  */
 public class SerializableBufferedImage implements Serializable {
+	/**Generated SerialID*/
+	private static final long serialVersionUID = -8768941925823737921L;
 	private String pathName;
 	transient private BufferedImage Image;
 

@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class Room implements Serializable
 {
+	/**Generated SerialID*/
+	private static final long serialVersionUID = 2937353166007848145L;
 	protected String description;
     protected Map<ExitDirection,Room> exits;
     protected Inventory items;

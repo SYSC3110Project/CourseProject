@@ -14,9 +14,6 @@
  */
 
 package courseProject.model;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,7 +33,6 @@ import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 import courseProject.view.twoD.drawable.Drawable2D;
 import courseProject.view.twoD.drawable.Player2D;
-import courseProject.view.twoD.drawable.SerializableBufferedImage;
 
 /**
  * 
@@ -48,7 +44,9 @@ import courseProject.view.twoD.drawable.SerializableBufferedImage;
  */
 public class Game implements Serializable
 {
-    private Player mc;		//player character
+    /**Generated SerialID*/
+	private static final long serialVersionUID = 3858433330507172471L;
+	private Player mc;		//player character
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
     transient private List<ModelListener> listeners;

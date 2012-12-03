@@ -11,6 +11,9 @@ package courseProject.model;
  */
 public class Monster extends Creature{
 
+	/**Generated SerialID*/
+	private static final long serialVersionUID = -8103136071584798070L;
+
 	public Monster(String name, int healthMax, int attack, int defence, int weapon, int armor) {
 		super(name, healthMax, attack, defence);
         this.weapon = new Item("blank","blank",0,ItemType.weapon,weapon);

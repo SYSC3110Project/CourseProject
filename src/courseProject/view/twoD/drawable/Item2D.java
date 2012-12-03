@@ -6,8 +6,6 @@ package courseProject.view.twoD.drawable;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
 import courseProject.Util;
 import courseProject.model.Item;
 import courseProject.model.ItemType;
@@ -19,6 +17,8 @@ import courseProject.model.ItemType;
  */
 public class Item2D extends Item implements Drawable2D {
 	
+	/**Generated SerialID*/
+	private static final long serialVersionUID = 373412684018582486L;
 	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	private boolean interpolating;
