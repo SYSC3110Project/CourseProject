@@ -1,0 +1,24 @@
+<rooms>
+<room sprite="res\\BasicRoom.png">
+	<name>House Entrance</name>
+	<description>"You are in front of a cave entrance."</description>
+	<tileset>"../res/woodland.png"</tileset>
+	<items>
+		<item name="Magic Orb" type="weapon" description="orb those enemies" sprite="res\\Orb of Blood.png">		
+			<weight>12</weight>
+			<value>10</value>
+			<xloc>32</xloc>
+			<yloc>32</yloc>
+		</item>
+	</items>
+	<monsters>
+		<monster name="Orc" sprite="res\\orc.png">
+			<health>100</health>
+			<attack>3</attack>
+			<defence>3</defence>
+			<xloc>128</xloc>
+			<yloc>128</yloc>
+		</monster>
+	</monsters>
+</room>
+</rooms>

@@ -35,6 +35,7 @@ public class CommandInterpreter implements InputListener
     private View view;
     private boolean finished;
     private double previousTime;
+    public static final String fileName= "res\\game\\indirectTest.xml";
     
     /**
      * Create a parser to read from the terminal window.
@@ -117,7 +118,7 @@ public class CommandInterpreter implements InputListener
 	    	
 	    	Game game=new Game();
 			try {
-				Player player=loader.LoadLevel("res\\game\\gameTest.xml");
+				Player player=loader.LoadLevel(fileName);
 				game.setPlayer(player);
 			} catch (Exception e) {
 				e.printStackTrace();

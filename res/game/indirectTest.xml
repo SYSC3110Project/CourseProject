@@ -1,0 +1,30 @@
+<game name="World of Levelcraft">
+	<description>
+		"The game Description"
+	</description>
+	<rooms>
+		<room>res\\game\\Outside.xml</room>
+		<room>res\\game\\House Entrance.xml</room>
+	</rooms>
+	<connections>
+		<connect>
+			<room1 name="Outside">
+				<exit type="north">
+				</exit>
+			</room1>
+			<room2 name="House Entrance">
+				<exit type="south">
+				</exit>
+			</room2>
+		</connect>
+	</connections>	
+	<players>
+	<player sprite="res\\SingleGeorge.png" startRoom="Outside">
+		<health>20</health>
+		<attack>1</attack>
+		<defence>1</defence>
+		<xloc>75</xloc>
+		<yloc>150</yloc>	
+	</player>
+	</players>
+</game>

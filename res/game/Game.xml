@@ -11,14 +11,10 @@
 		<connect>
 			<room1 name="Lake Side">
 				<exit type="north">
-					<xloc>448</xloc>
-					<yloc>0</yloc>
 				</exit>
 			</room1>
 			<room2 name="Cave Entrance">
 				<exit type="south">
-					<xloc>448</xloc>
-					<yloc>480</yloc>
 				</exit>
 			</room2>
 		</connect>

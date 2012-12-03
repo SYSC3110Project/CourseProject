@@ -111,7 +111,6 @@ public class Room
      */
     public void addExit(ExitDirection dir, Room exit) 
     {
-        System.out.println(dir+" "+exit);
     	exits.put(dir,exit);
     }
 

@@ -1,0 +1,15 @@
+<rooms>
+<room sprite="res\\BasicRoom.png">
+	<name>Outside</name>
+	<description>"You are outside."</description>
+	<tileset>"../res/woodland.png"</tileset>
+	<items>
+		<item name="broom" type="weapon" description="hit with stick" sprite="res\\broom.png">		
+			<weight>1</weight>
+			<value>2</value>
+			<xloc>256</xloc>
+			<yloc>256</yloc>
+		</item>
+	</items>
+</room>
+</rooms>

@@ -18,6 +18,8 @@ import courseProject.view.twoD.drawable.Room2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -39,7 +41,7 @@ public class LevelLoader {
 	
 	private Map<String,Room> rooms;
 	private Player mc;
-	private Document doc=null;
+	private List<Document> docs=null;
 	
 	/**
 	 * creates a new LevelLoader
@@ -48,6 +50,7 @@ public class LevelLoader {
 	public LevelLoader()
 	{
 		rooms=new HashMap<String,Room>();
+		docs=new ArrayList<Document>();
 	}
 	
 	/**
@@ -64,7 +67,9 @@ public class LevelLoader {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 
 			//parse using builder to get DOM representation of the XML file
-			doc=db.parse(f);
+			Document doc=db.parse(f);
+			System.out.println(doc);
+			docs.add(doc);
 			
 		}catch(Exception e) {	
 			System.out.println("exception");
@@ -78,24 +83,54 @@ public class LevelLoader {
 	 * Parses the document made by parseXMLFile. Creates a a list of rooms
 	 * with monsters and items in them and a player in one of the rooms.
 	 */
-	private void parseDocument(){
+	private void parseDocument(int docNumber){
 		
 		//get the root element
-		Element docEle = doc.getDocumentElement();
+		Element docEle = docs.get(docNumber).getDocumentElement();
 
-		//get a nodelist of elements for each room
+		//get a nodelist of elements for each room file tag
 		NodeList nodelist = docEle.getElementsByTagName("room");
 		if(nodelist != null && nodelist.getLength() > 0) {
 			for(int i = 0 ; i < nodelist.getLength();i++) {
-
+				
+				
 				//get the room element
 				Element el = (Element)nodelist.item(i);
 				
-				getRoom(el);
-			}
+				String fileName=el.getTextContent();
+				//System.out.println(fileName);
+				parseXmlFile(new File(fileName));
+				//System.out.println(docs);
+				
+				
+		}
 		}
 		
-		nodelist = docEle.getElementsByTagName("connection");
+		for(int i=1;i<docs.size();i++)
+		{
+			//get the root element
+			Element roomdocEle = docs.get(i).getDocumentElement();
+
+			//get a nodelist of elements for each room
+			NodeList roomnodelist = roomdocEle.getElementsByTagName("room");
+			
+			if(roomnodelist != null && roomnodelist.getLength() > 0) {
+				for(int j = 0 ; j < roomnodelist.getLength();j++) {
+					
+					
+					//get the room element
+					Element roomElement = (Element)roomnodelist.item(j);
+					
+					getRoom(roomElement);
+					
+					
+			}
+			}
+			
+		}
+		
+		
+		nodelist = docEle.getElementsByTagName("connect");
 		if(nodelist != null && nodelist.getLength() > 0) {
 			for(int i = 0 ; i < nodelist.getLength();i++) {
 
@@ -228,21 +263,55 @@ public class LevelLoader {
 	 */
 	private void getConnection(Element connectElement)
 	{
+		String room1Name=""; 
+		String room2Name="";
+		String exit1="";
+		String exit2=""; 
 		
-		String origName = connectElement.getAttribute("originator");
-		String termName = connectElement.getAttribute("terminator");
+		Element el;
 		
-		String typeName = connectElement.getAttribute("type");
+		NodeList nl = connectElement.getElementsByTagName("room1");
+		if(nl != null && nl.getLength() > 0) 
+		{
+			el = (Element)nl.item(0);
+			room1Name=el.getAttribute("name");
+			
+			nl = el.getElementsByTagName("exit");
+			if(nl != null && nl.getLength() > 0) 
+			{
+				el = (Element)nl.item(0);
+				exit1=el.getAttribute("type");
+			}
+		}
 		
-		Room originator=rooms.get(origName);
-		Room terminator=rooms.get(termName);
 		
-		System.out.println(typeName);
-		originator.addExit(ExitDirection.parse(typeName),terminator);
+		nl = connectElement.getElementsByTagName("room2");
+		if(nl != null && nl.getLength() > 0) 
+		{
+			el = (Element)nl.item(0);
+			room2Name=el.getAttribute("name");
+			
+			nl = el.getElementsByTagName("exit");
+			if(nl != null && nl.getLength() > 0) 
+			{
+				el = (Element)nl.item(0);
+				exit2=el.getAttribute("type");
+			}
+		}
 		
+		
+		
+		Room room1=rooms.get(room1Name);
+		Room room2=rooms.get(room2Name);
+		System.out.println(exit1);
+		System.out.println(exit2);
+		
+		room1.addExit(ExitDirection.parse(exit1),room2);
+		room2.addExit(ExitDirection.parse(exit2),room1);
+	
 	}
 	/**
-	 * 
+	 * Creates a player based off of the xml and gives it a current room.
 	 * @param playerElement
 	 */
 	private Player getPlayer(Element playerElement)
@@ -316,15 +385,8 @@ public class LevelLoader {
 	{
 		File f=new File(fileName);
 		parseXmlFile(f);
-		parseDocument();
+		parseDocument(0);
 		return mc;
 	}
-	/**
-	 * returns the document doc
-	 * @return
-	 */
-	public Document getDoc() {
-		return doc;
-	}
-
+	
 }

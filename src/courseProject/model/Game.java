@@ -14,25 +14,19 @@
  */
 
 package courseProject.model;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.imageio.ImageIO;
+
 
 
 import courseProject.controller.Command;
 import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 import courseProject.view.twoD.drawable.Drawable2D;
-import courseProject.view.twoD.drawable.Item2D;
-import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
-import courseProject.view.twoD.drawable.Room2D;
 
 /**
  * 
@@ -66,110 +60,6 @@ public class Game
      */
     public void addModelListeners(ModelListener listener){
     	listeners.add(listener);
-    }
-
-    /**
-     * Create all the rooms and link their exits together.
-     */
-    private void createRooms()
-    {
-        Room2D outside, closet, pub, lab, office;
-              
-        BufferedImage basicRoom = null;
-        
-        try {
-            basicRoom = ImageIO.read(new File("res\\BasicRoom.png"));
-        } catch (IOException e) {
-        }
-        outside = new Room2D("stuck in a giant's house", basicRoom);
-        closet = new Room2D("in a Monster Closet!", basicRoom);
-        pub = new Room2D("in the Rock Lobster pub", basicRoom);
-        lab = new Room2D("in a experimental lab", basicRoom);
-        office = new Room2D("in the office", basicRoom);
-        
-        // initialize room exits
-        outside.addExit(ExitDirection.east,closet);
-        outside.addExit(ExitDirection.south,lab);
-        outside.addExit(ExitDirection.west,pub);
-        closet.addExit(ExitDirection.west,outside);
-        pub.addExit(ExitDirection.east,outside);
-        lab.addExit(ExitDirection.north,outside);
-        lab.addExit(ExitDirection.east,office);
-        office.addExit(ExitDirection.west,lab);
-        
-        // initialize items in rooms
-        BufferedImage orb = null;
-        try {
-            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
-        } catch (IOException e) {
-        }
-        Item magicOrb = new Item2D("magicOrb","orb those enemies",12,ItemType.weapon,10, orb);
-        ((Item2D)magicOrb).setLocation(new Point(225,275));
-        
-        
-        BufferedImage broomImg = null;
-        try {
-        	broomImg = ImageIO.read(new File("res\\broom.png"));
-        } catch (IOException e) {
-        }
-        Item broom = new Item2D("broom","fear it",3,ItemType.weapon,4, broomImg);
-        ((Item2D)broom).setLocation(new Point(225,250));
-
-        BufferedImage book = null;
-        try {
-            book = ImageIO.read(new File("res\\book.png"));
-        } catch (IOException e) {
-        }
-        Item textBook = new Item2D("Tome", "its really thick", 5, ItemType.armor, 3, book);
-        ((Item2D)textBook).setLocation(new Point(225,275));
-        
-        BufferedImage beer = null;
-        try {
-            beer = ImageIO.read(new File("res\\beer.png"));
-        } catch (IOException e) {
-        }
-        
-        Item beer1 = new Item2D("beer1", "nice and cold", 4, ItemType.health, 2, beer);
-        ((Item2D)beer1).setLocation(new Point(225,275));
-        Item beer2 = new Item2D("beer2", "nice and cold", 4, ItemType.health, 2, beer);
-        ((Item2D)beer2).setLocation(new Point(100,275));
-        
-        //
-        office.drop(textBook);
-        outside.drop(magicOrb);
-        pub.drop(beer1);
-        pub.drop(beer2);
-        closet.drop(broom);
-        
-        BufferedImage orc = null;
-        try {
-            orc = ImageIO.read(new File("res\\Orc.png"));
-        } catch (IOException e) {
-        }
-        BufferedImage candyIcon = null;
-        try {
-            candyIcon = ImageIO.read(new File("res\\candy.png"));
-        } catch (IOException e) {
-        }
-        
-        //initialize creatures
-        Monster m = new Monster2D("Orc", 10, 1, 1, 4, 2, orc);
-        Item2D candy = new Item2D("candy","yay sugar",1,ItemType.health,6, candyIcon);
-        candy.setLocation(new Point(250,125));
-    	m.addItem(candy);
-    	((Monster2D)m).setLocation(new Point(220,60));
-        closet.addMonster(m);
-        
-        
-        BufferedImage george = null;
-        try {
-        	george = ImageIO.read(new File("res\\SingleGeorge.png"));
-        } catch (IOException e) {
-        }
-
-        //initialize player
-        mc = new Player2D(outside,20,1,1, george);
-        ((Player2D)mc).setLocation(new Point(75,150)); 
     }
     
     
