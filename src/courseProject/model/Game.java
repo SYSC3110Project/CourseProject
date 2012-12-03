@@ -14,7 +14,16 @@
  */
 
 package courseProject.model;
-
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -27,6 +36,7 @@ import courseProject.controller.CommandInterpreter;
 import courseProject.controller.CommandWord;
 import courseProject.view.twoD.drawable.Drawable2D;
 import courseProject.view.twoD.drawable.Player2D;
+import courseProject.view.twoD.drawable.SerializableBufferedImage;
 
 /**
  * 
@@ -36,12 +46,12 @@ import courseProject.view.twoD.drawable.Player2D;
  * @author Denis Dionne
  * @version	01/11/2012
  */
-public class Game 
+public class Game implements Serializable
 {
     private Player mc;		//player character
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
-    private List<ModelListener> listeners;
+    transient private List<ModelListener> listeners;
         
     /**
      * Create the game and initialize its internal map.
@@ -114,7 +124,7 @@ public class Game
         
         
         //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
-        if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo))){
+        if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo) || commandWord.equals(CommandWord.save))){
         	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
         		undoStack.push(new Player2D((Player2D)mc));
         		redoStack.clear();
@@ -154,6 +164,13 @@ public class Game
         	redo();
         }else if (commandWord.equals(CommandWord.use)){
         	use(command);
+        }else if (commandWord.equals(CommandWord.save)){
+        	try {
+				save();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         if(attackable){
         	notifyListeners(mc.getRoom().monsterAttack(mc));
@@ -402,6 +419,46 @@ public class Game
     	return redoStack;
     }
     
+    public static Game load() throws IOException{
+
+		try {
+			FileInputStream	fileIn = new FileInputStream("gameData.ser");	
+			ObjectInputStream In = new ObjectInputStream(fileIn);
+			Game game = (Game) In.readObject();
+			return game;
+			
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+    
+    /**
+	 * Writes the Game to gameData.ser
+	 * @throws IOException
+	 */
+	public void save() throws IOException{
+		try{
+			FileOutputStream fileOut = new FileOutputStream("gameData.ser");
+			ObjectOutputStream Out = new ObjectOutputStream(fileOut);
+			Out.writeObject(this);
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+    
     
     /**
      * Adds an undo to the stack of undo events (needed in order to 
@@ -419,4 +476,20 @@ public class Game
 	public void setPlayer(Player player) {
 		mc=player;
 	}    
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException{
+		//ImageIO.write(Image,"png",ImageIO.createImageOutputStream(out));
+		out.defaultWriteObject();
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		
+		//Image =ImageIO.read(ImageIO.createImageInputStream(in));
+		in.defaultReadObject();
+		listeners = new ArrayList<ModelListener>();
+		
+	}
+    
+    
+    
+    
 }

@@ -1,22 +1,33 @@
 <?xml version="1.0"?>
-<game name="World of Levelcraft">
-	<description>
-		"The game Description"
-	</description>
-	<rooms>
-		<room>"LakeSide.xml"</room>
-		<room>"CaveEntrance.xml</room>
-	</rooms>
-	<connections>
-		<connect>
-			<room1 name="Lake Side">
-				<exit type="north">
-				</exit>
-			</room1>
-			<room2 name="Cave Entrance">
-				<exit type="south">
-				</exit>
-			</room2>
-		</connect>
-	</connections>
+<game name="TestGame">
+<description>
+"testy tests"
+</description>
+<rooms>
+<room>"Room 3.xml"</room>
+<room>"Room 2.xml"</room>
+<room>"Room 1.xml"</room>
+</rooms>
+<connections>
+<connect>
+<room1 name="Room 1.xml">
+<exit type="north">
+</exit>
+</room1>
+<room2 name="Room 2.xml">
+<exit type="south">
+</exit>
+</room2>
+</connect>
+<connect>
+<room1 name="Room 2.xml">
+<exit type="west">
+</exit>
+</room1>
+<room2 name="Room 3.xml">
+<exit type="east">
+</exit>
+</room2>
+</connect>
+</connections>
 </game>

@@ -3,6 +3,7 @@
  */
 package courseProject.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import courseProject.view.twoD.drawable.Item2D;
  * @author Andrew Venus
  * @version 04/11/12
  */
-public class Inventory{
+public class Inventory implements Serializable{
 	private List<Item> items;
 	private int mass;
 	

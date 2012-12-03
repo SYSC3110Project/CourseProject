@@ -3,6 +3,7 @@
  */
 package courseProject.view.textD;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import courseProject.controller.InputEvent;
@@ -21,7 +22,7 @@ import courseProject.view.View;
  * @author Andrew Venus
  * @version 02/11/2012
  */
-public class ViewText implements ModelListener, View {
+public class ViewText implements ModelListener, View{//, Serializable {
 	private TextController texCom;
 	private List<InputListener> inputListeners;
 	

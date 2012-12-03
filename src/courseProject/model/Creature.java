@@ -7,11 +7,13 @@
 
 package courseProject.model;
 
+import java.io.Serializable;
 
 
 
 
-public abstract class Creature{
+
+public abstract class Creature implements Serializable{
 
     protected Inventory inv;
     protected int health;

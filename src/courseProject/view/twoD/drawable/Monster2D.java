@@ -18,7 +18,7 @@ import courseProject.model.Monster;
  */
 public class Monster2D extends Monster implements Drawable2D {
 	
-	private BufferedImage sprite;
+	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	private boolean interpolating;
 	private Point interpolatingTo;
@@ -34,10 +34,10 @@ public class Monster2D extends Monster implements Drawable2D {
 	 * @param armor the armor which the monster is using
 	 * @param sprite The image for to represent the monster
 	 */
-	public Monster2D(String name, int healthMax, int attack, int defence, int weapon, int armor, BufferedImage sprite) {
+	public Monster2D(String name, int healthMax, int attack, int defence, int weapon, int armor, SerializableBufferedImage sprite) {
 		super(name, healthMax, attack, defence, weapon, armor);
 		this.sprite = sprite;// use 0,0 as origin
-		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getImage().getWidth(), sprite.getImage().getHeight());
 		this.interpolating = false;
 		this.timeSinceLastInterpolationUpdate = 0;
 	}
@@ -78,19 +78,19 @@ public class Monster2D extends Monster implements Drawable2D {
 	}
 
 	@Override
-	public BufferedImage getSprite() {
+	public SerializableBufferedImage getSprite() {
 		return sprite;
 	}
 
 	@Override
-	public void setSprite(BufferedImage image) {
+	public void setSprite(SerializableBufferedImage image) {
 		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
 		
-		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+		graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
 	}
 	
 	@Override

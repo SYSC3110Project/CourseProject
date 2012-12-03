@@ -51,16 +51,16 @@ public interface Drawable2D {
 	public void setBounds(Rectangle bounds);
 	
 	/**
-	 * Gets the BufferedImage which will represent this object.
+	 * Gets the SerializableBufferedImage which will represent this object.
 	 * @return the sprite image which will be drawn for this object.
 	 */
-	public BufferedImage getSprite();
+	public SerializableBufferedImage getSprite();
 	
 	/**
-	 * Sets the BufferedImage which will represent this object.
+	 * Sets the SerializableBufferedImage which will represent this object.
 	 * @param image the sprite image which will be drawn for this object.
 	 */
-	public void setSprite(BufferedImage image);
+	public void setSprite(SerializableBufferedImage image);
 	
 	/**
 	 * Draw this 2D object to the passed graphics. 
