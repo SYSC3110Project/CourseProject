@@ -353,8 +353,34 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	
 	public void saveRoom(){
 		//TODO
-		System.out.println(builder.backgroundLayerToString());
-		System.out.println(builder.objectLayerToString());
+		String xml = "<?xml version=\"1.0\"?>\n<room name=\"";
+		String name = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "What would you like to call the room",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		xml = xml + name;
+		xml = xml + "\">\n<description>\"";
+		String desc = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Describe the room",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		xml = xml + desc;
+		xml = xml + "\"</description>\n<tileset>\"../res/";
+		//add tileset
+		xml = xml + "\"</tileset>\n<items>";
+		//add items
+		xml = xml + "</items>\n<creatures>";
+		//add creatures
+		xml = xml + "</creatures>\n<layout>\n<background>\n";
+		xml = xml + builder.backgroundLayerToString();
+		xml = xml + "</background>\n<object>\n";
+		xml = xml + builder.objectLayerToString();
+		xml = xml + "</object>\n</layout>\n</room>\n";
+		System.out.printf(xml);
 	}
 	/**
 	 * handles menu and button sensitive tasks
