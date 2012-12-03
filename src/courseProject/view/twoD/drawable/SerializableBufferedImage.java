@@ -73,5 +73,9 @@ public class SerializableBufferedImage implements Serializable {
 		Image = ImageIO.read(new File(pathName));
 		
 	}
+	
+	public String getPath(){
+		return pathName;
+	}
 
 }

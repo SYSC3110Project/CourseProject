@@ -28,6 +28,7 @@ public abstract class GridImager extends JPanel implements MouseListener{
 	protected BufferedImage selector;
 	protected Point selectorLocation;
 	private String imagePath;
+	private String imagePathRel;
 	protected boolean gridVisible;
 	protected Color gridColor;
 
@@ -85,7 +86,6 @@ public abstract class GridImager extends JPanel implements MouseListener{
 	public String getImagePath() {
 		return imagePath;
 	}
-	
 	public Point getSelectorPoint() {
 		return selectorLocation;
 	}
