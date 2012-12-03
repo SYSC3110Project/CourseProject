@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
-import courseProjct.gameEditor.GameEditor;
+import courseProject.gameEditor.GameEditor;
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
@@ -148,10 +148,10 @@ public class CommandInterpreter implements InputListener//, Serializable
     }
     
     private static void startLevelEditor() {
-    	GameEditor editor = new GameEditor();
+    /*	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    	
+    */
     }
     
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{

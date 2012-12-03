@@ -55,6 +55,7 @@ public class Game implements Serializable
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
     transient private List<ModelListener> listeners;
+    private List<Room> rooms; 
         
     /**
      * Create the game and initialize its internal map.
@@ -64,6 +65,7 @@ public class Game implements Serializable
     	listeners = new ArrayList<ModelListener>();
     	undoStack = new Stack<Player>();
         redoStack = new Stack<Player>();
+        rooms=new ArrayList<Room>();
         createRooms();
     }
     
@@ -553,6 +555,13 @@ public class Game implements Serializable
     	undoStack.push(new Player2D((Player2D)mc));
     }
     
+    /**
+     * used by the level loader to set the list of rooms.
+     * @param rooms
+     */
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
+	}
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
 		//ImageIO.write(Image,"png",ImageIO.createImageOutputStream(out));
 		out.defaultWriteObject();

@@ -1,0 +1,55 @@
+<game name="World of Levelcraft">
+	<description>
+		"The game Description"
+	</description>
+	<rooms>
+		<room>
+			<name>House Entrance</name>
+			<description>"You are in front of a cave entrance."</description>
+			<tileset>"../res/woodland.png"</tileset>
+			<items>
+				<item name="Magic Orb" type="weapon" description="orb those enemies" sprite="res\\Orb of Blood.png">		
+					<weight>12</weight>
+					<value>10</value>
+					<xloc>32</xloc>
+					<yloc>32</yloc>
+				</item>
+			</items>
+			<monsters>
+				<monster name="Orc" sprite="res\\orc.png">
+					<health>100</health>
+					<attack>3</attack>
+					<defence>3</defence>
+					<xloc>128</xloc>
+					<yloc>128</yloc>
+				</monster>
+			</monsters>
+		</room>
+		<room>
+			<name>Outside</name>
+			<description>"You are outside."</description>
+			<tileset>"../res/woodland.png"</tileset>
+			<items>
+				<item name="broom" type="weapon" description="hit with stick" sprite="res\\broom.png">		
+					<weight>1</weight>
+					<value>2</value>
+					<xloc>256</xloc>
+					<yloc>256</yloc>
+				</item>
+			</items>
+	
+		</room>
+	</rooms>
+	<connections>
+		<connection originator="Outside" terminator="House Entrance">
+			<type>"south"</type>
+			<xloc>256</xloc>
+			<yloc>512</yloc>
+		</connection>
+		<connection originator="House Entrance" terminator="Outside">
+			<type>"north"</type>
+			<xloc>256</xloc>
+			<yloc>0</yloc>	
+		</connection>	
+	</connections>
+</game>
