@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <game name="TestGame">
 <description>
-"This is a test"
+"testy tests"
 </description>
 <rooms>
 <room>"Room 3.xml"</room>
@@ -11,21 +11,21 @@
 <connections>
 <connect>
 <room1 name="Room 1.xml">
-<exit type="east">
+<exit type="north">
 </exit>
 </room1>
 <room2 name="Room 2.xml">
-<exit type="west">
+<exit type="south">
 </exit>
 </room2>
 </connect>
 <connect>
 <room1 name="Room 2.xml">
-<exit type="north">
+<exit type="west">
 </exit>
 </room1>
 <room2 name="Room 3.xml">
-<exit type="south">
+<exit type="east">
 </exit>
 </room2>
 </connect>
