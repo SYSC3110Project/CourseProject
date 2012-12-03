@@ -30,6 +30,8 @@ import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import courseProject.model.ExitDirection;
+
 import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.SerializableBufferedImage;
 import courseProject.model.ItemType;
@@ -244,7 +246,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 */
 	private void saveConnections(){
 		HashSet<String> roomSet = new HashSet<String>();
-		String dir = "";
+		ExitDirection dir = null;
 		String rooms = "";
 		String connections = "";
 		String xml = "<?xml version=\"1.0\"?>\n<game name=\"";
@@ -258,28 +260,29 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 				roomSet.add(room1.getText());
 			}else if(i%3==1){
 				JComboBox<String> direc = (JComboBox<String>)buildPanel.getComponent(i);
-				dir = direc.getSelectedItem().toString();
+				String direction = direc.getSelectedItem().toString();
+				dir = ExitDirection.parse(direction);
 				connections = connections + "<exit type=\""+dir+"\">\n";
 				connections = connections + "</exit>\n</room1>\n";
 			}else{
-				String dirRe = "";
+				ExitDirection dirRe = null;
 				switch(dir){
-				case "north":
-					dirRe = "south";
+				case north:
+					dirRe = ExitDirection.south;
 					break;
-				case "south":
-					dirRe = "north";
+				case south:
+					dirRe = ExitDirection.north;
 					break;
-				case "east":
-					dirRe = "west";
+				case east:
+					dirRe = ExitDirection.west;
 					break;
-				case "west":
-					dirRe = "east";
+				case west:
+					dirRe = ExitDirection.east;
 					break;
 				}
 				JTextField room2 = (JTextField)buildPanel.getComponent(i);
 				connections = connections + "<room2 name=\""+room2.getText()+".xml\">\n";
-				connections = connections + "<exit type=\""+dirRe+"\">\n";
+				connections = connections + "<exit type=\""+dirRe.toString()+"\">\n";
 				connections = connections + "</exit>\n</room2>\n</connect>\n";
 				roomSet.add(room2.getText());
 			}
@@ -670,6 +673,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	public void removeUpdate(DocumentEvent arg0) {
 		connectWindow.pack();
 	}
+	
 	
 
 }
