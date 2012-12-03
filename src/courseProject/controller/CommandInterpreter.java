@@ -160,10 +160,9 @@ public class CommandInterpreter implements InputListener//, Serializable
     }
     
     private static void startLevelEditor() {
-    /*	GameEditor editor = new GameEditor();
+    	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    */
     }
     
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
