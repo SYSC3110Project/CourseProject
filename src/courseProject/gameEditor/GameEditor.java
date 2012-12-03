@@ -308,7 +308,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 		//TODO would you like to save?
 		int save = JOptionPane.showConfirmDialog(
 			    mainWindow,"Would you like to save?",
-			    "Heads up",
+			    "Save",
 			    JOptionPane.YES_NO_OPTION);
 		System.out.printf(""+save);
 		mainWindow.dispose();

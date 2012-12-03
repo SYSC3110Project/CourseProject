@@ -83,7 +83,7 @@ public class CommandInterpreter implements InputListener//, Serializable
      * @param args
      */
     public static void main(String[] args){
-    	
+    	int load;
     	Object[] options = {"Text-Based",
                 "Visual Text-Based",
                 "2D Game", 
@@ -97,7 +97,8 @@ public class CommandInterpreter implements InputListener//, Serializable
 				options,
 				options[2]);
     	
-    	
+    	load = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "load", JOptionPane.YES_NO_OPTION);
+    	System.out.println(load);
     	if(viewOption!=null) {
         	View view ;
 	    	
@@ -116,6 +117,18 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		return;
 	    	}
 	    	
+	    	Game game = null;
+	    	if(load != 0){
+	    		game = new Game();
+	    	}
+	    	else{
+	    		try {
+					game = Game.load();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
 	    	
 	    	LevelLoader loader=new LevelLoader();
 	    	
