@@ -52,6 +52,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 	private JButton quitButton;
 	private JButton undoButton;
 	private JButton redoButton;
+	private JButton saveButton;
 	private JTextArea textArea;
 	private JTextField inputField;
 	private JFrame characterWindow;
@@ -100,12 +101,16 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 		redoButton = new JButton("Redo");
 		redoButton.addActionListener(this);
 		
+		saveButton = new JButton("Save");
+		saveButton.addActionListener(this);
+		
 		buttonPanel.add(inventoryButton);
 		buttonPanel.add(characterButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
 		buttonPanel.add(helpButton);
 		buttonPanel.add(quitButton);
+		buttonPanel.add(saveButton);
 
 		textAreaPanel = new JPanel(new BorderLayout());
 
@@ -356,6 +361,9 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 			}
 			else if(pressed.equals(quitButton)){
 				notifyInputListeners(new InputEvent2D(new Command(CommandWord.quit,null)));
+			}
+			else if(pressed.equals(saveButton)){
+				notifyInputListeners(new InputEvent2D(new Command(CommandWord.save,null)));
 			}
 			else if(pressed.getClass().equals(JButton.class)) { //inventory or character button
 				JButton src = (JButton)event.getSource();

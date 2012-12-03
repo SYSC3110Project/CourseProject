@@ -254,6 +254,7 @@ public class Game implements Serializable
         }else if (commandWord.equals(CommandWord.save)){
         	try {
 				save();
+				System.out.println("saving...");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
