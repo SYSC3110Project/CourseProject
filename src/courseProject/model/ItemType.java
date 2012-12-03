@@ -23,6 +23,28 @@ public enum ItemType {
 	}
 	
 	/**
+	 * Static method for getting an ItemType from a string
+	 * @param typeName
+	 * @return the ItemType
+	 */
+	public static ItemType ItemTypeFromString(String typeName)
+	{
+		if(typeName=="weapon")
+		{
+			  return ItemType.weapon;
+		}
+		else if(typeName=="armor") 	
+		{	
+			return ItemType.armor;
+		}
+		else	//typeName=="health"
+		{
+			return ItemType.health;
+		}
+		
+	}
+	
+	/**
 	 * Gets a description of what the item's 'value' represents.
 	 * @return a description of what the item's 'value' represents.
 	 */
