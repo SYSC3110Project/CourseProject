@@ -1,4 +1,4 @@
-package courseProjct.gameEditor;
+package courseProject.gameEditor;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
