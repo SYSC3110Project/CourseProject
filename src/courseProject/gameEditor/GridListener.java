@@ -1,4 +1,4 @@
-package courseProjct.gameEditor;
+package courseProject.gameEditor;
 
 public interface GridListener {
 

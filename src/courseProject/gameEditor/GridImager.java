@@ -1,4 +1,4 @@
-package courseProjct.gameEditor;
+package courseProject.gameEditor;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -2,7 +2,7 @@ package courseProject.controller;
 
 import javax.swing.JOptionPane;
 
-//import courseProject.gameEditor.GameEditor;
+import courseProject.gameEditor.GameEditor;
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
