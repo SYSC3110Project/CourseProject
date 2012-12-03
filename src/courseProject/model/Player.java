@@ -299,6 +299,7 @@ public class Player extends Creature{
 		buff.append("\nWeapon: ");
 		return buff.toString();
 	}
+	@Override
 	public boolean equals (Object o){
 		if(!(o instanceof Player)){
 			return false;

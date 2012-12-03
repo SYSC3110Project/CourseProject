@@ -1,12 +1,14 @@
 package courseProject.controller;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 /**
  * 
  * @author Mike Hamon
  *
  */
-public class TextController {
+public class TextController{
     private Scanner reader;         // source of command input
     /**
      * constructor for textController
@@ -53,4 +55,5 @@ public class TextController {
         
         return new Command(CommandWord.getCommandFromString(word1), word2);
     }
+
 }

@@ -3,6 +3,8 @@
  */
 package courseProject.model;
 
+import java.io.Serializable;
+
 
 /**
  * Items to be picked up in the game.
@@ -12,7 +14,7 @@ package courseProject.model;
  * @author Matthew Smith
  * @version 04/11/2012
  */
-public class Item
+public class Item implements Serializable
 {
     private int weight;	
     private String name;	

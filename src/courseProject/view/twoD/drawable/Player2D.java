@@ -19,7 +19,7 @@ import courseProject.model.Room;
  */
 public class Player2D extends Player implements Drawable2D {
 	
-	private BufferedImage sprite;
+	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	private boolean interpolating;
 	private Point interpolatingTo;
@@ -33,10 +33,10 @@ public class Player2D extends Player implements Drawable2D {
      * @param defence the defence stat of the creature
 	 * @param sprite The image for to represent the player
 	 */
-	public Player2D(Room room, int healthMax, int attack, int defence, BufferedImage sprite) {
+	public Player2D(Room room, int healthMax, int attack, int defence, SerializableBufferedImage sprite) {
 		super(room, healthMax, attack, defence);
 		this.sprite = sprite;// use 0,0 as origin
-		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getImage().getWidth(), sprite.getImage().getHeight());
 		this.interpolating = false;
 		this.timeSinceLastInterpolationUpdate = 0;
 	}
@@ -79,19 +79,19 @@ public class Player2D extends Player implements Drawable2D {
 	}
 
 	@Override
-	public BufferedImage getSprite() {
+	public SerializableBufferedImage getSprite() {
 		return sprite;
 	}
 
 	@Override
-	public void setSprite(BufferedImage image) {
+	public void setSprite(SerializableBufferedImage image) {
 		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
 		
-		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+		graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
 	}
 	
 	@Override

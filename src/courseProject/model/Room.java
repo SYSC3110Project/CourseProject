@@ -17,6 +17,7 @@
  */
 
 package courseProject.model;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 
-public class Room
+public class Room implements Serializable
 {
 	protected String description;
     protected Map<ExitDirection,Room> exits;

@@ -1,5 +1,8 @@
 package courseProject.controller;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 import javax.swing.JOptionPane;
 
 import courseProjct.gameEditor.GameEditor;
@@ -28,7 +31,7 @@ import courseProject.view.twoD.View2D;
  * @author Denis Dionne
  * @version 04/11/2012
  */
-public class CommandInterpreter implements InputListener
+public class CommandInterpreter implements InputListener//, Serializable
 {
     private Game game;
     private View view;
@@ -59,8 +62,8 @@ public class CommandInterpreter implements InputListener
     			return;
     		}
     	}
-    	
     	finished = game.processCommand(e.getCommand());
+    	
     }
 
     /**
@@ -112,6 +115,7 @@ public class CommandInterpreter implements InputListener
 	    	}
 	    	
 	    	Game game = new Game();
+	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
 	    	game.addModelListeners((ModelListener)view);
@@ -149,4 +153,14 @@ public class CommandInterpreter implements InputListener
     	editor.show();
     	
     }
+    
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException{
+		out.defaultWriteObject();
+		 
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		
+	}
 }
