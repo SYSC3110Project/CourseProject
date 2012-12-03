@@ -116,10 +116,18 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		
 	    		return;
 	    	}
+
+	    	LevelLoader loader=new LevelLoader();
 	    	
 	    	Game game = null;
 	    	if(load != 0){
-	    		game = new Game();
+	    		try {
+	    			game = new Game();
+					Player player=loader.LoadLevel(fileName);
+					game.setPlayer(player);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	    	}
 	    	else{
 	    		try {
@@ -129,19 +137,6 @@ public class CommandInterpreter implements InputListener//, Serializable
 					e.printStackTrace();
 				}
 	    	}
-	    	
-	    	LevelLoader loader=new LevelLoader();
-	    	
-	    	Game game=new Game();
-			try {
-				Player player=loader.LoadLevel(fileName);
-				game.setPlayer(player);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			
-			
 	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	
@@ -173,7 +168,7 @@ public class CommandInterpreter implements InputListener//, Serializable
 			}
         }
     }
-    /*
+    
     private static void startLevelEditor() {
     	GameEditor editor = new GameEditor();
     	

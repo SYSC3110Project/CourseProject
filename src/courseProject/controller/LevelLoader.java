@@ -1,10 +1,6 @@
 package courseProject.controller;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import courseProject.model.ExitDirection;
 import courseProject.model.Game;
@@ -17,6 +13,7 @@ import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.Room2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
+import courseProject.view.twoD.drawable.SerializableBufferedImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,11 +158,7 @@ public class LevelLoader {
 		
 		
 
-		BufferedImage sprite = null;
-        try {
-            sprite = ImageIO.read(new File(spriteName));
-        } catch (IOException e) {
-        }
+		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
 		
 		//Create a new Room with the value read from the xml nodes
 		Room2D room = new Room2D(description,sprite);
@@ -219,11 +212,7 @@ public class LevelLoader {
 		String spriteName = itemElement.getAttribute("sprite");
 		
 		
-		BufferedImage sprite = null;
-        try {
-            sprite = ImageIO.read(new File(spriteName));
-        } catch (IOException e) {
-        }
+		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
 		
 		Item2D item = new Item2D(name,description,weight, ItemType.ItemTypeFromString(typeName), value, sprite);
         
@@ -246,11 +235,7 @@ public class LevelLoader {
 		int yloc=getIntValue(monsterElement,"yloc");
 		String spriteName = monsterElement.getAttribute("sprite");
 		
-		BufferedImage sprite = null;
-        try {
-            sprite = ImageIO.read(new File(spriteName));
-        } catch (IOException e) {
-        }
+		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
 		
         Monster2D monster=new Monster2D(name,health,attack,defence, 0,0, sprite);
         
@@ -325,11 +310,7 @@ public class LevelLoader {
 		
 		String spriteName = playerElement.getAttribute("sprite");
 		
-		BufferedImage sprite = null;
-        try {
-            sprite = ImageIO.read(new File(spriteName));
-        } catch (IOException e) {
-        }
+		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
         
         Room room=rooms.get(startRoom);
         Player  mc = new Player2D(room,health,attack,defence, sprite);
