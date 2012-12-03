@@ -126,5 +126,27 @@ public class Item2D extends Item implements Drawable2D {
 			}
 		}
 	}
+	
+	public String toXML(){
+		String xml = "<item name=\"";
+		xml = xml + this.getName();
+		xml = xml + "\" type=\"";
+		xml = xml + this.getType().toString();
+		xml = xml + "\" description=\"";
+		xml = xml + this.getDesc();
+		xml = xml + "\" sprite=\"";
+		xml = xml + this.getSprite().getPath();
+		xml = xml + "\">\n<weight>";
+		xml = xml + ""+this.getWeight();
+		xml = xml + "</weight>\n<value>";
+		xml = xml + ""+this.getValue();
+		xml = xml + "</value>\n<xloc>";
+		xml = xml + ""+this.getLocation().x;
+		xml = xml + "</xloc>\n<yloc>";
+		xml = xml + ""+this.getLocation().y;
+		xml = xml + "</yloc>\n</item>\n";
+		
+		return xml;
+	}
 
 }

@@ -97,8 +97,9 @@ public class CommandInterpreter implements InputListener//, Serializable
 				options,
 				options[2]);
     	
-    	load = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "load", JOptionPane.YES_NO_OPTION);
-    	System.out.println(load);
+
+    	
+    	
     	if(viewOption!=null) {
         	View view ;
 	    	
@@ -116,6 +117,9 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		
 	    		return;
 	    	}
+	    	
+	    	load = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "load", JOptionPane.YES_NO_OPTION);
+	    	System.out.println(load);
 
 	    	LevelLoader loader=new LevelLoader();
 	    	Game game = null;

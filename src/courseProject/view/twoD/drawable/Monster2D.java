@@ -127,5 +127,29 @@ public class Monster2D extends Monster implements Drawable2D {
 			}
 		}
 	}
+	
+	public String toXML(){
+		String xml = "<monster name=\"";
+		xml = xml + this.getName();
+		xml = xml + "\" sprite=\"";
+		xml = xml + this.getSprite().getPath();
+		xml = xml + "\">\n<health>";
+		xml = xml + ""+this.health;
+		xml = xml + "</health>\n<attack>";
+		xml = xml + ""+this.attack;
+		xml = xml + "</attack>\n<defence>";
+		xml = xml + ""+this.defence;
+		xml = xml + "</defence>\n<weapon>";
+		xml = xml + ""+this.weapon.getValue();
+		xml = xml + "</weapon>\n<armor>";
+		xml = xml + ""+this.armor.getValue();
+		xml = xml + "</armor>\n<xloc>";
+		xml = xml + ""+this.getLocation().x;
+		xml = xml + "</xloc>\n<yloc>";
+		xml = xml + ""+this.getLocation().y;
+		xml = xml + "</yloc>\n</monster>\n";
+		
+		return xml;
+	}
 
 }

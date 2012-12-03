@@ -2,6 +2,7 @@ package courseProject.gameEditor;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -10,7 +11,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -25,6 +29,13 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import courseProject.model.ExitDirection;
+
+import courseProject.view.twoD.drawable.Item2D;
+import courseProject.view.twoD.drawable.SerializableBufferedImage;
+import courseProject.model.ItemType;
+import courseProject.view.twoD.drawable.Monster2D;
 
 /**
  * The GameEditor will be a way to construct rooms and their 
@@ -49,10 +60,15 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	private JTextField name;
 	private JTextArea desc;
 	
+	private List<Item2D> items;
+	private List<Monster2D> monsters;
+	
 	/**
 	 * Game Editor Constructor
 	 */
 	public GameEditor() {
+		items = new ArrayList<Item2D>();
+		monsters = new ArrayList<Monster2D>();
 		
 		mode = EditorMode.Background;
 		admode = AddDelMode.Add;
@@ -101,6 +117,10 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 				JMenuItem itemEntry = new JMenuItem("Add Item");
 				itemEntry.addActionListener(this);
 				fileMenu.add(itemEntry);
+
+				JMenuItem monsterEntry = new JMenuItem("Add Monster");
+				monsterEntry.addActionListener(this);
+				fileMenu.add(monsterEntry);
 				
 				JMenuItem connectR = new JMenuItem("Connect Rooms");
 				connectR.addActionListener(this);
@@ -226,7 +246,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 */
 	private void saveConnections(){
 		HashSet<String> roomSet = new HashSet<String>();
-		String dir = "";
+		ExitDirection dir = null;
 		String rooms = "";
 		String connections = "";
 		String xml = "<?xml version=\"1.0\"?>\n<game name=\"";
@@ -240,40 +260,44 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 				roomSet.add(room1.getText());
 			}else if(i%3==1){
 				JComboBox<String> direc = (JComboBox<String>)buildPanel.getComponent(i);
-				dir = direc.getSelectedItem().toString();
+				String direction = direc.getSelectedItem().toString();
+				dir = ExitDirection.parse(direction);
 				connections = connections + "<exit type=\""+dir+"\">\n";
 				connections = connections + "</exit>\n</room1>\n";
 			}else{
-				String dirRe = "";
+				ExitDirection dirRe = null;
 				switch(dir){
-				case "north":
-					dirRe = "south";
+				case north:
+					dirRe = ExitDirection.south;
 					break;
-				case "south":
-					dirRe = "north";
+				case south:
+					dirRe = ExitDirection.north;
 					break;
-				case "east":
-					dirRe = "west";
+				case east:
+					dirRe = ExitDirection.west;
 					break;
-				case "west":
-					dirRe = "east";
+				case west:
+					dirRe = ExitDirection.east;
 					break;
 				}
 				JTextField room2 = (JTextField)buildPanel.getComponent(i);
 				connections = connections + "<room2 name=\""+room2.getText()+".xml\">\n";
-				connections = connections + "<exit type=\""+dirRe+"\">\n";
+				connections = connections + "<exit type=\""+dirRe.toString()+"\">\n";
 				connections = connections + "</exit>\n</room2>\n</connect>\n";
 				roomSet.add(room2.getText());
 			}
 		}
 		for (String s:roomSet){
-			rooms = rooms + "<room>\""+s+".xml\"</room>\n";
+			rooms = rooms + "<room>\"res/game/"+s+".xml\"</room>\n";
 		}
 		xml = xml + rooms;
 		xml = xml + "</rooms>\n<connections>\n";
 		xml = xml + connections;
-		xml = xml + "</connections>\n</game>\n";
+		xml = xml + "</connections>\n";
 		
+		xml = xml + "<players>\n<player sprite=\"res\\SingleGeorge.png\" startRoom=\"Outside\">\n<health>20</health>\n<attack>1</attack>\n<defence>1</defence>\n<xloc>75</xloc>\n<yloc>150</yloc>\n</player>\n</players>\n";
+		
+		xml = xml + "</game>\n";
 		BufferedWriter out;
 		try{
 			out = new BufferedWriter(new FileWriter("res/game/Game.xml"));
@@ -301,12 +325,117 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 			    mainWindow,"Would you like to save?",
 			    "Save",
 			    JOptionPane.YES_NO_OPTION);
-		System.out.printf(""+save);
+		if(save==0){
+			saveRoom();
+		}
 		mainWindow.dispose();
 		
 	}
 	/**
-	 * adds an item to the map
+	 * adds a monster to the game
+	 */
+	public void addMonster(){
+		int x;
+		int y;
+		String s = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give x and y coordinates\n"
+                + "Seperated by /",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		
+		if ((s != null) && (s.length() > 0) && (s.contains("/"))) {
+			String[] sar = s.split("/");
+			try{
+				x = Integer.parseInt(sar[0]);
+				y = Integer.parseInt(sar[1]);
+			}catch(NumberFormatException e){
+				return;
+			}
+		}else{
+			JOptionPane.showMessageDialog(mainWindow, "Input not valid");
+			return;
+		}
+		String name = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the name of the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		String sprite = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the sprite name of the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		sprite = "res\\" + sprite + ".png";
+		String h = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the health of the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int health;
+		try{
+			health = Integer.parseInt(h);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		String a = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the attack of the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int attack;
+		try{
+			attack = Integer.parseInt(a);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		String d = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the defence of the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int defence;
+		try{
+			defence = Integer.parseInt(d);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		String w = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the weapon attack for the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int weapon;
+		try{
+			weapon = Integer.parseInt(w);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		String ar = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the armor defence for the monster",
+                "Add monster",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int armor;
+		try{
+			armor = Integer.parseInt(ar);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		Monster2D m = new Monster2D(name, health, attack, defence, weapon, armor, new SerializableBufferedImage(sprite));
+		m.setLocation(new Point(x,y));
+		monsters.add(m);
+	}
+	/**
+	 * adds an item to the game
 	 */
 	public void addItem(){
 		int x;
@@ -327,7 +456,6 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 			}catch(NumberFormatException e){
 				return;
 			}
-			System.out.printf(""+x+"+"+y);
 		}else{
 			JOptionPane.showMessageDialog(mainWindow, "Input not valid");
 			return;
@@ -338,40 +466,100 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
                 "Add item",
                 JOptionPane.PLAIN_MESSAGE,
                 null,null,"");
-
-		//TODO actually add the item to the map
+		String[] types = {"weapon","armor","health"};
+		String type = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the type of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,types,"weapon");
+		String desc = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the description of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		String sprite = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the sprite name of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		sprite = "res\\" + sprite + ".png";
+		String w = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the weight of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int weight;
+		try{
+			weight = Integer.parseInt(w);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		String v = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the value of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		int value;
+		try{
+			value = Integer.parseInt(v);
+    	}catch(NumberFormatException e){
+    		return;
+    	}
+		Item2D i = new Item2D(name, desc, weight, ItemType.ItemTypeFromString(type), value, new SerializableBufferedImage(sprite));
+		i.setLocation(new Point(x,y));
+		items.add(i);
 	}
-	
+	/**
+	 * saves the room to XML
+	 */
 	public void saveRoom(){
-		//TODO
-		String xml = "<?xml version=\"1.0\"?>\n<room name=\"";
+		String xml = "<?xml version=\"1.0\"?>\n<room sprite=\"";
+		String tile = splitter.getImagePath();
+		tile = tile.substring(tile.indexOf("res"));
+		xml = xml + tile;
+		xml = xml + "\">\n<name>";
 		String name = (String)JOptionPane.showInputDialog(
                 mainWindow,
                 "What would you like to call the room",
-                "Add item",
+                "Save",
                 JOptionPane.PLAIN_MESSAGE,
                 null,null,"");
 		xml = xml + name;
-		xml = xml + "\">\n<description>\"";
+		xml = xml + "</name>\n<description>\"";
 		String desc = (String)JOptionPane.showInputDialog(
                 mainWindow,
                 "Describe the room",
-                "Add item",
+                "save",
                 JOptionPane.PLAIN_MESSAGE,
                 null,null,"");
 		xml = xml + desc;
-		xml = xml + "\"</description>\n<tileset>\"../res/";
-		//add tileset
-		xml = xml + "\"</tileset>\n<items>";
-		//add items
-		xml = xml + "</items>\n<creatures>";
-		//add creatures
-		xml = xml + "</creatures>\n<layout>\n<background>\n";
+		xml = xml + "\"</description>\n<items>\n";
+		for(Item2D i : items){
+			xml = xml + i.toXML();
+		}
+		xml = xml + "</items>\n<monsters>\n";
+		for(Monster2D m : monsters){
+			xml = xml + m.toXML();
+		}
+		xml = xml + "</monsters>\n<layout>\n<background>\n";
 		xml = xml + builder.backgroundLayerToString();
 		xml = xml + "</background>\n<object>\n";
 		xml = xml + builder.objectLayerToString();
 		xml = xml + "</object>\n</layout>\n</room>\n";
-		System.out.printf(xml);
+
+		BufferedWriter out;
+		try{
+			out = new BufferedWriter(new FileWriter("res/game/"+name+".xml"));
+			out.write(xml);
+			out.close();
+		}catch (IOException e){
+			return;
+		}
 	}
 	/**
 	 * handles menu and button sensitive tasks
@@ -389,6 +577,8 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 				
 			}else if(pressed.getText().equals("Add Item")){
 				addItem();
+			}else if(pressed.getText().equals("Add Monster")){
+				addMonster();
 			}else if(pressed.getText().equals("Connect Rooms")){
 				gameBuilder();
 			}else if(pressed.getText().equals("Save Game")){
@@ -483,6 +673,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	public void removeUpdate(DocumentEvent arg0) {
 		connectWindow.pack();
 	}
+	
 	
 
 }
