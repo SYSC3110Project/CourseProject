@@ -2,7 +2,7 @@ package courseProject.controller;
 
 import javax.swing.JOptionPane;
 
-import courseProjct.gameEditor.GameEditor;
+//import courseProject.gameEditor.GameEditor;
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.view.View;
@@ -144,9 +144,9 @@ public class CommandInterpreter implements InputListener
     }
     
     private static void startLevelEditor() {
-    	GameEditor editor = new GameEditor();
+    /*	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    	
+    */
     }
 }
