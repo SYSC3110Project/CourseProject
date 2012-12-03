@@ -13,6 +13,7 @@ import courseProject.view.View;
 import courseProject.view.mapD.ViewMapD;
 import courseProject.view.textD.ViewText;
 import courseProject.view.twoD.View2D;
+import courseProject.gameEditor.GameEditor;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -112,14 +113,21 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    		view = new View2D();
 	    	}
 	    	else {
-	    		//startLevelEditor();
+	    		startLevelEditor();
 	    		
 	    		return;
 	    	}
-	    	
+
+	    	LevelLoader loader=new LevelLoader();
 	    	Game game = null;
 	    	if(load != 0){
-	    		game = new Game();
+	    		game=new Game();
+				try {
+					Player player=loader.LoadLevel(fileName);
+					game.setPlayer(player);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	    	}
 	    	else{
 	    		try {
@@ -130,15 +138,8 @@ public class CommandInterpreter implements InputListener//, Serializable
 				}
 	    	}
 	    	
-	    	LevelLoader loader=new LevelLoader();
 	    	
-	    	Game game=new Game();
-			try {
-				Player player=loader.LoadLevel(fileName);
-				game.setPlayer(player);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	    	
 			
 			
 			
@@ -173,12 +174,12 @@ public class CommandInterpreter implements InputListener//, Serializable
 			}
         }
     }
-    /*
+    
     private static void startLevelEditor() {
     	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    
+    }
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
 		out.defaultWriteObject();
 		 
