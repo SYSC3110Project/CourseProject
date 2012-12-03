@@ -27,10 +27,10 @@ import courseProject.model.Room;
  */
 public class Room2D extends Room implements Drawable2D {
 	
-	private BufferedImage sprite;
+	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	
-	private Map<ExitDirection, BufferedImage> exitImages;
+	private Map<ExitDirection, SerializableBufferedImage> exitImages;
 	private Map<ExitDirection, Rectangle> exitBounds;
 
 	/**
@@ -40,11 +40,11 @@ public class Room2D extends Room implements Drawable2D {
      * @param description The room's description.
 	 * @param sprite The image for to represent the room
 	 */
-	public Room2D(String description, BufferedImage sprite) {
+	public Room2D(String description, SerializableBufferedImage sprite) {
 		super(description);
 		this.sprite = sprite;// use 0,0 as origin
-		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getWidth(), this.sprite.getHeight());
-		this.exitImages = new HashMap<ExitDirection, BufferedImage>();
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getImage().getWidth(), this.sprite.getImage().getHeight());
+		this.exitImages = new HashMap<ExitDirection, SerializableBufferedImage>();
 		this.exitBounds = new HashMap<ExitDirection, Rectangle>();
 	}
 
@@ -86,7 +86,7 @@ public class Room2D extends Room implements Drawable2D {
 		
 		this.sprite = toCopy.sprite;
 		this.bounds = toCopy.bounds;
-		this.exitImages = new HashMap<ExitDirection, BufferedImage>(toCopy.exitImages);
+		this.exitImages = new HashMap<ExitDirection, SerializableBufferedImage>(toCopy.exitImages);
 		this.exitBounds = new HashMap<ExitDirection, Rectangle>(toCopy.exitBounds);
 	}
 	
@@ -98,39 +98,27 @@ public class Room2D extends Room implements Drawable2D {
     public void addExit(ExitDirection dir, Room exit) {
         exits.put(dir,exit);
 
-    	BufferedImage exitImg;
+        SerializableBufferedImage exitImg;
     	switch(dir) {
     	case north:
-        	try {
-        		exitImg = ImageIO.read(new File("res\\NorthExit.png"));
-        		exitImages.put(dir, exitImg);
-        		exitBounds.put(dir, new Rectangle(115, 0, exitImg.getWidth(), exitImg.getHeight()));
-            } catch (IOException e) {
-            }
+        	exitImg = new SerializableBufferedImage("res\\NorthExit.png");
+			exitImages.put(dir, exitImg);
+			exitBounds.put(dir, new Rectangle(115, 0, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
         	break;
     	case south:
-        	try {
-        		exitImg = ImageIO.read(new File("res\\SouthExit.png"));
-        		exitImages.put(dir, exitImg);
-        		exitBounds.put(dir, new Rectangle(100, 355, exitImg.getWidth(), exitImg.getHeight()));
-            } catch (IOException e) {
-            }
+        	exitImg = new SerializableBufferedImage("res\\SouthExit.png");
+			exitImages.put(dir, exitImg);
+			exitBounds.put(dir, new Rectangle(100, 355, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	case east:
-        	try {
-        		exitImg = ImageIO.read(new File("res\\EastExit.png"));
-        		exitImages.put(dir, exitImg);
-        		exitBounds.put(dir, new Rectangle(313, 105, exitImg.getWidth(), exitImg.getHeight()));
-            } catch (IOException e) {
-            }
+        	exitImg = new SerializableBufferedImage("res\\EastExit.png");
+			exitImages.put(dir, exitImg);
+			exitBounds.put(dir, new Rectangle(313, 105, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	case west:
-        	try {
-        		exitImg = ImageIO.read(new File("res\\WestExit.png"));
-        		exitImages.put(dir, exitImg);
-        		exitBounds.put(dir, new Rectangle(0, 102, exitImg.getWidth(), exitImg.getHeight()));
-            } catch (IOException e) {
-            }
+        	exitImg = new SerializableBufferedImage("res\\WestExit.png");
+			exitImages.put(dir, exitImg);
+			exitBounds.put(dir, new Rectangle(0, 102, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	}
     }
@@ -169,25 +157,25 @@ public class Room2D extends Room implements Drawable2D {
 	}
 
 	@Override
-	public BufferedImage getSprite() {
+	public SerializableBufferedImage getSprite() {
 		return sprite;
 	}
 
 	@Override
-	public void setSprite(BufferedImage image) {
+	public void setSprite(SerializableBufferedImage image) {
 		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
 		
-		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+		graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
 		for(ExitDirection direction : exits.keySet()) { 
 			
-			BufferedImage img = exitImages.get(direction);
+			SerializableBufferedImage img = exitImages.get(direction);
 			Rectangle bounds = exitBounds.get(direction);
 			
-			graphics2d.drawImage(img, bounds.x, bounds.y, bounds.width, bounds.height, null);
+			graphics2d.drawImage(img.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
 		}
 	}
 	
@@ -207,4 +195,6 @@ public class Room2D extends Room implements Drawable2D {
 	public void moveTo(Point point) {
 		//The room shouldn't really have this as an option.
 	}
+	
+	
 }

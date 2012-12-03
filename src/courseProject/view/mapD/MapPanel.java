@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 
 import courseProject.model.ExitDirection;
 import courseProject.model.Room;
+import courseProject.view.twoD.drawable.SerializableBufferedImage;
 
 /**
  * MapPanel is responsible for drawing all the map elements to the screen
@@ -26,7 +28,7 @@ import courseProject.model.Room;
  * @author Matthew Smith
  * @version 20/11/2012
  */
-public class MapPanel extends JPanel {
+public class MapPanel extends JPanel implements Serializable{
 
 	/** generated Serial ID */
 	private static final long serialVersionUID = 9177045381045027586L;
@@ -44,8 +46,8 @@ public class MapPanel extends JPanel {
 	private Map<Room, Point> roomLocations;
 	private List<Point[]> exitLocations; // represents an exit from point[0] to
 											// point[1]
-	private BufferedImage mapTexture;
-	private BufferedImage roomTexture;
+	private SerializableBufferedImage mapTexture;
+	private SerializableBufferedImage roomTexture;
 
 	/**
 	 * Constructor for the map panel.
@@ -53,13 +55,9 @@ public class MapPanel extends JPanel {
 	public MapPanel() {
 		this.roomLocations = new HashMap<Room, Point>();
 		this.exitLocations = new ArrayList<Point[]>();
-		try {
-			this.mapTexture = ImageIO.read(new File(DEFAULT_MAP_TEXTURE_PATH));
+		this.mapTexture = new SerializableBufferedImage(DEFAULT_MAP_TEXTURE_PATH);
 
-			this.roomTexture = ImageIO
-					.read(new File(DEFAULT_ROOM_TEXTURE_PATH));
-		} catch (IOException e) {
-		}
+		this.roomTexture = new SerializableBufferedImage(DEFAULT_ROOM_TEXTURE_PATH);
 	}
 
 	@Override
@@ -72,7 +70,7 @@ public class MapPanel extends JPanel {
 		// drawRect(g, BACKGROUND, new Dimension(getWidth(),getHeight()), new
 		// Point(0,0));
 
-		g2d.drawImage(this.mapTexture, 0, 0, getWidth(), getHeight(), null);
+		g2d.drawImage(this.mapTexture.getImage(), 0, 0, getWidth(), getHeight(), null);
 		// drawGrid(g);
 
 		g2d.setColor(Color.black);
@@ -92,14 +90,14 @@ public class MapPanel extends JPanel {
 						  drawBorderRect(g, ACTIVE_ROOM, ROOM, p, 5); 
 						  // draw the active room in a different color
 
-						  g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
+						  g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width,
 								  ROOM.height, null);
 						  // g2d.setColor(Color.black);
 						  // g.drawString(key.getDescription(), p.x, p.y);
 					  } else {
 						  drawBorderRect(g, INACTIVE_ROOM, ROOM, p, 2); 
 						  // draw the inactive room in a different color
-						  g2d.drawImage(this.roomTexture, p.x, p.y, ROOM.width,
+						  g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width,
 								  ROOM.height, null);
 						  // g2d.setColor(Color.black);
 						  // g.drawString(key.getDescription(), p.x, p.y);

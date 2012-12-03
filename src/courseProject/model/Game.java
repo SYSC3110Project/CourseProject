@@ -17,7 +17,13 @@ package courseProject.model;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -33,6 +39,7 @@ import courseProject.view.twoD.drawable.Item2D;
 import courseProject.view.twoD.drawable.Monster2D;
 import courseProject.view.twoD.drawable.Player2D;
 import courseProject.view.twoD.drawable.Room2D;
+import courseProject.view.twoD.drawable.SerializableBufferedImage;
 
 /**
  * 
@@ -42,12 +49,12 @@ import courseProject.view.twoD.drawable.Room2D;
  * @author Denis Dionne
  * @version	01/11/2012
  */
-public class Game 
+public class Game implements Serializable
 {
     private Player mc;		//player character
     private Stack<Player> undoStack;
     private Stack<Player> redoStack;
-    private List<ModelListener> listeners;
+    transient private List<ModelListener> listeners;
     private List<Room> rooms; 
         
     /**
@@ -77,12 +84,10 @@ public class Game
     {
         Room2D outside, closet, pub, lab, office;
               
-        BufferedImage basicRoom = null;
         
-        try {
-            basicRoom = ImageIO.read(new File("res\\BasicRoom.png"));
-        } catch (IOException e) {
-        }
+        
+        SerializableBufferedImage basicRoom = new SerializableBufferedImage("res\\BasicRoom.png");
+        
         outside = new Room2D("stuck in a giant's house", basicRoom);
         closet = new Room2D("in a Monster Closet!", basicRoom);
         pub = new Room2D("in the Rock Lobster pub", basicRoom);
@@ -100,36 +105,25 @@ public class Game
         office.addExit(ExitDirection.west,lab);
         
         // initialize items in rooms
-        BufferedImage orb = null;
-        try {
-            orb = ImageIO.read(new File("res\\Orb of Blood.png"));
-        } catch (IOException e) {
-        }
+        SerializableBufferedImage orb = new SerializableBufferedImage("res\\Orb of Blood.png");
         Item magicOrb = new Item2D("magicOrb","orb those enemies",12,ItemType.weapon,10, orb);
         ((Item2D)magicOrb).setLocation(new Point(225,275));
         
         
-        BufferedImage broomImg = null;
-        try {
-        	broomImg = ImageIO.read(new File("res\\broom.png"));
-        } catch (IOException e) {
-        }
+        
+        SerializableBufferedImage broomImg = new SerializableBufferedImage("res\\broom.png");
+
         Item broom = new Item2D("broom","fear it",3,ItemType.weapon,4, broomImg);
         ((Item2D)broom).setLocation(new Point(225,250));
 
-        BufferedImage book = null;
-        try {
-            book = ImageIO.read(new File("res\\book.png"));
-        } catch (IOException e) {
-        }
+        SerializableBufferedImage book = new SerializableBufferedImage("res\\book.png");
+
         Item textBook = new Item2D("Tome", "its really thick", 5, ItemType.armor, 3, book);
         ((Item2D)textBook).setLocation(new Point(225,275));
         
-        BufferedImage beer = null;
-        try {
-            beer = ImageIO.read(new File("res\\beer.png"));
-        } catch (IOException e) {
-        }
+
+        SerializableBufferedImage beer = new SerializableBufferedImage("res\\beer.png");
+
         
         Item beer1 = new Item2D("beer1", "nice and cold", 4, ItemType.health, 2, beer);
         ((Item2D)beer1).setLocation(new Point(225,275));
@@ -143,16 +137,9 @@ public class Game
         pub.drop(beer2);
         closet.drop(broom);
         
-        BufferedImage orc = null;
-        try {
-            orc = ImageIO.read(new File("res\\Orc.png"));
-        } catch (IOException e) {
-        }
-        BufferedImage candyIcon = null;
-        try {
-            candyIcon = ImageIO.read(new File("res\\candy.png"));
-        } catch (IOException e) {
-        }
+        SerializableBufferedImage orc = new SerializableBufferedImage("res\\Orc.png");
+        SerializableBufferedImage candyIcon = new SerializableBufferedImage("res\\candy.png");
+
         
         //initialize creatures
         Monster m = new Monster2D("Orc", 10, 1, 1, 4, 2, orc);
@@ -163,11 +150,8 @@ public class Game
         closet.addMonster(m);
         
         
-        BufferedImage george = null;
-        try {
-        	george = ImageIO.read(new File("res\\SingleGeorge.png"));
-        } catch (IOException e) {
-        }
+        SerializableBufferedImage george = new SerializableBufferedImage("res\\SingleGeorge.png");
+
 
         //initialize player
         mc = new Player2D(outside,20,1,1, george);
@@ -227,7 +211,7 @@ public class Game
         
         
         //if command isn't undo or redo and the last undo doesn't go back to the start of the current room, then add a Checkpoint to the stack
-        if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo))){
+        if(!(commandWord.equals(CommandWord.undo) || commandWord.equals(CommandWord.redo) || commandWord.equals(CommandWord.save))){
         	if(undoStack.isEmpty()){   //If the stack is empty, then any action should create a checkpoint
         		undoStack.push(new Player2D((Player2D)mc));
         		redoStack.clear();
@@ -267,6 +251,13 @@ public class Game
         	redo();
         }else if (commandWord.equals(CommandWord.use)){
         	use(command);
+        }else if (commandWord.equals(CommandWord.save)){
+        	try {
+				save();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         if(attackable){
         	notifyListeners(mc.getRoom().monsterAttack(mc));
@@ -515,6 +506,46 @@ public class Game
     	return redoStack;
     }
     
+    public static Game load() throws IOException{
+
+		try {
+			FileInputStream	fileIn = new FileInputStream("gameData.ser");	
+			ObjectInputStream In = new ObjectInputStream(fileIn);
+			Game game = (Game) In.readObject();
+			return game;
+			
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+    
+    /**
+	 * Writes the Game to gameData.ser
+	 * @throws IOException
+	 */
+	public void save() throws IOException{
+		try{
+			FileOutputStream fileOut = new FileOutputStream("gameData.ser");
+			ObjectOutputStream Out = new ObjectOutputStream(fileOut);
+			Out.writeObject(this);
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+    
     
     /**
      * Adds an undo to the stack of undo events (needed in order to 
@@ -530,6 +561,18 @@ public class Game
      */
 	public void setRooms(List<Room> rooms) {
 		this.rooms = rooms;
+	}
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException{
+		//ImageIO.write(Image,"png",ImageIO.createImageOutputStream(out));
+		out.defaultWriteObject();
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		
+		//Image =ImageIO.read(ImageIO.createImageInputStream(in));
+		in.defaultReadObject();
+		listeners = new ArrayList<ModelListener>();
+		
 	}
     
     

@@ -19,7 +19,7 @@ import courseProject.model.ItemType;
  */
 public class Item2D extends Item implements Drawable2D {
 	
-	private BufferedImage sprite;
+	private SerializableBufferedImage sprite;
 	private Rectangle bounds;
 	private boolean interpolating;
 	private Point interpolatingTo;
@@ -33,10 +33,10 @@ public class Item2D extends Item implements Drawable2D {
      * @param value The value for the associated item; damage for weapons, healing power for health, defence for armor
 	 * @param sprite The image for to represent the item
 	 */
-	public Item2D(String name, String description, int weight, ItemType type, int value, BufferedImage sprite) {
+	public Item2D(String name, String description, int weight, ItemType type, int value, SerializableBufferedImage sprite) {
 		super(name, description, weight, type, value);
 		this.sprite = sprite;// use 0,0 as origin
-		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getWidth(), sprite.getHeight());
+		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, sprite.getImage().getWidth(), sprite.getImage().getHeight());
 		this.interpolating = false;
 		this.timeSinceLastInterpolationUpdate = 0;
 	}
@@ -77,19 +77,19 @@ public class Item2D extends Item implements Drawable2D {
 	}
 
 	@Override
-	public BufferedImage getSprite() {
+	public SerializableBufferedImage getSprite() {
 		return sprite;
 	}
 
 	@Override
-	public void setSprite(BufferedImage image) {
+	public void setSprite(SerializableBufferedImage image) {
 		this.sprite = image;
 	}
 
 	@Override
 	public void draw(Graphics2D graphics2d) {
 		
-		graphics2d.drawImage(sprite, bounds.x, bounds.y, bounds.width, bounds.height, null);
+		graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
 	}
 	
 	@Override
