@@ -106,6 +106,10 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 				JMenuItem saveEntry = new JMenuItem("Save");
 				saveEntry.addActionListener(this);
 				fileMenu.add(saveEntry);
+
+				JMenuItem itemEntry = new JMenuItem("Add Item");
+				itemEntry.addActionListener(this);
+				fileMenu.add(itemEntry);
 				
 				JMenuItem connectR = new JMenuItem("Connect Rooms");
 				connectR.addActionListener(this);
@@ -302,8 +306,55 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 */
 	public void dispose() {
 		//TODO would you like to save?
+		int save = JOptionPane.showConfirmDialog(
+			    mainWindow,"Would you like to save?",
+			    "Heads up",
+			    JOptionPane.YES_NO_OPTION);
+		System.out.printf(""+save);
 		mainWindow.dispose();
 		
+	}
+	/**
+	 * adds an item to the map
+	 */
+	public void addItem(){
+		int x;
+		int y;
+		String s = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give x and y coordinates\n"
+                + "Seperated by /",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+		
+		if ((s != null) && (s.length() > 0) && (s.contains("/"))) {
+			String[] sar = s.split("/");
+			try{
+				x = Integer.parseInt(sar[0]);
+				y = Integer.parseInt(sar[1]);
+			}catch(NumberFormatException e){
+				return;
+			}
+			System.out.printf(""+x+"+"+y);
+		}else{
+			JOptionPane.showMessageDialog(mainWindow, "Input not valid");
+			return;
+		}
+		String name = (String)JOptionPane.showInputDialog(
+                mainWindow,
+                "Give the name of the item",
+                "Add item",
+                JOptionPane.PLAIN_MESSAGE,
+                null,null,"");
+
+		//TODO actually add the item to the map
+	}
+	
+	public void saveRoom(){
+		//TODO
+		System.out.println(builder.backgroundLayerToString());
+		System.out.println(builder.objectLayerToString());
 	}
 	/**
 	 * handles menu and button sensitive tasks
@@ -316,10 +367,11 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 			if(pressed.getText().equals("Load Image")) {
 				loadImage();
 			} else if(pressed.getText().equals("Save")) {
-				System.out.println(builder.backgroundLayerToString());
-				System.out.println(builder.objectLayerToString());
+				saveRoom();
 			} else if(pressed.getText().equals("Load")) {
 				
+			}else if(pressed.getText().equals("Add Item")){
+				addItem();
 			}else if(pressed.getText().equals("Connect Rooms")){
 				gameBuilder();
 			}else if(pressed.getText().equals("Save Game")){
