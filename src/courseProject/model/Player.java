@@ -296,7 +296,7 @@ public class Player extends Creature{
 		buff.append(weapon());
 		buff.append("\n");
 		buff.append(armor());
-		buff.append("\nWeapon: ");
+		buff.append("\n");
 		return buff.toString();
 	}
 	@Override
