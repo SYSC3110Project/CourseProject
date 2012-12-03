@@ -144,9 +144,8 @@ public class CommandInterpreter implements InputListener
     }
     
     private static void startLevelEditor() {
-    /*	GameEditor editor = new GameEditor();
+    	GameEditor editor = new GameEditor();
     	
     	editor.show();
-    */
     }
 }
