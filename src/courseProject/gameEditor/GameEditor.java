@@ -256,7 +256,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 		for(int i=0; i<buildPanel.getComponentCount(); i++){
 			if(i%3==0){
 				JTextField room1 = (JTextField)buildPanel.getComponent(i);
-				connections = connections + "<connect>\n<room1 name=\""+room1.getText()+".xml\">\n";
+				connections = connections + "<connect>\n<room1 name=\""+room1.getText()+"\">\n";
 				roomSet.add(room1.getText());
 			}else if(i%3==1){
 				JComboBox<String> direc = (JComboBox<String>)buildPanel.getComponent(i);
@@ -281,21 +281,21 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 					break;
 				}
 				JTextField room2 = (JTextField)buildPanel.getComponent(i);
-				connections = connections + "<room2 name=\""+room2.getText()+".xml\">\n";
+				connections = connections + "<room2 name=\""+room2.getText()+"\">\n";
 				connections = connections + "<exit type=\""+dirRe.toString()+"\">\n";
 				connections = connections + "</exit>\n</room2>\n</connect>\n";
 				roomSet.add(room2.getText());
 			}
 		}
 		for (String s:roomSet){
-			rooms = rooms + "<room>\"res/game/"+s+".xml\"</room>\n";
+			rooms = rooms + "<room>res/game/"+s+".xml</room>\n";
 		}
 		xml = xml + rooms;
 		xml = xml + "</rooms>\n<connections>\n";
 		xml = xml + connections;
 		xml = xml + "</connections>\n";
 		
-		xml = xml + "<players>\n<player sprite=\"res\\SingleGeorge.png\" startRoom=\"Outside\">\n<health>20</health>\n<attack>1</attack>\n<defence>1</defence>\n<xloc>75</xloc>\n<yloc>150</yloc>\n</player>\n</players>\n";
+		xml = xml + "<players>\n<player sprite=\"res/SingleGeorge.png\" startRoom=\"Outside\">\n<health>20</health>\n<attack>1</attack>\n<defence>1</defence>\n<xloc>75</xloc>\n<yloc>150</yloc>\n</player>\n</players>\n";
 		
 		xml = xml + "</game>\n";
 		BufferedWriter out;

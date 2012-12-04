@@ -38,7 +38,7 @@ public class CommandInterpreter implements InputListener//, Serializable
     private View view;
     private boolean finished;
     private double previousTime;
-    public static final String fileName= "res\\game\\indirectTest.xml";
+    public static final String fileName= "res\\game\\Game.xml";
     
     /**
      * Create a parser to read from the terminal window.
