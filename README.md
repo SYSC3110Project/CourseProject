@@ -3,7 +3,23 @@ CourseProject
 
 github: https://github.com/SYSC3110Project/CourseProject
 
+
+Milestone 4:
+	The game is now loading from XML files built using the game editor (choice in the main window when first run.) 
+	As well, the game now can save its state and load back up when running again.
+
+
+Known Issues:
+
+		- The Undo moves the player onto the monster and will take off health from the monster.
+		
+		
 Work Seperation:
+	-Michael and Matthew worked on the level builder, Michael on the connecting rooms and Matthew on the room builder
+	
+	-Denis worked on saving the games state with serialization
+	
+	-Andrew worked on getting the game to load from an XML file (build on startup)
 
 For Milestone 3 made a few changes to our game, we have fixed the bug that made our undo/redo unusable and we have added GUI interfaces for the Inventory and
 		Character information, we have also added a 2D text view or map view (what we were supposed to have for milestone 2 (since it turned out that we did
