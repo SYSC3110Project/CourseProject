@@ -24,17 +24,14 @@ public class GameTest {
 	
 	@Before
 	public void setUp(){
+		LevelLoader loader=new LevelLoader();
 		game=new Game();
-		
-	}
-
-	@Test
-	public void testGoRoom()
-	{
-		room1=game.getPlayer().getRoom();
-		game.processCommand(new Command(CommandWord.go,"west"));
-		room2=game.getPlayer().getRoom();
-		assertTrue(room1!=room2);
+		try {
+			Player player=loader.LoadLevel("res\\game\\Game.xml");
+			game.setPlayer(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -54,26 +51,4 @@ public class GameTest {
 		Stack<Player> stack2=game.getRedoStack();
 		assertTrue(stack1==stack2);
 	}
-	
-	@Test
-	public void testTake()
-	{
-		assertTrue(game.take(new Command(CommandWord.take,"magicOrb")));
-	}
-	
-	@Test
-	public void testDrop()
-	{
-		game.take(new Command(CommandWord.take,"magicOrb"));
-		assertTrue(game.drop(new Command(CommandWord.drop,"magicOrb")));
-	}
-	
-	@Test
-	public void testAttack()
-	{
-		game.take(new Command(CommandWord.take,"magicOrb"));
-		game.use(new Command(CommandWord.inventory,"magicOrb"));
-		game.processCommand(new Command(CommandWord.go,"east"));
-		assertTrue(game.attack(new Command(CommandWord.attack,"Orc")));
-	}	
 }
