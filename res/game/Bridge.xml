@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<rooms>
+<room sprite="res\woodland.png">
+<name>Bridge</name>
+<description>"a bridge passes over a large body of water to the east"</description>
+<items>
+<item name="Tome" type="armor" description="Spellbook of Defense" sprite="res\book.png">
+<weight>5</weight>
+<value>25</value>
+<xloc>470</xloc>
+<yloc>192</yloc>
+</item>
+</items>
+<monsters>
+</monsters>
+<background>
+		00 00 00 00 00 00 00 00 00 00 2B 65 65 65 65 65 
+		00 00 00 00 00 00 00 00 00 2B 2C 65 65 65 65 65 
+		00 00 00 00 00 00 00 00 2B 2C 2D 65 65 65 65 65 
+		00 00 00 00 00 00 00 2B 2C 2D 79 65 65 65 65 65 
+		00 00 00 00 00 00 2B 2C 2D 79 65 65 65 65 65 65 
+		00 00 00 00 00 2B 2C 2D 79 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 2D 79 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 00 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 00 2B 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 00 2B 2C 65 65 65 65 65 65 65 65 65 65 65 
+		00 00 2B 2C 2D 65 65 65 65 65 65 65 65 65 65 65 
+</background>
+<object>
+		XX XX XX XX XX XX XX XX XX XX XX 8D XX XX XX XX 
+		XX XX XX XX XX XX XX 58 XX XX XX 8E XX XX XX XX 
+		XX XX XX XX XX XX XX XX XX XX XX 79 XX XX XX XX 
+		XX XX XX XX XX XX AB AB AB AB AB AB AB AB AB AB 
+		XX XX XX XX XX 9D AD AD AD AD AD AD AD AD AD AD 
+		XX XX XX XX XX 9D AD AD AD AD AD AD AD AD AD AD 
+		XX XX XX XX XX 9D AD AD AD AD AD AD AD AD AD AD 
+		XX XX XX XX XX 9D AD AD AD AD AD AD AD AD AD AD 
+		XX XX XX XX XX 9E AE AE AE AE AE AE AE AE AE AE 
+		XX XX XX XX XX 8B CF CF CF CF CF CF CF CF CF CF 
+		XX XX D0 XX C0 8B XX XX XX XX XX XX XX XX XX XX 
+		XX C0 XX C0 D0 8B XX XX XX XX XX XX XX XX XX XX 
+		E0 D1 E0 E0 D1 8C XX XX XX XX XX XX XX XX XX XX 
+		C0 C0 D0 D1 XX 8D XX XX XX XX XX XX XX XX XX XX 
+		D0 E0 D1 XX XX 8E XX XX XX XX XX XX XX XX XX XX 
+		C0 D0 XX XX XX 79 XX XX XX XX XX XX XX XX XX XX 
+</object>
+</room>
+</rooms>

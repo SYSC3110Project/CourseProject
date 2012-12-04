@@ -1,26 +1,48 @@
 <?xml version="1.0"?>
-<game name="test">
+<game name="Adventure">
 <description>
-"asdgsd"
+"You're going on a magical adventure full of hope and wonder to save the world!"
 </description>
 <rooms>
-<room>res/game/testRoom.xml</room>
-<room>res/game/Outside.xml</room>
+<room>res/game/Field.xml</room>
+<room>res/game/Pond.xml</room>
+<room>res/game/Bridge.xml</room>
+<room>res/game/Desert.xml</room>
 </rooms>
 <connections>
 <connect>
-<room1 name="Outside">
-<exit type="north">
+<room1 name="Pond">
+<exit type="west">
 </exit>
 </room1>
-<room2 name="testRoom">
+<room2 name="Field">
+<exit type="east">
+</exit>
+</room2>
+</connect>
+<connect>
+<room1 name="Field">
 <exit type="south">
+</exit>
+</room1>
+<room2 name="Bridge">
+<exit type="north">
+</exit>
+</room2>
+</connect>
+<connect>
+<room1 name="Field">
+<exit type="west">
+</exit>
+</room1>
+<room2 name="Desert">
+<exit type="east">
 </exit>
 </room2>
 </connect>
 </connections>
 <players>
-<player sprite="res/SingleGeorge.png" startRoom="Outside">
+<player sprite="res/SingleGeorge.png" startRoom="Field">
 <health>20</health>
 <attack>1</attack>
 <defence>1</defence>

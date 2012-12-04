@@ -120,14 +120,14 @@ public class Room2D extends Room implements Drawable2D {
     	case north:
         	exitImg = new SerializableBufferedImage("res\\NorthSouthExit.png");
 			exitImages.put(dir, exitImg);
-			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS)-Util.GRID_SECTIONS;
 			y = 0;
 			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
         	break;
     	case south:
         	exitImg = new SerializableBufferedImage("res\\NorthSouthExit.png");
 			exitImages.put(dir, exitImg);
-			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS)-Util.GRID_SECTIONS;
 	        y = Util.IMAGE_SIZE-Util.GRID_SECTIONS;
 			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
@@ -135,14 +135,14 @@ public class Room2D extends Room implements Drawable2D {
         	exitImg = new SerializableBufferedImage("res\\EastWestExit.png");
 			exitImages.put(dir, exitImg);
 	        x = Util.IMAGE_SIZE-Util.GRID_SECTIONS;
-	        y = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+	        y = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS)-Util.GRID_SECTIONS;
 			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	case west:
         	exitImg = new SerializableBufferedImage("res\\EastWestExit.png");
 			exitImages.put(dir, exitImg);
 			x=0;
-			y=Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			y=Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS)-Util.GRID_SECTIONS;
 			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	}

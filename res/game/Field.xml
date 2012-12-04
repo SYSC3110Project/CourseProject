@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<rooms>
+<room sprite="res\woodland.png">
+<name>Field</name>
+<description>"An Open field with rocks and weeds, not the nicest of places"</description>
+<items>
+<item name="candy" type="health" description="eat it to feel better" sprite="res\candy.png">
+<weight>1</weight>
+<value>25</value>
+<xloc>352</xloc>
+<yloc>256</yloc>
+</item>
+</items>
+<monsters>
+</monsters>
+<background>
+		00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+</background>
+<object>
+		XX XX XX XX XX 48 XX XX XX XX 38 XX XX XX XX XX 
+XX XX E1 XX XX XX 38 37 XX E1 XX 48 XX XX XX XX 
+XX 48 38 XX 82 92 48 XX XX XX XX 38 XX XX XX 48 
+XX XX XX 37 XX XX XX XX XX XX E1 XX XX XX XX XX 
+E1 XX XX XX XX XX 48 38 XX 38 48 XX 48 XX E1 XX 
+XX XX 48 27 48 XX E1 XX XX XX 48 E1 XX 37 XX XX 
+47 XX XX XX XX XX XX XX 27 XX XX XX XX XX XX XX 
+10 10 10 10 10 10 10 32 10 10 10 10 10 10 10 10 
+XX XX 17 XX XX XX 07 11 XX XX XX XX XX XX XX XX 
+XX XX XX XX E1 XX XX 11 XX E1 XX XX 37 XX 83 93 
+XX 38 E1 XX 38 E1 XX 11 XX XX XX E1 XX XX E1 XX 
+XX XX XX XX E1 XX XX 11 XX XX XX XX XX 38 38 XX 
+XX XX XX 38 XX 17 XX 11 38 XX XX E1 17 XX XX XX 
+XX 17 38 E1 XX XX XX 11 XX E1 XX XX XX XX E1 XX 
+XX 38 XX XX XX E1 XX 11 XX XX XX XX 38 38 XX XX 
+XX E1 XX XX XX XX XX 11 XX XX E1 XX XX XX XX XX 
+</object>
+</room>
+</rooms>
