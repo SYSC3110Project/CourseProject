@@ -65,11 +65,9 @@ public class LevelLoader {
 
 			//parse using builder to get DOM representation of the XML file
 			Document doc=db.parse(f);
-			System.out.println(doc);
 			docs.add(doc);
 
-		}catch(Exception e) {	
-			System.out.println("exception");
+		}catch(Exception e) {
 		}
 	}
 
@@ -290,8 +288,6 @@ public class LevelLoader {
 
 		Room room1=rooms.get(room1Name);
 		Room room2=rooms.get(room2Name);
-		System.out.println(exit1);
-		System.out.println(exit2);
 
 		room1.addExit(ExitDirection.parse(exit1),room2);
 		room2.addExit(ExitDirection.parse(exit2),room1);

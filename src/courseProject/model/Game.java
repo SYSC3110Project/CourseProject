@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javax.swing.JOptionPane;
+
 
 
 
@@ -418,7 +420,7 @@ public class Game implements Serializable
     	return redoStack;
     }
     
-    public static Game load() throws IOException{
+    public static Game load() throws FileNotFoundException, IOException{
 
 		try {
 			FileInputStream	fileIn = new FileInputStream("gameData.ser");	
@@ -427,12 +429,6 @@ public class Game implements Serializable
 			In.close();
 			return game;
 			
-		}
-		catch (FileNotFoundException e){
-			e.printStackTrace();
-		}
-		catch (IOException e){
-			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e){
 			e.printStackTrace();

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.model.Player;
@@ -119,7 +118,6 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    	}
 	    	
 	    	load = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "load", JOptionPane.YES_NO_OPTION);
-	    	System.out.println(load);
 
 	    	LevelLoader loader=new LevelLoader();
 	    	Game game = null;
@@ -135,8 +133,10 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    	else{
 	    		try {
 					game = Game.load();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Could not load the save file", "Could not load", JOptionPane.ERROR_MESSAGE);
+					view.dispose();
+					return;
 				}
 	    	}
 	    	
