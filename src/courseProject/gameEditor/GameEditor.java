@@ -518,7 +518,7 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 	 * saves the room to XML
 	 */
 	public void saveRoom(){
-		String xml = "<?xml version=\"1.0\"?>\n<room sprite=\"";
+		String xml = "<?xml version=\"1.0\"?>\n<rooms>\n<room sprite=\"";
 		String tile = splitter.getImagePath();
 		tile = tile.substring(tile.indexOf("res"));
 		xml = xml + tile;
@@ -546,11 +546,11 @@ public class GameEditor implements ActionListener, GridListener, FocusListener, 
 		for(Monster2D m : monsters){
 			xml = xml + m.toXML();
 		}
-		xml = xml + "</monsters>\n<layout>\n<background>\n";
-		xml = xml + builder.backgroundLayerToString();
+		xml = xml + "</monsters>\n<background>\n";
+		xml = xml + "\t\t"+builder.backgroundLayerToString();
 		xml = xml + "</background>\n<object>\n";
-		xml = xml + builder.objectLayerToString();
-		xml = xml + "</object>\n</layout>\n</room>\n";
+		xml = xml + "\t\t"+builder.objectLayerToString();
+		xml = xml + "</object>\n</room>\n</rooms>\n";
 
 		BufferedWriter out;
 		try{

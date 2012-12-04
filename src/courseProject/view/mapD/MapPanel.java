@@ -35,7 +35,7 @@ public class MapPanel extends JPanel implements Serializable{
 	private static final Dimension ROOM_EXIT = new Dimension(5, 5);
 	private static final int EXIT_WIDTH = 8;
 	private static final String DEFAULT_MAP_TEXTURE_PATH = "res/map.jpg";
-	private static final String DEFAULT_ROOM_TEXTURE_PATH = "res/mapRoom.png";
+	//private static final String DEFAULT_ROOM_TEXTURE_PATH = "res/mapRoom.png";
 
 	private Room currentRoom; // for centering the map
 
@@ -43,7 +43,7 @@ public class MapPanel extends JPanel implements Serializable{
 	private List<Point[]> exitLocations; // represents an exit from point[0] to
 											// point[1]
 	private SerializableBufferedImage mapTexture;
-	private SerializableBufferedImage roomTexture;
+	//private SerializableBufferedImage roomTexture;
 
 	/**
 	 * Constructor for the map panel.
@@ -53,7 +53,7 @@ public class MapPanel extends JPanel implements Serializable{
 		this.exitLocations = new ArrayList<Point[]>();
 		this.mapTexture = new SerializableBufferedImage(DEFAULT_MAP_TEXTURE_PATH);
 
-		this.roomTexture = new SerializableBufferedImage(DEFAULT_ROOM_TEXTURE_PATH);
+		//this.roomTexture = new SerializableBufferedImage(DEFAULT_ROOM_TEXTURE_PATH);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class MapPanel extends JPanel implements Serializable{
 			  
 
 		// g2d.setStroke(new BasicStroke(0));
-		
+		try {
 				  for (Room key : this.roomLocations.keySet()) {
 					  Point p = this.roomLocations.get(key);
 					  if (key == this.currentRoom) { // literally a reference to the same
@@ -86,19 +86,23 @@ public class MapPanel extends JPanel implements Serializable{
 						  drawBorderRect(g, ACTIVE_ROOM, ROOM, p, 5); 
 						  // draw the active room in a different color
 
-						  g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width,
-								  ROOM.height, null);
+						  //g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width, ROOM.height, null);
+						  g2d.fillRect(p.x, p.y, ROOM.width, ROOM.height);
 						  // g2d.setColor(Color.black);
 						  // g.drawString(key.getDescription(), p.x, p.y);
 					  } else {
+						  g2d.fillRect(p.x, p.y, ROOM.width, ROOM.height);
 						  drawBorderRect(g, INACTIVE_ROOM, ROOM, p, 2); 
 						  // draw the inactive room in a different color
-						  g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width,
-								  ROOM.height, null);
+						  //g2d.drawImage(this.roomTexture.getImage(), p.x, p.y, ROOM.width, ROOM.height, null);
+						  g2d.fillRect(p.x, p.y, ROOM.width, ROOM.height);
 						  // g2d.setColor(Color.black);
 						  // g.drawString(key.getDescription(), p.x, p.y);
 					  }
 				  }
+		} catch(Exception e) {
+			
+		}
 
 	}
 

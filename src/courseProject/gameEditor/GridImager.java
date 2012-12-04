@@ -15,14 +15,14 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import courseProject.Util;
+
 public abstract class GridImager extends JPanel implements MouseListener{
 
 	/**Generated SerialID*/
 	private static final long serialVersionUID = 3288631116708502322L;
 	protected static final Color DEF_GRID_COLOR = Color.red;
 	protected static final Color DEF_BACKGROUND_COLOUR = Color.magenta;
-	protected static final int GRID_SECTIONS = 32;
-	protected static final int IMAGE_SIZE = 512;
 	protected static final String SELECTOR_PATH = "res/selector.png";
 	protected BufferedImage image;
 	protected BufferedImage selector;
@@ -113,9 +113,9 @@ public abstract class GridImager extends JPanel implements MouseListener{
 	 */
 	protected void drawGrid(Graphics g) {
 		g.setColor(gridColor); 
-		for(int step=0;step<=IMAGE_SIZE;step+=GRID_SECTIONS) { //draw the columns
-			g.drawLine(step, 0, step, IMAGE_SIZE); 
-			g.drawLine(0, step, IMAGE_SIZE, step);  
+		for(int step=0;step<=Util.IMAGE_SIZE;step+=Util.GRID_SECTIONS) { //draw the columns
+			g.drawLine(step, 0, step, Util.IMAGE_SIZE); 
+			g.drawLine(0, step, Util.IMAGE_SIZE, step);  
 		} 
 	}
 	

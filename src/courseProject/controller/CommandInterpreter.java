@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-
 import courseProject.model.Game;
 import courseProject.model.ModelListener;
 import courseProject.model.Player;
@@ -19,7 +18,7 @@ import courseProject.gameEditor.GameEditor;
  * "World of Zuul" is a very simple, text based adventure game.  
  * 
  * This parser reads user input and tries to interpret it as an "Adventure"
- * command. Every time it is called it reads a line from the terminal and
+ * command. Every time it is called it reads  a line from the terminal and
  * tries to interpret the line as a two word command. It returns the command
  * as an object of class Command.
  *
@@ -119,7 +118,6 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    	}
 	    	
 	    	load = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "load", JOptionPane.YES_NO_OPTION);
-	    	System.out.println(load);
 
 	    	LevelLoader loader=new LevelLoader();
 	    	Game game = null;
@@ -135,17 +133,12 @@ public class CommandInterpreter implements InputListener//, Serializable
 	    	else{
 	    		try {
 					game = Game.load();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Could not load the save file", "Could not load", JOptionPane.ERROR_MESSAGE);
+					view.dispose();
+					return;
 				}
 	    	}
-	    	
-	    	
-	    	
-			
-			
-			
 	    	
 	    	CommandInterpreter c = new CommandInterpreter(view, game);
 	

@@ -35,11 +35,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
  *
  */
 public class LevelLoader {
-	
+
 	private Map<String,Room> rooms;
 	private Player mc;
 	private List<Document> docs=null;
-	
+
 	/**
 	 * creates a new LevelLoader
 	 * @param 
@@ -49,7 +49,7 @@ public class LevelLoader {
 		rooms=new HashMap<String,Room>();
 		docs=new ArrayList<Document>();
 	}
-	
+
 	/**
 	 * Set creates a document and saves it in doc.
 	 * @param fileName
@@ -65,23 +65,21 @@ public class LevelLoader {
 
 			//parse using builder to get DOM representation of the XML file
 			Document doc=db.parse(f);
-			System.out.println(doc);
 			docs.add(doc);
-			
-		}catch(Exception e) {	
-			System.out.println("exception");
+
+		}catch(Exception e) {
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Parses the document made by parseXMLFile. Creates a a list of rooms
 	 * with monsters and items in them and a player in one of the rooms.
 	 */
 	private void parseDocument(int docNumber){
-		
+
 		//get the root element
 		Element docEle = docs.get(docNumber).getDocumentElement();
 
@@ -89,20 +87,20 @@ public class LevelLoader {
 		NodeList nodelist = docEle.getElementsByTagName("room");
 		if(nodelist != null && nodelist.getLength() > 0) {
 			for(int i = 0 ; i < nodelist.getLength();i++) {
-				
-				
+
+
 				//get the room element
 				Element el = (Element)nodelist.item(i);
-				
+
 				String fileName=el.getTextContent();
 				//System.out.println(fileName);
 				parseXmlFile(new File(fileName));
 				//System.out.println(docs);
-				
-				
+
+
+			}
 		}
-		}
-		
+
 		for(int i=1;i<docs.size();i++)
 		{
 			//get the root element
@@ -110,30 +108,30 @@ public class LevelLoader {
 
 			//get a nodelist of elements for each room
 			NodeList roomnodelist = roomdocEle.getElementsByTagName("room");
-			
+
 			if(roomnodelist != null && roomnodelist.getLength() > 0) {
 				for(int j = 0 ; j < roomnodelist.getLength();j++) {
-					
-					
+
+
 					//get the room element
 					Element roomElement = (Element)roomnodelist.item(j);
-					
+
 					getRoom(roomElement);
-					
-					
+
+
+				}
 			}
-			}
-			
+
 		}
-		
-		
+
+
 		nodelist = docEle.getElementsByTagName("connect");
 		if(nodelist != null && nodelist.getLength() > 0) {
 			for(int i = 0 ; i < nodelist.getLength();i++) {
 
 				//get the room element
 				Element el = (Element)nodelist.item(i);
-				
+
 				//get the Room object
 				getConnection(el);
 			}
@@ -147,7 +145,7 @@ public class LevelLoader {
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds the room represented by roomElement to the rooms map.
 	 */
@@ -155,30 +153,33 @@ public class LevelLoader {
 		String spriteName=roomElement.getAttribute("sprite");
 		String name=getTextValue(roomElement,"name");
 		String description=getTextValue(roomElement,"description");
-		
-		
+		String backgroundLayer=getTextValue(roomElement, "background");
+		String objectLayer=getTextValue(roomElement,"object");
+
 
 		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
-		
+
 		//Create a new Room with the value read from the xml nodes
 		Room2D room = new Room2D(description,sprite);
-		
+		room.setBackground(backgroundLayer);
+		room.setObjectLayer(objectLayer);
+
 		rooms.put(name, room);
-		
+
 		//get a nodelist of item elements
 		NodeList nl = roomElement.getElementsByTagName("item");
 		if(nl != null && nl.getLength() > 0) 
 		{
-					for(int i = 0 ; i < nl.getLength();i++) 
-					{
-						//get the item element
-						Element el = (Element)nl.item(i);
-						//get the Item object
-						Item item = getItem(el);
-						room.drop(item);
-					}	
+			for(int i = 0 ; i < nl.getLength();i++) 
+			{
+				//get the item element
+				Element el = (Element)nl.item(i);
+				//get the Item object
+				Item item = getItem(el);
+				room.drop(item);
+			}	
 		}
-		
+
 		//get a nodelist of monster elements
 		nl = roomElement.getElementsByTagName("monster");
 		if(nl != null && nl.getLength() > 0) 
@@ -191,10 +192,9 @@ public class LevelLoader {
 				Monster monster = getMonster(el);
 				room.addMonster(monster);
 			}	
-		}
-		
+		}		
 	}
-	
+
 
 	/**
 	 * Makes and returns an item based of the XML element given
@@ -210,17 +210,17 @@ public class LevelLoader {
 		int xloc=getIntValue(itemElement,"xloc");
 		int yloc=getIntValue(itemElement,"yloc");
 		String spriteName = itemElement.getAttribute("sprite");
-		
-		
+
+
 		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
-		
+
 		Item2D item = new Item2D(name,description,weight, ItemType.ItemTypeFromString(typeName), value, sprite);
-        
+
 		item.setLocation(new Point(xloc,yloc));
 		return item;
 	}
-	
-	
+
+
 	/**
 	 * Makes and returns an Monster based of the XML element given
 	 * @param itemElement
@@ -234,15 +234,15 @@ public class LevelLoader {
 		int xloc=getIntValue(monsterElement,"xloc");
 		int yloc=getIntValue(monsterElement,"yloc");
 		String spriteName = monsterElement.getAttribute("sprite");
-		
+
 		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
-		
-        Monster2D monster=new Monster2D(name,health,attack,defence, 0,0, sprite);
-        
+
+		Monster2D monster=new Monster2D(name,health,attack,defence, 0,0, sprite);
+
 		monster.setLocation(new Point(xloc,yloc));
 		return monster;
 	}
-	
+
 	/**
 	 * Connects two rooms based off a connection element.
 	 */
@@ -252,15 +252,15 @@ public class LevelLoader {
 		String room2Name="";
 		String exit1="";
 		String exit2=""; 
-		
+
 		Element el;
-		
+
 		NodeList nl = connectElement.getElementsByTagName("room1");
 		if(nl != null && nl.getLength() > 0) 
 		{
 			el = (Element)nl.item(0);
 			room1Name=el.getAttribute("name");
-			
+
 			nl = el.getElementsByTagName("exit");
 			if(nl != null && nl.getLength() > 0) 
 			{
@@ -268,14 +268,14 @@ public class LevelLoader {
 				exit1=el.getAttribute("type");
 			}
 		}
-		
-		
+
+
 		nl = connectElement.getElementsByTagName("room2");
 		if(nl != null && nl.getLength() > 0) 
 		{
 			el = (Element)nl.item(0);
 			room2Name=el.getAttribute("name");
-			
+
 			nl = el.getElementsByTagName("exit");
 			if(nl != null && nl.getLength() > 0) 
 			{
@@ -283,17 +283,15 @@ public class LevelLoader {
 				exit2=el.getAttribute("type");
 			}
 		}
-		
-		
-		
+
+
+
 		Room room1=rooms.get(room1Name);
 		Room room2=rooms.get(room2Name);
-		System.out.println(exit1);
-		System.out.println(exit2);
-		
+
 		room1.addExit(ExitDirection.parse(exit1),room2);
 		room2.addExit(ExitDirection.parse(exit2),room1);
-	
+
 	}
 	/**
 	 * Creates a player based off of the xml and gives it a current room.
@@ -307,17 +305,17 @@ public class LevelLoader {
 		int defence=getIntValue(playerElement,"defence");
 		int xloc=getIntValue(playerElement,"xloc");
 		int yloc=getIntValue(playerElement,"yloc");
-		
+
 		String spriteName = playerElement.getAttribute("sprite");
-		
+
 		SerializableBufferedImage sprite = new SerializableBufferedImage(spriteName);
-        
-        Room room=rooms.get(startRoom);
-        Player  mc = new Player2D(room,health,attack,defence, sprite);
-	    ((Player2D)mc).setLocation(new Point(xloc,yloc));
-	    
-	    return mc;
-		
+
+		Room room=rooms.get(startRoom);
+		Player  mc = new Player2D(room,health,attack,defence, sprite);
+		((Player2D)mc).setLocation(new Point(xloc,yloc));
+
+		return mc;
+
 	}
 	/**
 	 * Searches the given element for the tag tagName then returns
@@ -341,22 +339,7 @@ public class LevelLoader {
 	private int getIntValue(Element ele, String tagName) {
 		return Integer.parseInt(getTextValue(ele,tagName));
 	}
-	/**
-	 * 
-	 */
-	public static void main(String[] args){
-		LevelLoader loader=new LevelLoader();
-    	
-    	Game game=new Game();
-		try {
-			Player player=loader.LoadLevel("res\\gameTest.xml");
-			game.setPlayer(player);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
+
 	/**
 	 * Creates a Player in a room based off the XML file fileName
 	 * @param fileName
@@ -369,5 +352,5 @@ public class LevelLoader {
 		parseDocument(0);
 		return mc;
 	}
-	
+
 }

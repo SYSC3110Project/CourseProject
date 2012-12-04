@@ -1,12 +1,15 @@
 package courseProject.view.twoD.drawable;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import courseProject.Util;
 
 public class Drawable2DArea extends JPanel{
 	
@@ -16,6 +19,7 @@ public class Drawable2DArea extends JPanel{
 	public Drawable2DArea(){
 		super();
 		drawList = new ArrayList<Drawable2D>();
+		this.setPreferredSize(new Dimension(Util.IMAGE_SIZE, Util.IMAGE_SIZE));
 	}
 
 	@Override

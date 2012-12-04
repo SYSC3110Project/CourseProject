@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import courseProject.Util;
 import courseProject.model.ExitDirection;
 import courseProject.model.Inventory;
 import courseProject.model.Monster;
@@ -29,6 +30,9 @@ public class Room2D extends Room implements Drawable2D {
 	
 	private Map<ExitDirection, SerializableBufferedImage> exitImages;
 	private Map<ExitDirection, Rectangle> exitBounds;
+	
+	private Point[][] levelLayout;
+	private Point[][] levelObjects;
 
 	/**
 	 * Create a room described "description". Initially, it has
@@ -43,6 +47,18 @@ public class Room2D extends Room implements Drawable2D {
 		this.bounds = new Rectangle(DEFAULT_X, DEFAULT_Y, this.sprite.getImage().getWidth(), this.sprite.getImage().getHeight());
 		this.exitImages = new HashMap<ExitDirection, SerializableBufferedImage>();
 		this.exitBounds = new HashMap<ExitDirection, Rectangle>();
+		
+		int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
+
+		
+		// make an array for each grid section and x/y coords for the image section it will show
+		levelLayout = new Point[layoutSize][layoutSize]; 
+		levelObjects = new Point[layoutSize][layoutSize];
+		for(int row = 0;row<layoutSize;row++) {
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				levelLayout[row][col] = new Point(0,0);
+			}
+		}		
 	}
 
 	/**
@@ -97,26 +113,37 @@ public class Room2D extends Room implements Drawable2D {
         exits.put(dir,exit);
 
         SerializableBufferedImage exitImg;
-    	switch(dir) {
+        
+        int x=0;
+        int y=0;
+        switch(dir) {
     	case north:
-        	exitImg = new SerializableBufferedImage("res\\NorthExit.png");
+        	exitImg = new SerializableBufferedImage("res\\NorthSouthExit.png");
 			exitImages.put(dir, exitImg);
-			exitBounds.put(dir, new Rectangle(115, 0, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
+			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			y = 0;
+			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
         	break;
     	case south:
-        	exitImg = new SerializableBufferedImage("res\\SouthExit.png");
+        	exitImg = new SerializableBufferedImage("res\\NorthSouthExit.png");
 			exitImages.put(dir, exitImg);
-			exitBounds.put(dir, new Rectangle(100, 355, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
+			x = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+	        y = Util.IMAGE_SIZE-Util.GRID_SECTIONS;
+			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	case east:
-        	exitImg = new SerializableBufferedImage("res\\EastExit.png");
+        	exitImg = new SerializableBufferedImage("res\\EastWestExit.png");
 			exitImages.put(dir, exitImg);
-			exitBounds.put(dir, new Rectangle(313, 105, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
+	        x = Util.IMAGE_SIZE-Util.GRID_SECTIONS;
+	        y = Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	case west:
-        	exitImg = new SerializableBufferedImage("res\\WestExit.png");
+        	exitImg = new SerializableBufferedImage("res\\EastWestExit.png");
 			exitImages.put(dir, exitImg);
-			exitBounds.put(dir, new Rectangle(0, 102, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
+			x=0;
+			y=Util.IMAGE_SIZE/2-((Util.IMAGE_SIZE/2)%Util.GRID_SECTIONS);
+			exitBounds.put(dir, new Rectangle(x, y, exitImg.getImage().getWidth(), exitImg.getImage().getHeight()));
 		break;
     	}
     }
@@ -124,14 +151,71 @@ public class Room2D extends Room implements Drawable2D {
     public ExitDirection inExitBounds(Rectangle bounds) {
     	
     	for(ExitDirection direction : exitBounds.keySet()) {
-    		if(exitBounds.get(direction).contains(bounds)) {
+    		if(exitBounds.get(direction).intersects(bounds)) {
     			return direction;
     		}
     	}
     	
     	return null;
     }
+    
+    
+    public void setBackground(String backgroundLayer) {
+    	int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
+    	backgroundLayer = backgroundLayer.substring(2, backgroundLayer.length()-2);
+        String[] lines = backgroundLayer.split("\n");
+        
+        for(int i=0;i<lines.length;i++) {
+        	lines[i] = lines[i].trim();
+        }
+        
+        String[][] hexElement = new String[lines.length][];
 
+        //start at 1 and end at -1 because DOM includes the first and last new line after the node name
+        for (int i=0; i<lines.length; i++) { 
+        	hexElement[i] = lines[i].split(" ");
+        }
+    	
+    	for(int row = 0;row<layoutSize;row++) {
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				levelLayout[row][col] = getPointFromString(hexElement[row][col]);
+			}
+		}	
+    }
+    
+    
+	public void setObjectLayer(String objectLayer) {
+		int layoutSize = Util.IMAGE_SIZE/Util.GRID_SECTIONS;
+		objectLayer = objectLayer.substring(2, objectLayer.length()-2);
+        String[] lines = objectLayer.split("\n");
+        
+        for(int i=0;i<lines.length;i++) {
+        	lines[i] = lines[i].trim();
+        }
+        
+        String[][] hexElement = new String[lines.length][];
+
+        //start at 1 and end at -1 because DOM includes the first and last new line after the node name
+        for (int i=0; i<lines.length; i++) { 
+        	hexElement[i] = lines[i].split(" ");
+        }
+    	
+    	for(int row = 0;row<layoutSize;row++) {
+			for(int col = 0;col<layoutSize;col++) { //initialize each point starting with 0,0
+				levelObjects[row][col] = getPointFromString(hexElement[row][col]);
+			}
+		}	
+	}
+
+	public Point getPointFromString(String s) {
+		Point p = new Point();
+		
+		p.x = Util.hexCharToInt(s.charAt(0))*Util.GRID_SECTIONS;
+		p.y = Util.hexCharToInt(s.charAt(1))*Util.GRID_SECTIONS;
+		
+		return p;
+	}
+	
 	@Override
 	public Point getLocation() {
 		return bounds.getLocation();
@@ -167,9 +251,31 @@ public class Room2D extends Room implements Drawable2D {
 	@Override
 	public void draw(Graphics2D graphics2d) {
 		
-		graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
+		//graphics2d.drawImage(sprite.getImage(), bounds.x, bounds.y, bounds.width, bounds.height, null);
+		
+		if(sprite.getImage() != null) { // if there is an image to draw, draw it
+			for(int row = 0;row<Util.IMAGE_SIZE;row+=Util.GRID_SECTIONS) {
+				for(int col = 0;col<Util.IMAGE_SIZE;col+=Util.GRID_SECTIONS) {
+					
+					int rowIndex = row/Util.GRID_SECTIONS;
+					int colIndex = col/Util.GRID_SECTIONS;
+
+					graphics2d.drawImage(sprite.getImage(), col, row, col+Util.GRID_SECTIONS, row+Util.GRID_SECTIONS,  //draw the background content
+							levelLayout[rowIndex][colIndex].x, levelLayout[rowIndex][colIndex].y,
+							levelLayout[rowIndex][colIndex].x+Util.GRID_SECTIONS, levelLayout[rowIndex][colIndex].y+Util.GRID_SECTIONS, null);
+					
+
+					if(levelObjects[rowIndex][colIndex] != null) { //if there is a level Object there, draw it
+						graphics2d.drawImage(sprite.getImage(), col, row, col+Util.GRID_SECTIONS, row+Util.GRID_SECTIONS, 
+								levelObjects[rowIndex][colIndex].x, levelObjects[rowIndex][colIndex].y,
+								levelObjects[rowIndex][colIndex].x+Util.GRID_SECTIONS, levelObjects[rowIndex][colIndex].y+Util.GRID_SECTIONS, null);
+					}
+					
+				}
+			}
+		}
+		
 		for(ExitDirection direction : exits.keySet()) { 
-			
 			SerializableBufferedImage img = exitImages.get(direction);
 			Rectangle bounds = exitBounds.get(direction);
 			

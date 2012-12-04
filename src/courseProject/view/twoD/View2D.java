@@ -72,7 +72,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		mainWindow = new JFrame("World of the Nameless");
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setBounds(100, 100, 730, 480);
+		//mainWindow.setBounds(100, 100, 730, 480);
 		mainWindow.setResizable(false);
 		mainWindow.setLayout(new BorderLayout());
 		mainWindow.setVisible(true);
@@ -148,6 +148,7 @@ public class View2D extends ViewText implements MouseListener, ActionListener{
 
 		mainWindow.add(gameContent, BorderLayout.CENTER);
 		mainWindow.add(buttonPanel, BorderLayout.SOUTH);
+		mainWindow.pack();
 	}
 
 	/**
